@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ShareSpace3</string>
+
+    <!-- Parse Registration Strings -->
+
+    <string name="parse_app_id">D1mrST0DKpIpx7mMEDILV9IRTHCOd73D4DRNogoJ</string>
+    <string name="parse_client_key">TRunzUZ7C7tIg4iuIXXRdXiW1mGi7O2nEufZVHSF</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!-- Facebook registration -->
+
+    <string name="facebook_app_id">1375940079393835</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+</resources>
