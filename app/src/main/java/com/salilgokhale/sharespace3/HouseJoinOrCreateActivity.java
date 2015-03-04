@@ -2,6 +2,7 @@ package com.salilgokhale.sharespace3;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,15 +20,11 @@ import com.parse.ParseUser;
  */
 public class HouseJoinOrCreateActivity extends Activity {
 
-    //private EditText HouseName;
-    //private EditText PassKey;
-
 
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.fragment_housejoinorcreate);
-        //HouseName = (EditText)
 
     }
 
@@ -39,21 +36,12 @@ public class HouseJoinOrCreateActivity extends Activity {
         newHouse.put("Name", HouseName.getText().toString());
         newHouse.put("Passkey", PassKey.getText().toString());
 
-        /*ParseObject newTestObject = new ParseObject("TestObject");
-        newTestObject.put("foo", "this worked");
-        newTestObject.put("Home", newHouse);
-
-        newTestObject.saveInBackground();*/
-
         ParseUser user = ParseUser.getCurrentUser();
         user.put("Home", newHouse);
         user.put("Has_House", "true");
         user.saveInBackground();
 
-
-        //ParseUser user = ParseUser.getCurrentUser();
-        //user.put("TestColumn", "TestDATA");
-        //user.saveInBackground();
+        GoToMain();
 
 
         /*ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
@@ -74,8 +62,6 @@ public class HouseJoinOrCreateActivity extends Activity {
 
 
 
-       // ParseUser user = ParseUser.getCurrentUser();
-       // user.put("House", newHouse);
 
 
 
@@ -115,7 +101,7 @@ public class HouseJoinOrCreateActivity extends Activity {
                     user.put("Home", object);
                     user.put("Has_House", true);
                     user.saveInBackground();
-
+                    GoToMain();
 
 
                 }
@@ -124,9 +110,14 @@ public class HouseJoinOrCreateActivity extends Activity {
 
 
 
+
+
     }
 
-
+    public void GoToMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
 
 }

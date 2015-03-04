@@ -25,11 +25,6 @@ public class HomeDispatcherActivity extends Activity {
 
 
         ParseUser user = ParseUser.getCurrentUser();
-        //String usersname = user.getString("name");
-        //Log.d("UserName:", usersname);
-
-        //user.put("Has_House", true);
-        //user.saveInBackground();
 
 
         Boolean HasHouse = user.getBoolean("Has_House");
