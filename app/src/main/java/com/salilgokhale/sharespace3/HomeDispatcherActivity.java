@@ -3,6 +3,7 @@ package com.salilgokhale.sharespace3;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -24,7 +25,16 @@ public class HomeDispatcherActivity extends Activity {
 
 
         ParseUser user = ParseUser.getCurrentUser();
+        //String usersname = user.getString("name");
+        //Log.d("UserName:", usersname);
+
+        //user.put("Has_House", true);
+        //user.saveInBackground();
+
+
         Boolean HasHouse = user.getBoolean("Has_House");
+        String str = String.valueOf(HasHouse);
+        Log.d("HasHouse", str);
         if (HasHouse == true){
             ParseObject testObject = new ParseObject("TestObject");
             testObject.put("foo", "There is a House");
