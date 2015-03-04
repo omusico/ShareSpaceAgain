@@ -53,6 +53,10 @@
             android:name=".HomeDispatcherActivity"
             android:label="DispatchesHome" >
         </activity>
+        <activity
+            android:name=".HouseJoinOrCreateActivity"
+            android:label="CreatesOrJoinsHouse" >
+        </activity>
     </application>
 
 </manifest>

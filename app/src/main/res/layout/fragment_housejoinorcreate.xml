@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/house_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="House Name"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/passkey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PassKey"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/create_house_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Create"
+        android:layout_gravity="center_horizontal"
+        android:onClick="createHouse"/>
+
+    <Button
+        android:id="@+id/join_house_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Join"
+        android:layout_gravity="center_horizontal"
+        android:onClick="joinHouse"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="a Space"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="If you are creating a new house set up the name and passkey. If you are joining an existing house enter the name and passkey to join."
+        android:textAlignment="center"/>
+
+
+</LinearLayout>

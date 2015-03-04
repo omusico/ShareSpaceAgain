@@ -22,16 +22,6 @@ public class HomeDispatcherActivity extends Activity {
         super.onCreate(savedInstanceState);
         //runHomeDispatch();
 
-       /* ParseQuery<ParseObject> query = ParseQuery.getQuery("ParseUser");
-        query.getInBackground(userID, new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    // object will be your game score
-                } else {
-                    // something went wrong
-                }
-            }
-        }); */
 
         ParseUser user = ParseUser.getCurrentUser();
         Boolean HasHouse = user.getBoolean("Has_House");
@@ -40,30 +30,19 @@ public class HomeDispatcherActivity extends Activity {
             testObject.put("foo", "There is a House");
             testObject.saveInBackground();
 
-            //Intent intent = new Intent(this, HouseJoinOrCreateActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
 
 
         } else {
             ParseObject testObject = new ParseObject("TestObject");
             testObject.put("foo", "There is no House");
             testObject.saveInBackground();
+
+            Intent intent = new Intent(this, HouseJoinOrCreateActivity.class);
+            startActivity(intent);
         }
-        /*user.getParseObject("House")
-                .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject house, ParseException e) {
-                        if (e == null) {
-                            ParseObject testObject = new ParseObject("TestObject");
-                            testObject.put("foo", "There is no House");
-                            testObject.saveInBackground();
-                        }
-                        else {
-                            ParseObject testObject = new ParseObject("TestObject");
-                            testObject.put("foo", "There is a House");
-                            testObject.saveInBackground();
-                        }
-                    }
-                });*/
+
     }
 
    /* private void runHomeDispatch() {
