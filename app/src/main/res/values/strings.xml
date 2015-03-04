@@ -17,6 +17,37 @@
     <string name="profile_logo_content_description">Logo</string>
     <string name="profile_title_logged_in">Your are logged in as</string>
     <string name="profile_logout_button_label">Log out</string>
+    <string name="title_activity_core">CoreActivity</string>
+
+    <!-- CoreActivity Navigation Drawer Strings -->
+
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+        <!-- Nav Drawer Menu Items -->
+        <string-array name="nav_drawer_items">
+            <item>Home</item>
+            <item >Rotas</item>
+            <item >Expenses</item>
+            <item >Trade</item>
+            <item >Message</item>
+            <item >Rules</item>
+            <!--<item >Calendar</item>       ADD LATER WITH SETTINGS TOO -->
+        </string-array>
+
+        <!-- Nav Drawer List Item Icons -->
+        <!-- Keep them in order as the titles are in -->
+        <array name="nav_drawer_icons">
+            <item>@drawable/ic_home</item>
+            <item>@drawable/ic_people</item>
+            <item>@drawable/ic_photos</item>
+            <item>@drawable/ic_communities</item>
+            <item>@drawable/ic_pages</item>
+            <item>@drawable/ic_whats_hot</item>
+        </array>
+
+        <!-- Content Description -->
+        <string name="desc_list_item_icon">Item Icon</string>
 
 
 </resources>

@@ -115,7 +115,7 @@ public class HouseJoinOrCreateActivity extends Activity {
     }
 
     public void GoToMain(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, CoreActivity.class);
         startActivity(intent);
     }
 

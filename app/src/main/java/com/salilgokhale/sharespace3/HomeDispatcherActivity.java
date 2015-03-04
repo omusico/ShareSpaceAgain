@@ -35,7 +35,7 @@ public class HomeDispatcherActivity extends Activity {
             testObject.put("foo", "There is a House");
             testObject.saveInBackground();
 
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, CoreActivity.class);
             startActivity(intent);
 
 
