@@ -3,16 +3,20 @@
 
     <!-- Parse Registration Strings -->
 
-    <string name="parse_app_id">D1mrST0DKpIpx7mMEDILV9IRTHCOd73D4DRNogoJ</string>
-    <string name="parse_client_key">TRunzUZ7C7tIg4iuIXXRdXiW1mGi7O2nEufZVHSF</string>
+    <string name="parse_app_id">3SPFqPQVcjFGXFOoBhqMq24DHNVGlTpHeZ246nFO</string>
+    <string name="parse_client_key">pPoYgPX4oRgyTc3AQvfX3jOlJQS22lPsqgDVD2X3</string>
     <string name="title_activity_main">MainActivity</string>
 
     <!-- Facebook registration -->
 
-    <string name="facebook_app_id">1375940079393835</string>
+    <string name="facebook_app_id">778695635549982</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="profile_logo_content_description">Logo</string>
+    <string name="profile_title_logged_in">Your are logged in as</string>
+    <string name="profile_logout_button_label">Log out</string>
 
 
 </resources>
