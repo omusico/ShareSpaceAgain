@@ -29,8 +29,6 @@ public class HomeFragment extends Fragment {
     private ListView lv;
     private ArrayList<String> strArr;
     private ArrayAdapter<String> adapter;
-    private List<String> taskArray = new ArrayList<>();
-    //String[] taskArray;
 
     public HomeFragment(){}
 
@@ -39,8 +37,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        //bt1 = (Button) rootView.findViewById(R.id.add_button_home);
-        //bt2 = (Button) rootView.findViewById(R.id.log_button_home);
 
         // Retrieve tasks from Parse User
         ParseUser user = ParseUser.getCurrentUser();
@@ -55,19 +51,14 @@ public class HomeFragment extends Fragment {
 
 
                     int number = taskList.size();
-                    //taskArray = new String[number];
-                    ParseObject temp = taskList.get(0);
-                    String str = temp.getString("Name");
-                    //taskArray[0] = str;
-                    taskArray.add(str);
-                    String[] taskStringArray = new String[taskArray.size()];
-                    taskStringArray = taskArray.toArray(taskStringArray);
-                    Log.d("Number of Tasks", String.valueOf(number));
-                    Log.d("First Task:", str);
-                    Log.d("Array Task", taskStringArray[0]);
+                    String[] taskArray = new String[number];
+                    for(int i = 0; i < number; i++){
+                        taskArray[i] = taskList.get(i).getString("Name");
+                    }
 
+                    Log.d("Array Task", taskArray[0]);
 
-                    final List<String> tasksList = new ArrayList<>(Arrays.asList(taskStringArray));
+                    final List<String> tasksList = new ArrayList<>(Arrays.asList(taskArray));
                     final ArrayAdapter <String> mrulesAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
                             R.id.task_list_item_textview, tasksList);
 
@@ -80,25 +71,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        String[] rulesArray = {
-                "Take out the Trash"
-
-
-        };
-
-        /*final List<String> tasksList = new ArrayList<>(Arrays.asList(rulesArray));
-        //final List<String> tasksList = new ArrayList<>(taskArray);
-        final ArrayAdapter <String> mrulesAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
-                R.id.task_list_item_textview, tasksList);
-
-        ListView listView = (ListView) rootView.findViewById(R.id.mytasks);
-        listView.setAdapter(mrulesAdapter);
-
-
-
-*/
         return rootView;
     }
+
+
+
+
 
 }

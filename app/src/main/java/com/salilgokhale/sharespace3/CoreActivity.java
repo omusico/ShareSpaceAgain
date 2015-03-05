@@ -3,6 +3,7 @@ package com.salilgokhale.sharespace3;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -230,4 +231,12 @@ public class CoreActivity extends ActionBarActivity {
             // Pass any configuration change to the drawer toggls
             mDrawerToggle.onConfigurationChanged(newConfig);
         }
+
+    /* Add new task button function to take to new activity */
+
+    public void addNewTask(View view){
+        Intent intent = new Intent(this, AddNewTaskActivity.class);
+        startActivity(intent);
+    }
+
 }

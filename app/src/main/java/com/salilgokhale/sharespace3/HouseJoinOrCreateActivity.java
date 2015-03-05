@@ -41,7 +41,7 @@ public class HouseJoinOrCreateActivity extends Activity {
         user.put("Has_House", "true");
         user.saveInBackground();
 
-        GoToMain();
+        GoToCore();
 
 
         /*ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
@@ -101,7 +101,7 @@ public class HouseJoinOrCreateActivity extends Activity {
                     user.put("Home", object);
                     user.put("Has_House", true);
                     user.saveInBackground();
-                    GoToMain();
+                    GoToCore();
 
 
                 }
@@ -114,7 +114,7 @@ public class HouseJoinOrCreateActivity extends Activity {
 
     }
 
-    public void GoToMain(){
+    public void GoToCore(){
         Intent intent = new Intent(this, CoreActivity.class);
         startActivity(intent);
     }
