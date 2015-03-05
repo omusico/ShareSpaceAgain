@@ -58,15 +58,6 @@ public class HouseJoinOrCreateActivity extends Activity {
                 }
             }
         }); */
-
-
-
-
-
-
-
-
-
     }
 
       public void joinHouse (View view) {
@@ -107,10 +98,6 @@ public class HouseJoinOrCreateActivity extends Activity {
                 }
             }
         });
-
-
-
-
 
     }
 

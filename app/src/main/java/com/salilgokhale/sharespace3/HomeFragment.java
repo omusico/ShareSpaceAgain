@@ -1,11 +1,13 @@
 package com.salilgokhale.sharespace3;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -59,11 +61,23 @@ public class HomeFragment extends Fragment {
                     Log.d("Array Task", taskArray[0]);
 
                     final List<String> tasksList = new ArrayList<>(Arrays.asList(taskArray));
-                    final ArrayAdapter <String> mrulesAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
+                    final ArrayAdapter <String> mtasksAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
                             R.id.task_list_item_textview, tasksList);
 
                     ListView listView = (ListView) rootView.findViewById(R.id.mytasks);
-                    listView.setAdapter(mrulesAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String task_name = mtasksAdapter.getItem(position);
+                            Intent intent = new Intent(getActivity(), EditTaskActivity.class);
+                            intent.putExtra(Intent.EXTRA_TEXT, task_name);
+                            startActivity(intent);
+                        }
+                    });
+
+
+                    listView.setAdapter(mtasksAdapter);
+
             }
                 else {
                     Log.d("QueryTasks:", "Task not found");
