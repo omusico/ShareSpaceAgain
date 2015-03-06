@@ -45,10 +45,9 @@ public class HomeFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereEqualTo("Owner", user);
-
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
-                if (e == null){
+                if (taskList != null){
                     Log.d("QueryTasks:", "Task found");
 
 
@@ -57,8 +56,6 @@ public class HomeFragment extends Fragment {
                     for(int i = 0; i < number; i++){
                         taskArray[i] = taskList.get(i).getString("Name");
                     }
-
-                    Log.d("Array Task", taskArray[0]);
 
                     final List<String> tasksList = new ArrayList<>(Arrays.asList(taskArray));
                     final ArrayAdapter <String> mtasksAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
