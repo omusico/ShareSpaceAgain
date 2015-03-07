@@ -76,48 +76,51 @@ public class AddNewTaskActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void createNewTask(View view){
-        EditText et = (EditText) findViewById(R.id.task_name_edit_text);
+    public void createNewTask(View view) {
+        final EditText et = (EditText) findViewById(R.id.task_name_edit_text);
         Button DateButton = (Button) findViewById(R.id.date_button);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-
-        String userinput = DateButton.getText().toString();
-        try {
-            Date date = formatter.parse(userinput);
-
-            ParseObject newTask = new ParseObject("Tasks");
-            newTask.put("Name", et.getText().toString());
-            newTask.put("dateDue", date);
-            ParseUser user = ParseUser.getCurrentUser();
-            newTask.put("Owner", user);
-            newTask.put("Completed", false);
-
-            newTask.saveInBackground();
-
-            GoToCore();
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
 
+        final String userinput = DateButton.getText().toString();
 
-            Log.d("Date:", userinput);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d("Date:", "Error");
-        }
-
-
-
-        /*ParseObject newTask = new ParseObject("Tasks");
-        newTask.put("Name", et.getText().toString());
+        String Owner = String.valueOf(spinner.getSelectedItem());
 
         ParseUser user = ParseUser.getCurrentUser();
-        newTask.put("Owner", user);
-        newTask.put("Completed", false);
+        ParseObject userHouse = user.getParseObject("Home");
 
-        newTask.saveInBackground();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Home", userHouse);
+        query.whereEqualTo("name", Owner);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                if (userList != null) {
+                    try {
 
-        GoToCore();*/
+                        Date date = formatter.parse(userinput);
 
+                        ParseObject newTask = new ParseObject("Tasks");
+                        newTask.put("Name", et.getText().toString());
+                        newTask.put("dateDue", date);
+
+
+                        newTask.put("Owner", userList.get(0));
+                        newTask.put("Completed", false);
+
+                        newTask.saveInBackground();
+
+                        GoToCore();
+
+                        Log.d("Date:", userinput);
+
+                    } catch (ParseException e2) {
+                        e.printStackTrace();
+                        Log.d("Date:", "Error");
+                    }
+
+                }
+            }
+        });
     }
 
     public void GoToCore(){
@@ -161,50 +164,9 @@ public class AddNewTaskActivity extends ActionBarActivity {
                     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
-                }
-            }});
-/*
-        Log.d("Function:", "Entered addItemsonSpinner");
-        spinner = (Spinner) findViewById(R.id.owner_spinner);
-
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject userHouse = user.getParseObject("Home");
-
-
-        if (userHouse != null) {
-            Log.d("Home Object id:", userHouse.getObjectId());
-            //Log.d("Home Object Name:", userHouse.getString("Name"));
-        }
-        else{
-            Log.d("Error", "Error");
-        }
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("Home", userHouse);                           // NO PROBLEM WITH SPINNER
-        query.findInBackground(new FindCallback<ParseUser>() {                        // ALL WITH THE QUERY
-            public void done(List<ParseUser> userList, com.parse.ParseException e) {
-                if (userList != null) {
-                    Log.d("userList:", "Not Null");
-
-                    int number = userList.size();
-                    Log.d("userListsize:", String.valueOf(number));
-                    String[] userArray = new String [number];
-
-                    for (int i = 0; i< number; i++){
-                        userArray[i] = userList.get(i).getString("name");
                     }
+                }});
 
-                    final List<String> usersList = new ArrayList<>(Arrays.asList(userArray));
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_spinner_item, usersList);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(dataAdapter);
-                    spinner.setOnItemSelectedListener(new SpinnerListener());
-                }
-                else{
-                    Log.d("userList:", "Null");
-                }
-            }}); */
+        }
 
-                }
-
-            }
+    }
