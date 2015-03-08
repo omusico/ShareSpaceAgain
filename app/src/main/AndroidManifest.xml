@@ -78,6 +78,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.salilgokhale.sharespace3.CoreActivity" />
         </activity>
+        <activity
+            android:name=".ViewRotaActivity"
+            android:label="@string/title_activity_view_rota"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
+        <activity
+            android:name=".AddNewRotaActivity"
+            android:label="@string/title_activity_add_new_rota"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>

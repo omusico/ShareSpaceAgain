@@ -55,6 +55,8 @@
         <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_add_new_task">AddNewTaskActivity</string>
     <string name="title_activity_edit_task">EditTaskActivity</string>
+    <string name="title_activity_view_rota">ViewRotaActivity</string>
+    <string name="title_activity_add_new_rota">AddNewRotaActivity</string>
 
 
 </resources>

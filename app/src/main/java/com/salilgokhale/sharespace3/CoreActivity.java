@@ -239,4 +239,9 @@ public class CoreActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void addNewRota(View view){
+        Intent intent = new Intent(this, AddNewRotaActivity.class);
+        startActivity(intent);
+    }
+
 }
