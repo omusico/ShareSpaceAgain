@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.text.ParseException;
@@ -67,11 +68,43 @@ public class AddNewRotaActivity extends ActionBarActivity {
     public void createNewRota(View view){
         final EditText et = (EditText) findViewById(R.id.rota_name_edit_text);
 
-        ParseObject newRota = new ParseObject("Rota");
-        newRota.put("Name", et.getText().toString());
-        newRota.saveInBackground();
+        ParseUser user = ParseUser.getCurrentUser();
+        Log.d("Current User", user.getString("username"));
+        ParseObject userHouse = user.getParseObject("Home");
+        if (userHouse != null) {
+            Log.d("Home Object Name:", userHouse.getObjectId());
+        } else {
+            Log.d("Error", "Error");
+        }
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Home", userHouse);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                if (userList != null) {
+                    //List<String> list = new ArrayList<>();
+
+                    ParseObject newRota = new ParseObject("Rota");
+                    newRota.put("Name", et.getText().toString());
+                    ParseRelation<ParseObject> relation = newRota.getRelation("peopleInvolved");
+
+
+
+
+                    for (int i = 0; i < userList.size(); i++) {
+                        CheckBox feature = (CheckBox) findViewById(i);
+                        if (feature.isChecked()){
+                            //list.add(feature.getText().toString());
+                            relation.add(userList.get(i));
+                        }
+                    }
+
+
+                    newRota.saveInBackground();
+                }}});
 
         this.finish();
+
+
 
 
         //String Owner = String.valueOf(spinner.getSelectedItem());
@@ -137,6 +170,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
                         CheckBox feature = new CheckBox(getApplicationContext());
                         feature.setText(userList.get(i).getString("name"));
+                        feature.setId(i);
                         featuresTable.addView(feature);
                     }
 

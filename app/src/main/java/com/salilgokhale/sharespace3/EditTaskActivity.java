@@ -21,7 +21,8 @@ import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+// TODO
+// Add owner spinner functionality
 
 public class EditTaskActivity extends ActionBarActivity {
 
