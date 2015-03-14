@@ -45,8 +45,9 @@ public class HomeFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereEqualTo("Owner", user);
+        query.whereEqualTo("Completed", false);
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> taskList, ParseException e) {
+            public void done(final List<ParseObject> taskList, ParseException e) {
                 if (taskList != null){
                     Log.d("QueryTasks:", "Task found");
 
@@ -74,6 +75,35 @@ public class HomeFragment extends Fragment {
 
 
                     listView.setAdapter(mtasksAdapter);
+                    // Create a ListView-specific touch listener. ListViews are given special treatment because
+                    // by default they handle touches for their list items... i.e. they're in charge of drawing
+                    // the pressed state (the list selector), handling list item clicks, etc.
+                    SwipeDismissListViewTouchListener touchListener =
+                            new SwipeDismissListViewTouchListener(
+                                    listView,
+                                    new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                                        @Override
+                                        public boolean canDismiss(int position) {
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                            for (int position : reverseSortedPositions) {
+                                                mtasksAdapter.remove(mtasksAdapter.getItem(position));
+                                                taskList.get(position).put("Completed", true);
+                                                taskList.get(position).saveInBackground();
+
+                                            }
+                                            mtasksAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                    listView.setOnTouchListener(touchListener);
+                    // Setting this scroll listener is required to ensure that during ListView scrolling,
+                    // we don't look for swipes.
+                    listView.setOnScrollListener(touchListener.makeScrollListener());
+
+
 
             }
                 else {

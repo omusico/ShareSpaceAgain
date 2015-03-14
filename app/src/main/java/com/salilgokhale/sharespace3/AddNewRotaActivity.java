@@ -98,7 +98,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             }
                         }
                     }
-
+                newRota.put("Due", false);
                 newRota.saveInBackground();
 
                 }}});

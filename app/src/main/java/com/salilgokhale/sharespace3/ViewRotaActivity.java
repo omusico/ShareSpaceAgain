@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,6 +48,14 @@ public class ViewRotaActivity extends ActionBarActivity {
                     Log.d("Rota:", "Not Found");
                 }
                 else {
+                    Button DueButton = (Button) findViewById(R.id.rota_status_button);
+                    if (object.getBoolean("Due")){
+                        DueButton.setBackgroundColor(0xffff0000);
+                    }
+                    else {
+                        DueButton.setBackgroundColor(0xff00ff00);
+                    }
+
                     final String currentPerson = object.getString("nextPersonName");
 
 
@@ -101,4 +113,52 @@ public class ViewRotaActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void changeRotaStatus(View view){
+
+        ParseUser user = ParseUser.getCurrentUser();
+        Intent intent = this.getIntent();
+        final String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
+        query.whereEqualTo("Name", Rota_Name);
+        query.whereEqualTo("peopleInvolved", user);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("Rota:", "Not Found");
+                }
+                else {
+                    Button DueButton = (Button) findViewById(R.id.rota_status_button);
+                    if (object.getBoolean("Due")){
+                        DueButton.setBackgroundColor(0xff00ff00);
+                        object.put("Due", false);
+                        object.saveInBackground();
+                    }
+                    else{
+                        DueButton.setBackgroundColor(0xffff0000);
+                        Date date = new Date();
+
+                        ParseObject newTask = new ParseObject("Tasks");
+
+                        newTask.put("Name", Rota_Name);
+                        newTask.put("dateDue", date);
+
+
+                        newTask.put("Owner", object.getParseObject("nextPerson"));
+                        newTask.put("Completed", false);
+
+                        newTask.saveInBackground();
+
+                        object.put("Due", true);
+                        object.saveInBackground();
+
+                    }
+                }}});
+
+
+    }
+
+
+
 }

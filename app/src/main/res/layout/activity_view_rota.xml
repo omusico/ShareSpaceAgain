@@ -33,11 +33,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Status"/>
+                android:text="Status"
+                android:padding="16dp"
+                android:textSize="18sp"/>
             <Button
                 android:id="@+id/rota_status_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
 
                 android:onClick="changeRotaStatus" />
@@ -49,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/button_edit"
-            android:onClick=""
+            android:onClick="edit_rota"
             />
 
 
