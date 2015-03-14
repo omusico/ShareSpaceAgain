@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent" android:layout_height="wrap_content"
-android:id="@+id/rota_list_item_textview"
-android:minHeight="48dp"
-android:gravity="center_vertical"
-android:padding="16dp"
-android:textSize="18sp">
-
-</TextView>
-
-    <!--
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:tag="rotatag"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout> -->
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:id="@+id/rota_list_item_textview1"
+        android:minHeight="48dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:textSize="18sp">
+
+    </TextView>
+
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:id="@+id/rota_list_item_textview2"
+        android:minHeight="48dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:textSize="18sp">
+
+    </TextView>
+
+
+</LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@+id/rota_list_item_textview"
+    android:minHeight="48dp"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    android:textSize="18sp">
+
+    </TextView>-->

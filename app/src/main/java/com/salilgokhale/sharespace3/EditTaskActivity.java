@@ -35,7 +35,6 @@ public class EditTaskActivity extends ActionBarActivity {
         ParseUser user = ParseUser.getCurrentUser();
 
         Intent intent = this.getIntent();
-        //if(null != intent && intent.hasExtra(Intent.EXTRA_TEXT)){
             String tasknamestr = intent.getStringExtra(Intent.EXTRA_TEXT);
             et.setText(tasknamestr);
 

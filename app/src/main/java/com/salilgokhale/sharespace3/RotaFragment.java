@@ -3,6 +3,8 @@ package com.salilgokhale.sharespace3;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -25,6 +28,8 @@ import java.util.List;
  * Created by salilgokhale on 04/03/15.
  */
 public class RotaFragment extends Fragment {
+    List<String> nextPersonArray = new ArrayList<>();
+
 
     public RotaFragment(){}
 
@@ -46,30 +51,54 @@ public class RotaFragment extends Fragment {
                     Log.d("QueryRotas:", "Rota Found");
 
 
+
                     int number = rotaList.size();
                     Log.d("Number of Rotas", String.valueOf(number));
                     String[] rotaArray = new String[number];
+
                     for(int i = 0; i < number; i++){
+
                         rotaArray[i] = rotaList.get(i).getString("Name");
+                        nextPersonArray.add(rotaList.get(i).getString("nextPersonName"));
+                        //rotaList.get(i).getParseObject("nextPerson")
+                          //      .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                            //        @Override
+                              //      public void done(ParseObject personNext, ParseException e) {
+                                        //nextPersonArray[i] = personNext.getString("name");
+                                    //nextPersonArray.add(personNext.getString("name"));
+                                      //  Log.d("Next Person", nextPersonArray.get(0));
+                                    //final String nextPerson = personNext.getString("name");
+
+
+
+                                //    }
+                               // });
+
+
                     }
 
-                    final List<String> rotasList = new ArrayList<>(Arrays.asList(rotaArray));
-                    final ArrayAdapter<String> mrotasAdapter = new ArrayAdapter<>(getActivity(), R.layout.rota_list_item,
-                            R.id.rota_list_item_textview, rotasList);
+                    ArrayList<RotaObject> objects = new ArrayList<>();
 
-                    ListView listView = (ListView) rootView.findViewById(R.id.mytasks);
+                    for (int i = 0; i < number; i++){
+                        RotaObject temp = new RotaObject(rotaArray[i], nextPersonArray.get(i));
+                        objects.add(temp);
+                    }
+
+
+                    ListView listView = (ListView) rootView.findViewById(R.id.myrotas);
+
+                    final RotaAdapter rotaAdapter = new RotaAdapter(getActivity(), objects);
+                    listView.setAdapter(rotaAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String rota_name = mrotasAdapter.getItem(position);
+
+                            String rota_name = rotaAdapter.getItem(position).getRname();
                             Intent intent = new Intent(getActivity(), ViewRotaActivity.class);
                             intent.putExtra(Intent.EXTRA_TEXT, rota_name);
                             startActivity(intent);
                         }
                     });
-
-
-                    listView.setAdapter(mrotasAdapter);
 
                 }
                 else {
@@ -81,3 +110,4 @@ public class RotaFragment extends Fragment {
         return rootView;
     }
 }
+

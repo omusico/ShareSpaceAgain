@@ -23,6 +23,7 @@
 
     <string name="button_add">Add</string>
     <string name="button_log">Log</string>
+    <string name="button_edit">Edit</string>
 
     <!-- CoreActivity Navigation Drawer Strings -->
 

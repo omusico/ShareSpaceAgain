@@ -35,9 +35,6 @@ public class AddNewRotaActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_new_rota);
 
         addCheckBoxItems();
-
-
-
     }
 
 
@@ -89,17 +86,21 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
 
 
-
+                    boolean firstTime = true;
                     for (int i = 0; i < userList.size(); i++) {
                         CheckBox feature = (CheckBox) findViewById(i);
                         if (feature.isChecked()){
-                            //list.add(feature.getText().toString());
+
                             relation.add(userList.get(i));
+                            if (firstTime) {
+                                newRota.put("nextPersonName", userList.get(i).getString("name"));
+                                firstTime = false;
+                            }
                         }
                     }
 
+                newRota.saveInBackground();
 
-                    newRota.saveInBackground();
                 }}});
 
         this.finish();

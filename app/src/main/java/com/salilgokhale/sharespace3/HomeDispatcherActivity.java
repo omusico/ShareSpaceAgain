@@ -47,7 +47,7 @@ public class HomeDispatcherActivity extends Activity {
             Intent intent = new Intent(this, HouseJoinOrCreateActivity.class);
             startActivity(intent);
         }
-
+        this.finish();
     }
 
    /* private void runHomeDispatch() {
