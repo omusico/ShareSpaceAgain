@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -43,9 +44,10 @@ public class HomeFragment extends Fragment {
         // Retrieve tasks from Parse User
         ParseUser user = ParseUser.getCurrentUser();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereEqualTo("Owner", user);
         query.whereEqualTo("Completed", false);
+        //query.whereNotEqualTo("parentRota", null);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> taskList, ParseException e) {
                 if (taskList != null){
@@ -91,6 +93,19 @@ public class HomeFragment extends Fragment {
                                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                             for (int position : reverseSortedPositions) {
                                                 mtasksAdapter.remove(mtasksAdapter.getItem(position));
+
+                                                if (taskList.get(position).get("parentRota") != null ){
+
+                                                    taskList.get(position).getParseObject("parentRota")
+                                                            .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                                                                @Override
+                                                                public void done(ParseObject therota, ParseException e) {
+                                                                        therota.put("Due", false);
+                                                                        Log.d("Status:", "Inside the rota query");
+                                                                        therota.saveInBackground();
+                                                                }
+                                                            });
+                                                }
                                                 taskList.get(position).put("Completed", true);
                                                 taskList.get(position).saveInBackground();
 

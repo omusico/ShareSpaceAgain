@@ -131,9 +131,9 @@ public class ViewRotaActivity extends ActionBarActivity {
                 else {
                     Button DueButton = (Button) findViewById(R.id.rota_status_button);
                     if (object.getBoolean("Due")){
-                        DueButton.setBackgroundColor(0xff00ff00);
-                        object.put("Due", false);
-                        object.saveInBackground();
+                        //DueButton.setBackgroundColor(0xff00ff00);
+                        //object.put("Due", false);
+                        //object.saveInBackground();
                     }
                     else{
                         DueButton.setBackgroundColor(0xffff0000);
@@ -147,7 +147,7 @@ public class ViewRotaActivity extends ActionBarActivity {
 
                         newTask.put("Owner", object.getParseObject("nextPerson"));
                         newTask.put("Completed", false);
-
+                        newTask.put("parentRota", object);
                         newTask.saveInBackground();
 
                         object.put("Due", true);
