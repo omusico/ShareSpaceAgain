@@ -42,6 +42,7 @@ public class ViewRotaActivity extends ActionBarActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
         query.whereEqualTo("Name", Rota_Name);
         query.whereEqualTo("peopleInvolved", user);
+        query.include("nextPerson");
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (object == null) {
@@ -56,8 +57,7 @@ public class ViewRotaActivity extends ActionBarActivity {
                         DueButton.setBackgroundColor(0xff00ff00);
                     }
 
-                    final String currentPerson = object.getString("nextPersonName");
-
+                    final ParseObject nextPerson = object.getParseObject("nextPerson");
 
                     ParseRelation relation = object.getRelation("peopleInvolved");
                     ParseQuery query2 = relation.getQuery();
@@ -71,7 +71,7 @@ public class ViewRotaActivity extends ActionBarActivity {
 
                                 Log.d("People Involved:", list.get(i).getString("name"));
                                 peopleinvolvedarray.add(list.get(i).getString("name"));
-                                if (peopleinvolvedarray.get(i).equals(currentPerson)){
+                                if (nextPerson.getObjectId().equals(list.get(i).getObjectId())){
                                     turn[i] = true;
                                 }
                                 else{

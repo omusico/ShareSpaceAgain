@@ -17,6 +17,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereEqualTo("Owner", user);
         query.whereEqualTo("Completed", false);
-        //query.whereNotEqualTo("parentRota", null);
+        query.include("parentRota.nextPerson");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> taskList, ParseException e) {
                 if (taskList != null){
@@ -93,19 +94,42 @@ public class HomeFragment extends Fragment {
                                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                             for (int position : reverseSortedPositions) {
                                                 mtasksAdapter.remove(mtasksAdapter.getItem(position));
+                                                final ParseObject therota = taskList.get(position).getParseObject("parentRota");
 
-                                                if (taskList.get(position).get("parentRota") != null ){
+                                                if (therota != null ){
 
-                                                    taskList.get(position).getParseObject("parentRota")
-                                                            .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                                                                @Override
-                                                                public void done(ParseObject therota, ParseException e) {
-                                                                        therota.put("Due", false);
-                                                                        Log.d("Status:", "Inside the rota query");
-                                                                        therota.saveInBackground();
-                                                                }
-                                                            });
+                                                    therota.put("Due", false);
+
+                                                        ParseRelation relation = therota.getRelation("peopleInvolved");
+                                                        ParseQuery query2 = relation.getQuery();
+                                                        query2.findInBackground(new FindCallback<ParseObject>() {
+                                                        @Override
+                                                        public void done(List<ParseObject> list, ParseException e) {
+
+                                                            String personNextName = therota.getParseObject("nextPerson").getObjectId();
+                                                             Log.d("nextPerson's name", personNextName);
+
+
+                                                             for (int i = 0; i < list.size(); i++){
+                                                                 Log.d("peopleInvolved", list.get(i).getString("name"));
+
+                                                                 if (personNextName.equals(list.get(i).getObjectId())){
+                                                                     if (i == list.size() - 1){
+                                                                         therota.put("nextPerson", list.get(0));
+                                                                         Log.d("nextPerson position", " at end");
+                                                                     }
+                                                                     else{
+                                                                         therota.put("nextPerson", list.get(i+1));
+                                                                         Log.d("nextPerson position", " not at end");
+                                                                     }
+                                                                     break;
+                                                                 }
+                                                             }
+                                                            therota.saveInBackground();
+                                                        }});
                                                 }
+
+
                                                 taskList.get(position).put("Completed", true);
                                                 taskList.get(position).saveInBackground();
 
