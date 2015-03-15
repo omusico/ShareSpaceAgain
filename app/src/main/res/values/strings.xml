@@ -59,5 +59,18 @@
     <string name="title_activity_view_rota">ViewRotaActivity</string>
     <string name="title_activity_add_new_rota">AddNewRotaActivity</string>
 
+        <!-- Rota Frequency Options -->
+    <string-array name="frequency_options">
+        <item>When Needed</item>
+        <item>Every 1 week</item>
+        <item>Every 2 weeks</item>
+        <item>Every 3 weeks</item>
+        <item>Every 4 weeks</item>
+        <item>Monthly</item>
+    </string-array>
+
+
+
+
 
 </resources>

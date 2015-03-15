@@ -1,6 +1,9 @@
 package com.salilgokhale.sharespace3;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -21,13 +26,23 @@ import com.parse.ParseUser;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 
 public class AddNewRotaActivity extends ActionBarActivity {
+    private Spinner spinner;
+    private Button StartDateButton;
+    private Button EndDateButton;
+    static final int START_DATE_DIALOG_ID = 1;
+    static final int END_DATE_DIALOG_ID2 = 2;
+    int cur = 0;
 
-
+    private int year;
+    private int month;
+    private int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +50,9 @@ public class AddNewRotaActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_new_rota);
 
         addCheckBoxItems();
+        addSpinnerItems();
+        setDateItems();
+        addListenerOnDateItems();
     }
 
 
@@ -61,12 +79,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
     }
 
 
-
     public void createNewRota(View view){
         final EditText et = (EditText) findViewById(R.id.rota_name_edit_text);
 
+
         ParseUser user = ParseUser.getCurrentUser();
-        Log.d("Current User", user.getString("username"));
+
         ParseObject userHouse = user.getParseObject("Home");
         if (userHouse != null) {
             Log.d("Home Object Name:", userHouse.getObjectId());
@@ -93,12 +111,18 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
                             relation.add(userList.get(i));
                             if (firstTime) {
-                                newRota.put("nextPersonName", userList.get(i).getString("name"));
+                                newRota.put("nextPerson", userList.get(i));
                                 firstTime = false;
                             }
                         }
                     }
                 newRota.put("Due", false);
+
+                //String Frequency = String.valueOf(spinner.getSelectedItem());
+
+
+
+
                 newRota.saveInBackground();
 
                 }}});
@@ -183,6 +207,103 @@ public class AddNewRotaActivity extends ActionBarActivity {
         });
     }
 
+    public void addSpinnerItems(){
+        spinner = (Spinner) findViewById(R.id.rota_frequency_spinner);
+
+        String[] frequency_items = getResources().getStringArray(R.array.frequency_options);
+        final List<String> frequencyList = new ArrayList<>(Arrays.asList(frequency_items));
+
+        ArrayAdapter<String> freqAdapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, frequencyList);
+        freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(freqAdapter);
+        spinner.setOnItemSelectedListener(new SpinnerListener());
+
+    }
+
+    public void setDateItems(){
+
+        StartDateButton = (Button) findViewById(R.id.start_date_button_rota);
+        EndDateButton = (Button) findViewById(R.id.end_date_button_rota);
+
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        month++;                // Added because month is zero based
+        String b = "/";
+        String currentDate = String.valueOf(day) + b + String.valueOf(month) + b + String.valueOf(year);
+
+        StartDateButton.setText(currentDate);
+        EndDateButton.setText(currentDate);
+
+    }
+
+    public void addListenerOnDateItems() {
+
+        StartDateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialog(START_DATE_DIALOG_ID);
+            }
+
+        });
+        EndDateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialog(END_DATE_DIALOG_ID2);
+            }
+        });
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+
+            case START_DATE_DIALOG_ID:
+                System.out.println("onCreateDialog  : " + id);
+                cur = START_DATE_DIALOG_ID;
+                // set date picker as current date
+                return new DatePickerDialog(this, datePickerListener, year, month,
+                        day);
+            case END_DATE_DIALOG_ID2:
+                cur = END_DATE_DIALOG_ID2;
+                System.out.println("onCreateDialog2  : " + id);
+                // set date picker as current date
+                return new DatePickerDialog(this, datePickerListener, year, month,
+                        day);
+
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            String b = "/";
+            String Date = String.valueOf(day) + b + String.valueOf(month) + b + String.valueOf(year);
+
+            if(cur == START_DATE_DIALOG_ID){
+                // set selected date into textview
+
+                StartDateButton.setText(Date);
+
+            }
+            else{
+                EndDateButton.setText(Date);
+            }
+
+        }
+    };
 
 
 }

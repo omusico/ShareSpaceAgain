@@ -45,6 +45,7 @@ public class RotaFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
         query.whereEqualTo("peopleInvolved", user);
+        query.include("nextPerson");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> rotaList, ParseException e) {
                 if (rotaList != null){
@@ -57,24 +58,9 @@ public class RotaFragment extends Fragment {
                     String[] rotaArray = new String[number];
 
                     for(int i = 0; i < number; i++){
-
+                        ParseObject personNext = rotaList.get(i).getParseObject("nextPerson");
                         rotaArray[i] = rotaList.get(i).getString("Name");
-                        nextPersonArray.add(rotaList.get(i).getString("nextPersonName"));
-                        //rotaList.get(i).getParseObject("nextPerson")
-                          //      .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                            //        @Override
-                              //      public void done(ParseObject personNext, ParseException e) {
-                                        //nextPersonArray[i] = personNext.getString("name");
-                                    //nextPersonArray.add(personNext.getString("name"));
-                                      //  Log.d("Next Person", nextPersonArray.get(0));
-                                    //final String nextPerson = personNext.getString("name");
-
-
-
-                                //    }
-                               // });
-
-
+                        nextPersonArray.add(personNext.getString("name"));
                     }
 
                     ArrayList<RotaObject> objects = new ArrayList<>();
