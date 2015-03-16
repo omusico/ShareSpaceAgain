@@ -49,7 +49,7 @@ public class EditTaskActivity extends ActionBarActivity {
                     } else {
                         Log.d("Task", "object found");
                         Date date = (Date) object.get("dateDue");
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                         String taskdate = formatter.format(date);
 
                         Button DateButton = (Button) findViewById(R.id.date_button);
@@ -116,7 +116,7 @@ public class EditTaskActivity extends ActionBarActivity {
 
                         object.saveInBackground();
 
-                        GoToCore();
+
 
 
 
@@ -138,15 +138,10 @@ public class EditTaskActivity extends ActionBarActivity {
 
 
 
+    this.finish();
 
 
 
-
-    }
-
-    public void GoToCore(){
-        Intent intent = new Intent(this, CoreActivity.class);
-        startActivity(intent);
     }
 
     public void showDatePickerDialog(View v) {

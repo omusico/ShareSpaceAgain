@@ -47,7 +47,7 @@ public class RotaFragment extends Fragment {
         query.whereEqualTo("peopleInvolved", user);
         query.include("nextPerson");
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> rotaList, ParseException e) {
+            public void done(final List<ParseObject> rotaList, ParseException e) {
                 if (rotaList != null){
                     Log.d("QueryRotas:", "Rota Found");
 
@@ -80,9 +80,15 @@ public class RotaFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                             String rota_name = rotaAdapter.getItem(position).getRname();
-                            Intent intent = new Intent(getActivity(), ViewRotaActivity.class);
-                            intent.putExtra(Intent.EXTRA_TEXT, rota_name);
-                            startActivity(intent);
+                            if (rotaList.get(position).getString("Frequency").equals("When Needed")) {
+                                Intent intent = new Intent(getActivity(), ViewRotaActivity.class);
+                                intent.putExtra(Intent.EXTRA_TEXT, rota_name);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(getActivity(), ViewFreqRotaActivity.class);
+                                intent.putExtra(Intent.EXTRA_TEXT, rota_name);
+                                startActivity(intent);
+                            }
                         }
                     });
 

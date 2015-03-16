@@ -94,39 +94,42 @@ public class HomeFragment extends Fragment {
                                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                             for (int position : reverseSortedPositions) {
                                                 mtasksAdapter.remove(mtasksAdapter.getItem(position));
+
                                                 final ParseObject therota = taskList.get(position).getParseObject("parentRota");
 
-                                                if (therota != null ){
+                                                if (therota != null ) {
+                                                    if (therota.getString("Frequency").equals("When Needed")) {
 
-                                                    therota.put("Due", false);
+                                                        therota.put("Due", false);
 
                                                         ParseRelation relation = therota.getRelation("peopleInvolved");
                                                         ParseQuery query2 = relation.getQuery();
                                                         query2.findInBackground(new FindCallback<ParseObject>() {
-                                                        @Override
-                                                        public void done(List<ParseObject> list, ParseException e) {
+                                                            @Override
+                                                            public void done(List<ParseObject> list, ParseException e) {
 
-                                                            String personNextName = therota.getParseObject("nextPerson").getObjectId();
-                                                             Log.d("nextPerson's name", personNextName);
+                                                                String personNextName = therota.getParseObject("nextPerson").getObjectId();
+                                                                Log.d("nextPerson's name", personNextName);
 
 
-                                                             for (int i = 0; i < list.size(); i++){
-                                                                 Log.d("peopleInvolved", list.get(i).getString("name"));
+                                                                for (int i = 0; i < list.size(); i++) {
+                                                                    Log.d("peopleInvolved", list.get(i).getString("name"));
 
-                                                                 if (personNextName.equals(list.get(i).getObjectId())){
-                                                                     if (i == list.size() - 1){
-                                                                         therota.put("nextPerson", list.get(0));
-                                                                         Log.d("nextPerson position", " at end");
-                                                                     }
-                                                                     else{
-                                                                         therota.put("nextPerson", list.get(i+1));
-                                                                         Log.d("nextPerson position", " not at end");
-                                                                     }
-                                                                     break;
-                                                                 }
-                                                             }
-                                                            therota.saveInBackground();
-                                                        }});
+                                                                    if (personNextName.equals(list.get(i).getObjectId())) {
+                                                                        if (i == list.size() - 1) {
+                                                                            therota.put("nextPerson", list.get(0));
+                                                                            Log.d("nextPerson position", " at end");
+                                                                        } else {
+                                                                            therota.put("nextPerson", list.get(i + 1));
+                                                                            Log.d("nextPerson position", " not at end");
+                                                                        }
+                                                                        break;
+                                                                    }
+                                                                }
+                                                                therota.saveInBackground();
+                                                            }
+                                                        });
+                                                    }
                                                 }
 
 

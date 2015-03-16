@@ -94,6 +94,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.salilgokhale.sharespace3.CoreActivity" />
         </activity>
+        <activity
+            android:name=".ViewFreqRotaActivity"
+            android:label="@string/title_activity_view_freq_rota"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>

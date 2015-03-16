@@ -79,7 +79,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
     public void createNewTask(View view) {
         final EditText et = (EditText) findViewById(R.id.task_name_edit_text);
         Button DateButton = (Button) findViewById(R.id.date_button);
-        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
 
 
         final String userinput = DateButton.getText().toString();
