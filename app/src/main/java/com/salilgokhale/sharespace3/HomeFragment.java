@@ -48,6 +48,8 @@ public class HomeFragment extends Fragment {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereEqualTo("Owner", user);
         query.whereEqualTo("Completed", false);
+        query.setLimit(10);
+        query.orderByAscending("dateDue");
         query.include("parentRota.nextPerson");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> taskList, ParseException e) {

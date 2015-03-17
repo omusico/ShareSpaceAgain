@@ -37,7 +37,7 @@ public class DatePickerFragment extends DialogFragment
 
         //SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String b = "/";
-        String userinput = String.valueOf(day) + b + String.valueOf(month++) + b + String.valueOf(year);
+        String userinput = String.valueOf(day) + b + String.valueOf(month+1) + b + String.valueOf(year);
         Button DateButton2 = (Button) getActivity().findViewById(R.id.date_button);
         DateButton2.setText(userinput);
         /*try {

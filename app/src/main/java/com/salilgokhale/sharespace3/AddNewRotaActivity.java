@@ -132,12 +132,9 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             CheckBox feature = (CheckBox) findViewById(i);
                             if (feature.isChecked()) {
                                 rotaparticipants.add(userList.get(i));
-                                Log.d("RotaParticipant:", rotaparticipants.get(i).getString("name"));
                                 relation.add(userList.get(i));
                                 }
                             }
-
-                        newRota.put("nextPerson", rotaparticipants.get(0));
 
                         final String start_date = StartDateButton.getText().toString();
                         final String end_date = EndDateButton.getText().toString();
@@ -146,15 +143,20 @@ public class AddNewRotaActivity extends ActionBarActivity {
                         Calendar c2 = Calendar.getInstance();
                         try {
                             c1.setTime(sdf.parse(start_date));
+                            c1.add(Calendar.HOUR, 1);
                             c2.setTime(sdf.parse(end_date));
+                            c2.add(Calendar.HOUR, 1);
                             Date startdate = c1.getTime();
+                            Log.d("Start Date", startdate.toString());
                             Date enddate = c2.getTime();
+                            Log.d("End Date", enddate.toString());
                             newRota.put("startDate", startdate);
                             newRota.put("endDate", enddate);
                         } catch (ParseException e2) {
                             e2.printStackTrace();
                         }
 
+                        newRota.saveInBackground();
                         int number = rotaparticipants.size();
                         int i = 0;
 
@@ -168,6 +170,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("Name", rota_name);
                                     temp.put("Owner", rotaparticipants.get(i%number));
                                     temp.put("dateDue", date);
+                                    temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
                                     c1.add(Calendar.DATE, 7);
@@ -182,6 +185,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("Name", rota_name);
                                     temp.put("Owner", rotaparticipants.get(i%number));
                                     temp.put("dateDue", c1.getTime());
+                                    temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
                                     c1.add(Calendar.DATE, 14);
@@ -195,6 +199,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("Name", rota_name);
                                     temp.put("Owner", rotaparticipants.get(i%number));
                                     temp.put("dateDue", c1.getTime());
+                                    temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
                                     c1.add(Calendar.DATE, 21);
@@ -208,6 +213,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("Name", rota_name);
                                     temp.put("Owner", rotaparticipants.get(i%number));
                                     temp.put("dateDue", c1.getTime());
+                                    temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
                                     c1.add(Calendar.DATE, 28);
@@ -221,6 +227,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("Name", rota_name);
                                     temp.put("Owner", rotaparticipants.get(i%number));
                                     temp.put("dateDue", c1.getTime());
+                                    temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
                                     c1.add(Calendar.MONTH, 1);
@@ -233,7 +240,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
                     }
 
-                newRota.saveInBackground();
+
 
                 }}});
 
