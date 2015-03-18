@@ -32,6 +32,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+// TODO When new frequency rota is created, the next person is set to the first task. This means that the start date
+// TODO cannot be in the past. Must add a block message to stop users setting the start date in the past.
+// TODO Also there is the date picker bug - must pick start date and then end date otherwise it messes up.
 
 public class AddNewRotaActivity extends ActionBarActivity {
     private Spinner spinner;
@@ -125,6 +128,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             }
                         }
                         newRota.put("Due", false);
+                        newRota.saveInBackground();
                     }
 
                     else {
@@ -159,11 +163,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                         newRota.saveInBackground();
                         int number = rotaparticipants.size();
                         int i = 0;
-
+                        boolean firstTime = true;
                         switch (Frequency){
                             case "Every 1 Week":
 
                                 while (c1.before(c2) || c1.equals(c2)){
+
                                     Log.d("Iteration", "of calendar");
                                     Date date = c1.getTime();
                                     ParseObject temp = new ParseObject("Tasks");
@@ -173,6 +178,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
+                                    if(firstTime){
+                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
+                                        newRota.put("nextDate", date);
+                                        newRota.saveInBackground();
+                                        firstTime = false;
+                                    }
                                     c1.add(Calendar.DATE, 7);
                                     i++;
                                 }
@@ -188,6 +199,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
+                                    if(firstTime){
+                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
+                                        newRota.put("nextDate", c1.getTime());
+                                        newRota.saveInBackground();
+                                        firstTime = false;
+                                    }
                                     c1.add(Calendar.DATE, 14);
                                     i++;
                                 }
@@ -202,6 +219,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
+                                    if(firstTime){
+                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
+                                        newRota.put("nextDate", c1.getTime());
+                                        newRota.saveInBackground();
+                                        firstTime = false;
+                                    }
                                     c1.add(Calendar.DATE, 21);
                                     i++;
                                 }
@@ -216,6 +239,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
+                                    if(firstTime){
+                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
+                                        newRota.put("nextDate", c1.getTime());
+                                        newRota.saveInBackground();
+                                        firstTime = false;
+                                    }
                                     c1.add(Calendar.DATE, 28);
                                     i++;
                                 }
@@ -230,6 +259,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     temp.put("parentRota", newRota);
                                     temp.put("Completed", false);
                                     temp.saveInBackground();
+                                    if(firstTime){
+                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
+                                        newRota.put("nextDate", c1.getTime());
+                                        newRota.saveInBackground();
+                                        firstTime = false;
+                                    }
                                     c1.add(Calendar.MONTH, 1);
                                     i++;
                                 }

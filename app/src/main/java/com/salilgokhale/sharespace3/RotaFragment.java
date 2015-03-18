@@ -105,7 +105,7 @@ public class RotaFragment extends Fragment {
                 if (rotaList != null) {
                     Log.d("QueryRotas:", "Rota Found");
 
-                    int number = rotaList.size();
+                    final int number = rotaList.size();
 
                   /*  for (int j = 0; j < number; j++) {
                         final ParseObject temp_rota = rotaList.get(j);
@@ -152,46 +152,19 @@ public class RotaFragment extends Fragment {
                         final ParseObject temp_rota = rotaList.get(i);
                         rotaArray[i] = temp_rota.getString("Name");
 
-                        if (temp_rota.getString("Frequency").equals("When Needed")) {
+                        ParseObject personNext = temp_rota.getParseObject("nextPerson");
 
-                            ParseObject personNext = temp_rota.getParseObject("nextPerson");
+                        nextPersonArray.add(personNext.getString("name"));
 
-                            nextPersonArray.add(personNext.getString("name"));
-                        } else {
-
-                            Log.d("This Rota", "is not asynchronous");
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
-                            query.whereEqualTo("parentRota", temp_rota);
-                            query.orderByAscending("dateDue");
-                            query.include("Owner");
-                            query.findInBackground(new FindCallback<ParseObject>() {
-                                public void done(final List<ParseObject> rotaTaskList, ParseException e) {
-                                    if (rotaTaskList != null) {
-
-                                        final Calendar c = Calendar.getInstance();
-                                        c.add(Calendar.DATE, -1);
-                                        Date current_date = c.getTime();
-                                        for (int l = 0; l <rotaTaskList.size(); l++){
-                                            Log.d("Task found", rotaTaskList.get(l).getString("Name"));
-                                            if(current_date.before(rotaTaskList.get(l).getDate("dateDue"))){
-                                                nextPersonArray.add(rotaTaskList.get(l).getParseObject("Owner").getString("name"));
-                                                Log.d("Temp Rota", "is set");
-                                                break;
-                                            }
-
-                                        }
-
-                                    }
-
-
-                                }
-
-
-                            });
+                        // if (temp_rota.getString("Frequency").equals("When Needed")) {
 
 
 
-                        }
+
+                       // } else {
+
+
+                       // }
                     }
 
                     ArrayList<RotaObject> objects = new ArrayList<>();
