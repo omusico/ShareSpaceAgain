@@ -1,8 +1,9 @@
 package com.salilgokhale.sharespace3;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -47,8 +48,8 @@ public class CoreActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_core);
 
-            mTitle = mDrawerTitle = getTitle();
-
+            //mTitle = mDrawerTitle = getTitle();
+              mTitle = mDrawerTitle = "ShareSpace";
             // load slide menu items
             navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
@@ -159,8 +160,8 @@ public class CoreActivity extends ActionBarActivity {
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
+            getSupportFragmentManager()
+                .beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
 
             // update selected item and title, then close the drawer

@@ -1,9 +1,10 @@
 package com.salilgokhale.sharespace3;
 
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
-//import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,27 +20,27 @@ public class ExpensesFragment extends Fragment {
 
     public ExpensesFragment(){}
 
-    //private FragmentTabHost mTabHost;
+    private FragmentTabHost mTabHost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
 
-        return rootView;
+        //return rootView;
 
-        //mTabHost = new FragmentTabHost(getActivity());
-        //mTabHost.setup(getActivity(), getChildFragmentManager(), R.layout.fragment_expenses);
+        mTabHost = new FragmentTabHost(getActivity());
+        mTabHost = (FragmentTabHost)rootView.findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
-        /*mTabHost.addTab(mTabHost.newTabSpec("simple").setIndicator("Simple"),
-                FragmentStackSupport.CountingFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("contacts").setIndicator("Contacts"),
-                LoaderCursorSupport.CursorLoaderListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("custom").setIndicator("Custom"),
-                LoaderCustomSupport.AppListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("throttle").setIndicator("Throttle"),
-                LoaderThrottleSupport.ThrottledLoaderListFragment.class, null); */
+        mTabHost.addTab(mTabHost.newTabSpec("balances").setIndicator("Balances"),
+                BalancesFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("expenseLog").setIndicator("Log"),
+                ExpenseLogFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("items").setIndicator("Items"),
+                ItemsFragment.class, null);
+
 
         /*Bundle arg1 = new Bundle();
         arg1.putInt("Arg for Frag1", 1);
@@ -57,5 +58,6 @@ public class ExpensesFragment extends Fragment {
                 ExpenseLogFragment.class, arg3);
 
         return mTabHost; */
+        return rootView;
     }
 }
