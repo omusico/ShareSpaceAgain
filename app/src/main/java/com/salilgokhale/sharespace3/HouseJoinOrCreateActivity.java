@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 /**
  * Created by salilgokhale on 04/03/15.
@@ -72,11 +76,15 @@ public class HouseJoinOrCreateActivity extends Activity {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
         query.whereEqualTo("Name", housenamestr);
+        //query.setLimit(1);
+        ParseQuery<ParseUser> query2 = ParseUser.getQuery();
+        query2.whereMatchesQuery("Home", query);
+        query2.include("Home");
         //query.whereEqualTo("PassKey", passkeystr);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("Home","No object found");
+        query2.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List <ParseUser> userList, ParseException e) {
+                if (userList == null) {
+                    Log.d("Home", "No object found");
                     /* Toast */
                     Context context = getApplicationContext();
                     CharSequence text = "House Name and/or Pass Key not found";
@@ -88,10 +96,26 @@ public class HouseJoinOrCreateActivity extends Activity {
                 } else {
                     Log.d("Home", "object found");
 
+                    ParseObject newHome = userList.get(0).getParseObject("Home");
                     ParseUser user = ParseUser.getCurrentUser();
-                    user.put("Home", object);
+                    user.put("Home", newHome);
                     user.put("Has_House", true);
                     user.saveInBackground();
+
+                    for (int i = 0; i < userList.size(); i++){
+
+                            ParseObject oweExpense = new ParseObject("OweExpense");
+                            oweExpense.put("Amount", 0);
+                            oweExpense.put("Name1", user.getString("name"));
+                            oweExpense.put("Name2", userList.get(i).getString("name"));
+                            ParseRelation<ParseObject> relation = oweExpense.getRelation("Owners");
+                            relation.add(user);
+                            relation.add(userList.get(i));
+                            oweExpense.saveInBackground();
+
+                    }
+
+
                     GoToCore();
 
 
@@ -104,6 +128,7 @@ public class HouseJoinOrCreateActivity extends Activity {
     public void GoToCore(){
         Intent intent = new Intent(this, CoreActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
 

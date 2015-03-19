@@ -190,6 +190,11 @@ public class CoreActivity extends ActionBarActivity {
             }
             // Handle action bar actions click
             switch (item.getItemId()) {
+                case R.id.action_logout:
+                    Intent logOutIntent = new Intent(this, MainActivity.class);
+                    //homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(logOutIntent);
+                    return true;
                 case R.id.action_settings:
                     return true;
                 default:
