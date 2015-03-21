@@ -293,7 +293,7 @@ public void createNewExpense(View view){
 
 
     ParseUser user = ParseUser.getCurrentUser();
-    ParseObject userHouse = user.getParseObject("Home");
+    final ParseObject userHouse = user.getParseObject("Home");
 
     ParseQuery<ParseUser> query = ParseUser.getQuery();
     query.whereEqualTo("Home", userHouse);
@@ -311,6 +311,7 @@ public void createNewExpense(View view){
                     newExpense.put("Title", title_et.getText().toString());
                     newExpense.put("Amount", Float.valueOf(amount_et.getText().toString()));
                     newExpense.put("Date", date);
+                    newExpense.put("House", userHouse);
 
 
                     float total = Float.valueOf(amount_et.getText().toString());
