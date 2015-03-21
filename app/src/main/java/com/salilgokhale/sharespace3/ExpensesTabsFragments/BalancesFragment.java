@@ -24,8 +24,6 @@ import com.salilgokhale.sharespace3.ViewBalanceActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO find a way to get floating point numbers from
-
 /**
  * Created by salilgokhale on 17/03/15.
  */
@@ -68,30 +66,49 @@ public class BalancesFragment extends Fragment {
 
                         if (temp.getString("Name1").equals(username)){
                             Debtors.add(temp.getString("Name2"));
+
+                            Log.d("Amount: ", String.valueOf(amount));
+                            if (amount > 0){
+                                debt = "£" + String.format("%.2f", amount) + " to be paid";
+                                ToBePaid += amount;
+                            }
+                            else if(amount < 0){
+                                debt = "£" + String.format("%.2f", Math.abs(amount)) + " to pay";
+                                ToPay += amount;
+                            }
+                            else {
+                                debt = "Even";
+                            }
+
                         }
                         else{
                             Debtors.add(temp.getString("Name1"));
+
+                            Log.d("Amount: ", String.valueOf(amount));
+                            if (amount < 0){
+                                debt = "£" + String.format("%.2f", Math.abs(amount)) + " to be paid";
+                                ToBePaid += amount;
+                            }
+                            else if(amount > 0){
+                                debt = "£" + String.format("%.2f", amount) + " to pay";
+                                ToPay += amount;
+                            }
+                            else {
+                                debt = "Even";
+                            }
+
+
+
                         }
 
-                        Log.d("Amount: ", String.valueOf(amount));
-                        if (amount > 0){
-                            debt = "£" + String.valueOf(amount) + " to be paid";
-                            ToBePaid += amount;
-                        }
-                        else if(amount < 0){
-                            debt = "£" + String.valueOf(Math.abs(amount)) + " to pay";
-                            ToPay += amount;
-                        }
-                        else {
-                            debt = "Even";
-                        }
+
 
                         Debts.add(debt);
 
                     }
 
-                    toPayText.setText("£" + String.valueOf(Math.abs(ToPay)) + " to pay");
-                    toBePaidText.setText("£" + String.valueOf(ToBePaid) + " to be paid");
+                    toPayText.setText("£" + String.format("%.2f", Math.abs(ToPay)) + " to pay");
+                    toBePaidText.setText("£" + String.format("%.2f", ToBePaid) + " to be paid");
 
                     ArrayList<BalancesObject> objects = new ArrayList<>();
 

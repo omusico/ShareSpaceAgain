@@ -114,7 +114,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
                         Log.d("Date:", userinput);
 
                     } catch (ParseException e2) {
-                        e.printStackTrace();
+                        e2.printStackTrace();
                         Log.d("Date:", "Error");
                     }
 

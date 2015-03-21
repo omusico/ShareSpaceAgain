@@ -309,9 +309,6 @@ public class AddNewRotaActivity extends ActionBarActivity {
                         feature.setId(i);
                         featuresTable.addView(feature);
                     }
-
-
-
                 }
 
             }

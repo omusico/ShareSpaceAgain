@@ -250,4 +250,9 @@ public class CoreActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void addNewExpense(View view){
+        Intent intent = new Intent(this, AddNewExpenseActivity.class);
+        startActivity(intent);
+    }
+
 }

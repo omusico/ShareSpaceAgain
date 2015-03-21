@@ -110,6 +110,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.salilgokhale.sharespace3.CoreActivity" />
         </activity>
+        <activity
+            android:name=".AddNewExpenseActivity"
+            android:label="@string/title_activity_add_new_expense"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>
