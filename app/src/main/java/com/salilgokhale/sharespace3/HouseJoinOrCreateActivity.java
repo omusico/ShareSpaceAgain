@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -103,16 +104,17 @@ public class HouseJoinOrCreateActivity extends Activity {
                     user.saveInBackground();
 
                     for (int i = 0; i < userList.size(); i++){
-
-                            ParseObject oweExpense = new ParseObject("OweExpense");
-                            oweExpense.put("Amount", 0);
-                            oweExpense.put("Name1", user.getString("name"));
-                            oweExpense.put("Name2", userList.get(i).getString("name"));
-                            ParseRelation<ParseObject> relation = oweExpense.getRelation("Owners");
-                            relation.add(user);
-                            relation.add(userList.get(i));
-                            oweExpense.saveInBackground();
-
+                            if (!userList.get(i).equals(user)) {
+                                ParseObject oweExpense = new ParseObject("OweExpense");
+                                oweExpense.put("Amount", 0);
+                                oweExpense.put("Name1", user.getString("name"));
+                                oweExpense.put("Name2", userList.get(i).getString("name"));
+                                List <ParseUser> templist = new ArrayList<ParseUser>();
+                                templist.add(user);
+                                templist.add(userList.get(i));
+                                oweExpense.put("OwnerArray", templist);
+                                oweExpense.saveInBackground();
+                            }
                     }
 
 

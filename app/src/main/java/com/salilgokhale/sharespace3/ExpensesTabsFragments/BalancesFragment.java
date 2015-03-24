@@ -43,7 +43,7 @@ public class BalancesFragment extends Fragment {
         final String username = user.getString("name");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("OweExpense");
-        query.whereEqualTo("Owners", user);
+        query.whereEqualTo("OwnerArray", user);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> OweExpenseList, ParseException e) {
                 if (OweExpenseList != null) {
@@ -128,10 +128,11 @@ public class BalancesFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            String balance_name = balancesAdapter.getItem(position).getBname();
+
+                                String objectID = OweExpenseList.get(position).getObjectId();
 
                                 Intent intent = new Intent(getActivity(), ViewBalanceActivity.class);
-                                intent.putExtra(Intent.EXTRA_TEXT, balance_name);
+                                intent.putExtra(Intent.EXTRA_TEXT, objectID);
                                 startActivity(intent);
 
                         }

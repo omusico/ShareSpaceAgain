@@ -350,7 +350,8 @@ public void createNewExpense(View view){
                         final ParseUser temp_payer = userList.get(payer_id);
 
                         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("OweExpense");
-                        query2.whereEqualTo("Owners", temp_payer);
+                        query2.whereEqualTo("OwnerArray", temp_payer);
+                        // TODO query2.whereEqualTo("OwnerArray", temp_payer);
                         query2.findInBackground(new FindCallback<ParseObject>() {
                                 public void done(final List<ParseObject> OweExpenseList, com.parse.ParseException e3) {
                                     Log.d("Entered Query for ", "Owe Expenses");
@@ -360,7 +361,7 @@ public void createNewExpense(View view){
 
                                         for (int i = 0; i < peopleSplit.size(); i++){
                                             Log.d("Iteration of people: ", String.valueOf(i));
-                                            if (!peopleSplit.get(i).equals(temp_payer)){
+                                            if (!peopleSplit.get(i).getObjectId().equals(temp_payer.getObjectId())){
                                                 Log.d("Iteration inside: ", String.valueOf(i));
                                                 for(int j = 0; j < OweExpenseList.size(); j++){
                                                     Log.d("Iteration OweExpense", String.valueOf(j));
