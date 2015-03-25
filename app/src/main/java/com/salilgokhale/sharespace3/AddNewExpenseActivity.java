@@ -351,7 +351,6 @@ public void createNewExpense(View view){
 
                         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("OweExpense");
                         query2.whereEqualTo("OwnerArray", temp_payer);
-                        // TODO query2.whereEqualTo("OwnerArray", temp_payer);
                         query2.findInBackground(new FindCallback<ParseObject>() {
                                 public void done(final List<ParseObject> OweExpenseList, com.parse.ParseException e3) {
                                     Log.d("Entered Query for ", "Owe Expenses");

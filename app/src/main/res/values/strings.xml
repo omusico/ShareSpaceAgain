@@ -71,6 +71,7 @@
     <string name="title_activity_view_freq_rota">ViewFreqRotaActivity</string>
     <string name="title_activity_view_balance">ViewBalanceActivity</string>
     <string name="title_activity_add_new_expense">AddNewExpenseActivity</string>
+    <string name="title_activity_settle">SettleActivity</string>
 
 
 

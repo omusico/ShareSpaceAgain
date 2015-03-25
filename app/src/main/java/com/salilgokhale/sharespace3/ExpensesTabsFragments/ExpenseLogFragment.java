@@ -41,6 +41,7 @@ public class ExpenseLogFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ExpenseLog");
         query.whereEqualTo("House", userHouse);
         query.include("Payer");
+        query.include("SettlementPayee");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> ExpenseLogList, ParseException e) {
                 if (ExpenseLogList != null) {
@@ -52,12 +53,19 @@ public class ExpenseLogFragment extends Fragment {
                     for (int i = 0; i < ExpenseLogList.size(); i++){
 
                         titles.add(ExpenseLogList.get(i).getString("Title"));
-                        payers.add(ExpenseLogList.get(i).getParseObject("Payer").getString("name"));
+
                         values.add(String.valueOf(ExpenseLogList.get(i).getNumber("Amount")));
-                        Log.d("Payer name: ", payers.get(i));
+                        //Log.d("Payer name: ", payers.get(i));
                         DateFormat df = new SimpleDateFormat("d/M/yy");
                         String date = df.format(ExpenseLogList.get(i).getDate("Date"));
                         dates.add(date);
+
+                        if (ExpenseLogList.get(i).getBoolean("Settlement")){
+                            payers.add(ExpenseLogList.get(i).getParseObject("SettlementPayee").getString("name"));
+                        }
+                        else{
+                            payers.add(ExpenseLogList.get(i).getParseObject("Payer").getString("name"));
+                        }
 
                     }
 
