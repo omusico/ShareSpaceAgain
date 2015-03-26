@@ -69,10 +69,16 @@ public class HomeFragment extends Fragment {
                     Calendar c = Calendar.getInstance();
                     Date date = c.getTime();
                     SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+                    SimpleDateFormat fmt2 = new SimpleDateFormat("d/M");
 
                     int number = taskList.size();
                     List<String> todaytaskArray = new ArrayList<String>();
+                    List<String> todaytaskDate = new ArrayList<String>();
+                    List<String> todaytaskID = new ArrayList<String>();
                     List<String> upcomingtaskArray = new ArrayList<String>();
+                    List<String> upcomingtaskDate = new ArrayList<String>();
+                    List<String> upcomingtaskID = new ArrayList<String>();
+
 
                     for (int i = 0; i < number; i++) {
                         //taskArray[i] = taskList.get(i).getString("Name");
@@ -80,10 +86,32 @@ public class HomeFragment extends Fragment {
                         Date taskdate = temptask.getDate("dateDue");
                         if (fmt.format(date).equals(fmt.format(taskdate))) {
                             todaytaskArray.add(temptask.getString("Name"));
+                            todaytaskDate.add(fmt2.format(taskdate));
+                            todaytaskID.add(temptask.getObjectId());
                         } else {
                             upcomingtaskArray.add(temptask.getString("Name"));
+                            upcomingtaskDate.add(fmt2.format(taskdate));
+                            upcomingtaskID.add(temptask.getObjectId());
                         }
                     }
+
+                    ArrayList<BalancesObject> todayobjects = new ArrayList<>();
+                    ArrayList<BalancesObject> upcomingobjects = new ArrayList<>();
+
+                    for (int i = 0; i < todaytaskArray.size(); i++) {
+                        BalancesObject temp = new BalancesObject(todaytaskArray.get(i), todaytaskDate.get(i), todaytaskID.get(i));
+                        todayobjects.add(temp);
+                        Log.d("Object Name: ", todayobjects.get(i).getBname());
+                        Log.d("Object Debt: ", todayobjects.get(i).getBdebt());
+                    }
+
+                    for (int i = 0; i < upcomingtaskArray.size(); i++) {
+                        BalancesObject temp = new BalancesObject(upcomingtaskArray.get(i), upcomingtaskDate.get(i), upcomingtaskID.get(i));
+                        upcomingobjects.add(temp);
+                        Log.d("Object Name: ", upcomingobjects.get(i).getBname());
+                        Log.d("Object Debt: ", upcomingobjects.get(i).getBdebt());
+                    }
+
 
                     //final List<String> tasksList = new ArrayList<>(Arrays.asList(taskArray));
                     //final ArrayAdapter <String> mtasksAdapter = new ArrayAdapter<>(getActivity(), R.layout.task_list_item,
@@ -91,8 +119,11 @@ public class HomeFragment extends Fragment {
 
                     // Create the ListView Adapter
                     final HomeSeparatedListAdapter adapter = new HomeSeparatedListAdapter(getActivity());
-                    final ArrayAdapter<String> mtasksAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, todaytaskArray);
-                    final ArrayAdapter<String> mupcomingAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, upcomingtaskArray);
+                    //final ArrayAdapter<String> mtasksAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, todaytaskArray);
+                    //final ArrayAdapter<String> mupcomingAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, upcomingtaskArray);
+                    final BalancesAdapter mtasksAdapter = new BalancesAdapter(getActivity(), todayobjects);
+                    final BalancesAdapter mupcomingAdapter = new BalancesAdapter(getActivity(), upcomingobjects);
+
 
                     // Add Sections
 
@@ -115,7 +146,7 @@ public class HomeFragment extends Fragment {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long duration) {
-                            String task_name = (String) adapter.getItem(position);
+                            String task_name = (String) adapter.getItemString(position);
                             Toast.makeText(getActivity(), task_name, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), EditTaskActivity.class);
                             intent.putExtra(Intent.EXTRA_TEXT, task_name);
@@ -143,10 +174,22 @@ public class HomeFragment extends Fragment {
                                         @Override
                                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                             for (int position : reverseSortedPositions) {
-                                                int realPosition = position - adapter.getRealPosition(position);
+                                                //int realPosition = position - adapter.getRealPosition(position);
+                                                //Log.d("Position: ", String.valueOf(position));
+                                                //Log.d("Real Position: ", String.valueOf(realPosition));
+                                                String taskID = (String) adapter.getItemsID(position);
+                                                int number = 0;
+                                                for(int i = 0; i < taskList.size(); i++){
+                                                    if(taskList.get(i).getObjectId().equals(taskID)){
+                                                        number = i;
+                                                        break;
+                                                    }
+                                                }
+
+
                                                 adapter.remove(position);
 
-                                                final ParseObject therota = taskList.get(realPosition).getParseObject("parentRota");
+                                                final ParseObject therota = taskList.get(number).getParseObject("parentRota");
 
                                                 if (therota != null) {
                                                     if (therota.getString("Frequency").equals("When Needed")) {
@@ -183,9 +226,10 @@ public class HomeFragment extends Fragment {
                                                     }
                                                 }
 
+                                                Log.d("Task being removed:", taskList.get(number).getString("Name"));
+                                                taskList.get(number).put("Completed", true);
+                                                taskList.get(number).saveInBackground();
 
-                                                taskList.get(realPosition).put("Completed", true);
-                                                taskList.get(realPosition).saveInBackground();
 
                                             }
                                             adapter.notifyDataSetChanged();

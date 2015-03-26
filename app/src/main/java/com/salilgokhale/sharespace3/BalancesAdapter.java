@@ -29,6 +29,10 @@ public class BalancesAdapter extends BaseAdapter {
         this.context = context;
     }
 
+    public void remove(int position){
+        this.objects.remove(position);
+    }
+
     public int getCount() {
         return objects.size();
     }

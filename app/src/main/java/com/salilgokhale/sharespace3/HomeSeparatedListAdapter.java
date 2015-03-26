@@ -1,6 +1,7 @@
 package com.salilgokhale.sharespace3;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class HomeSeparatedListAdapter extends BaseAdapter {
 
-    public final Map<String, ArrayAdapter> sections = new LinkedHashMap<>();
+    public final Map<String, BalancesAdapter> sections = new LinkedHashMap<>();
     public final ArrayAdapter<String> headers;
     public final static int TYPE_SECTION_HEADER = 0;
 
@@ -24,7 +25,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
         headers = new ArrayAdapter<String>(context, R.layout.home_list_header);
     }
 
-    public void addSection(String section, ArrayAdapter adapter)
+    public void addSection(String section, BalancesAdapter adapter)
     {
         this.headers.add(section);
         this.sections.put(section, adapter);
@@ -33,7 +34,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
     public boolean checkIfHeader(int position){
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
 
             // check if position inside this section
@@ -51,7 +52,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
         int number = 1;
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
 
             // check if position inside this section
@@ -69,7 +70,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
     {
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
 
             // check if position inside this section
@@ -82,21 +83,65 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
         return null;
     }
 
-    public void remove(int position){
+    public Object getItemString(int position)
+    {
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
+
+            // check if position inside this section
+            if (position == 0) return section;
+            if (position < size) return adapter.getItem(position - 1).getBname();
+
+            // otherwise jump into next section
+            position -= size;
+        }
+        return null;
+    }
+
+    public Object getItemsID(int position)
+    {
+        for (Object section : this.sections.keySet())
+        {
+            BalancesAdapter adapter = sections.get(section);
+            int size = adapter.getCount() + 1;
+
+            // check if position inside this section
+            if (position == 0) return section;
+            if (position < size) return adapter.getItem(position - 1).getBObjectID();
+
+            // otherwise jump into next section
+            position -= size;
+        }
+        return null;
+    }
+
+
+    public void remove(int position){
+        int number = 1;
+        Log.d("Initial Position: ", String.valueOf(position));
+        for (Object section : this.sections.keySet())
+        {
+            BalancesAdapter adapter = sections.get(section);
+            int size = adapter.getCount() + 1;
+            Log.d("This adapter's size: ", String.valueOf(size));
 
             // check if position inside this section
             if (position == 0) break;
             if (position < size) {
-                adapter.remove(adapter.getItem(position - 1));
+                //sections.remove(adapter.getItem(position - 1));
+                adapter.remove(position - number);
+                Log.d("Remove Called", "");
                 break;
             }
 
             // otherwise jump into next section
             position -= size;
+            Log.d("Further Position: ", String.valueOf(position));
+            //number++;
+            Log.d("Number: ", String.valueOf(number));
+
         }
 
     }
@@ -105,7 +150,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
     {
         // total together all sections, plus one for each section header
         int total = 0;
-        for (ArrayAdapter adapter : this.sections.values())
+        for (BalancesAdapter adapter : this.sections.values())
             total += adapter.getCount() + 1;
         return total;
     }
@@ -115,7 +160,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
     {
         // assume that headers count as one, then total all sections
         int total = 1;
-        for (ArrayAdapter adapter : this.sections.values())
+        for (BalancesAdapter adapter : this.sections.values())
             total += adapter.getViewTypeCount();
         return total;
     }
@@ -126,7 +171,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
         int type = 1;
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
 
             // check if position inside this section
@@ -157,7 +202,7 @@ public class HomeSeparatedListAdapter extends BaseAdapter {
         int sectionnum = 0;
         for (Object section : this.sections.keySet())
         {
-            ArrayAdapter adapter = sections.get(section);
+            BalancesAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
 
             // check if position inside this section
