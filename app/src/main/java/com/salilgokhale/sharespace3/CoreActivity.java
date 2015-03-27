@@ -19,13 +19,33 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+import com.salilgokhale.sharespace3.TradeTabFragments.TasksFragment;
+import com.salilgokhale.sharespace3.TradeTabFragments.TradeTaskFragments.DataHolderClass;
+import com.salilgokhale.sharespace3.TradeTabFragments.TradeTaskFragments.MyTasksFragment;
 import com.salilgokhale.sharespace3.adapter.NavDrawerListAdapter;
 import com.salilgokhale.sharespace3.model.NavDrawerItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class CoreActivity extends ActionBarActivity {
+public class CoreActivity extends ActionBarActivity{
+        //implements MyTasksFragment.OnTrialInterface{
+
+        /*
+        public void passToMain(List<String> checked) {
+            Log.d("Did pass to main work? ", "Yes");
+            // The user selected the headline of an article from the HeadlinesFragment
+            // Do something here to display that article
+
+            Log.d("Actual Element: ", checked.get(0));
+
+            //Fragment fragment = getSupportFragmentManager().findFragmentB
+            DataHolderClass.getInstance().setDataList(checked);
+
+        } */
+
+
         private DrawerLayout mDrawerLayout;
         private ListView mDrawerList;
         private ActionBarDrawerToggle mDrawerToggle;

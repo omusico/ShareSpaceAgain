@@ -178,10 +178,10 @@ public class HomeFragment extends Fragment {
                                                 //Log.d("Position: ", String.valueOf(position));
                                                 //Log.d("Real Position: ", String.valueOf(realPosition));
                                                 String taskID = (String) adapter.getItemsID(position);
-                                                int number = 0;
+                                                int number2 = 0;
                                                 for(int i = 0; i < taskList.size(); i++){
                                                     if(taskList.get(i).getObjectId().equals(taskID)){
-                                                        number = i;
+                                                        number2 = i;
                                                         break;
                                                     }
                                                 }
@@ -189,7 +189,7 @@ public class HomeFragment extends Fragment {
 
                                                 adapter.remove(position);
 
-                                                final ParseObject therota = taskList.get(number).getParseObject("parentRota");
+                                                final ParseObject therota = taskList.get(number2).getParseObject("parentRota");
 
                                                 if (therota != null) {
                                                     if (therota.getString("Frequency").equals("When Needed")) {
@@ -226,9 +226,9 @@ public class HomeFragment extends Fragment {
                                                     }
                                                 }
 
-                                                Log.d("Task being removed:", taskList.get(number).getString("Name"));
-                                                taskList.get(number).put("Completed", true);
-                                                taskList.get(number).saveInBackground();
+                                                Log.d("Task being removed:", taskList.get(number2).getString("Name"));
+                                                taskList.get(number2).put("Completed", true);
+                                                taskList.get(number2).saveInBackground();
 
 
                                             }

@@ -8,10 +8,18 @@ public class ExpenseObject {
     private String Ename;
     private String Eamount;
     private Boolean locked;
+    private String Eid;
 
     public ExpenseObject(String prop1, String prop2) {
         this.Ename = prop1;
         this.Eamount = prop2;
+        this.locked = false;
+    }
+
+    public ExpenseObject(String prop1, String prop2, String prop3) {
+        this.Ename = prop1;
+        this.Eamount = prop2;
+        this.Eid = prop3;
         this.locked = false;
     }
 
@@ -26,6 +34,8 @@ public class ExpenseObject {
     public String getEamount() {
         return Eamount;
     }
+
+    public String getEid(){ return Eid; }
 
     public Boolean getLocked(){ return locked; }
 

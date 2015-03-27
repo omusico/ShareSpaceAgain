@@ -126,6 +126,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.salilgokhale.sharespace3.ViewBalanceActivity" />
         </activity>
+        <activity
+            android:name=".TradeTabFragments.TradeTaskFragments.ConfirmBidActivity"
+            android:label="@string/title_activity_confirm_bid"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>
