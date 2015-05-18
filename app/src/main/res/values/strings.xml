@@ -73,6 +73,7 @@
     <string name="title_activity_add_new_expense">AddNewExpenseActivity</string>
     <string name="title_activity_settle">SettleActivity</string>
     <string name="title_activity_confirm_bid">ConfirmBidActivity</string>
+    <string name="title_activity_view_bid_offer">ViewBidOfferActivity</string>
 
 
 

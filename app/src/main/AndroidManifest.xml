@@ -134,6 +134,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.salilgokhale.sharespace3.CoreActivity" />
         </activity>
+        <activity
+            android:name=".TradeTabFragments.ViewBidOfferActivity"
+            android:label="@string/title_activity_view_bid_offer"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>

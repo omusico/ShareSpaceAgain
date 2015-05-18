@@ -49,7 +49,7 @@ public class HouseMateTasksFragment extends Fragment {
 
         // Trial
 
-        String data = DataHolderClass.getInstance().getDistributor_id();
+        final String data = DataHolderClass.getInstance().getDistributor_id();
         List<String> dataList = DataHolderClass.getInstance().getDataList();
         if (dataList.size() != 0) {Log.d("MyTask: ", dataList.get(0));}
         Log.d("TabID: ", data);
@@ -121,6 +121,7 @@ public class HouseMateTasksFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), ConfirmBidActivity.class);
                                 intent.putStringArrayListExtra("MyTaskIDs", mytaskids);
                                 intent.putStringArrayListExtra("TheirTaskIDs", theirtaskids);
+                                intent.putExtra("TraderID", data);
 
                                 startActivity(intent);
                             }
