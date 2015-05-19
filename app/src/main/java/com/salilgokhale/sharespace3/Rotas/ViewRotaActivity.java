@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.salilgokhale.sharespace3.MainActivity;
 import com.salilgokhale.sharespace3.R;
 
 import java.util.ArrayList;
@@ -103,14 +104,49 @@ public class ViewRotaActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        // Handle action bar actions click
+        switch (item.getItemId()) {
+            case R.id.action_delete_rota:
+                Intent intent = this.getIntent();
+                String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
+                ParseUser user = ParseUser.getCurrentUser();
 
-        return super.onOptionsItemSelected(item);
+                ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Rota");
+                query4.whereEqualTo("Name", Rota_Name);
+                query4.whereEqualTo("peopleInvolved", user);
+                query4.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(final ParseObject object, ParseException e) {
+                        if (object == null) {
+                            Log.d("Rota:", "Not Found");
+                        }
+                        else {
+                            ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Tasks");
+                            query3.whereEqualTo("parentRota", object);
+                            query3.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> list, ParseException e) {
+                                    for (int i = 0; i < list.size(); i++){
+                                        list.get(i).deleteInBackground();
+                                    }
+                                    object.deleteInBackground();
+
+                                }});
+                        }}});
+                this.finish();
+                return true;
+
+            case R.id.action_logout:
+                Intent logOutIntent = new Intent(this, MainActivity.class);
+                //homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(logOutIntent);
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void changeRotaStatus(View view){
