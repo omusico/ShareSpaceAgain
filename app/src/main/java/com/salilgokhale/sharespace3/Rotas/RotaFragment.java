@@ -17,7 +17,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 // TODO Put in Next Date into the adapter and listview
@@ -57,34 +59,38 @@ public class RotaFragment extends Fragment {
 
 
                     Log.d("Number of Rotas", String.valueOf(number));
-                    String[] rotaArray = new String[number];
-
-                    for (int i = 0; i < number; i++) {
-                        final ParseObject temp_rota = rotaList.get(i);
-                        rotaArray[i] = temp_rota.getString("Name");
-
-                        ParseObject personNext = temp_rota.getParseObject("nextPerson");
-
-                        nextPersonArray.add(personNext.getString("name"));
-
-                        // if (temp_rota.getString("Frequency").equals("When Needed")) {
-
-
-
-
-                       // } else {
-
-
-                       // }
-                    }
-
+                    //String[] rotaArray = new String[number];
                     ArrayList<RotaObject> objects = new ArrayList<>();
 
+
+                    for (int i = 0; i < number; i++) {
+                        RotaObject temp;
+                        final ParseObject temp_rota = rotaList.get(i);
+                        //rotaArray[i] = temp_rota.getString("Name");
+                        String tempName = temp_rota.getString("Name");
+                        String personNext = temp_rota.getParseObject("nextPerson").getString("name");
+
+                        if (!temp_rota.getString("Frequency").equals("When Needed")) {
+                            Date date = (Date) temp_rota.get("nextDate");
+                            SimpleDateFormat formatter = new SimpleDateFormat("d/M");
+                            String nextDate = formatter.format(date);
+                            temp = new RotaObject(tempName, personNext, nextDate);
+
+
+                        } else {
+                            temp = new RotaObject(tempName, personNext, "");
+
+                       }
+                        objects.add(temp);
+                    }
+
+
+                    /*
                     for (int i = 0; i < number; i++) {
                         RotaObject temp = new RotaObject(rotaArray[i], nextPersonArray.get(i));
                         objects.add(temp);
                     }
-
+                    */
 
                     ListView listView = (ListView) rootView.findViewById(R.id.myrotas);
 

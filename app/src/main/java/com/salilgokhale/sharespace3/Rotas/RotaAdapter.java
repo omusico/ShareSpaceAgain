@@ -23,6 +23,7 @@ public class RotaAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView textView1;
         TextView textView2;
+        TextView textView3;
     }
 
     public RotaAdapter(Context context, ArrayList<RotaObject> objects) {
@@ -50,6 +51,7 @@ public class RotaAdapter extends BaseAdapter {
             convertView = this.inflater.inflate(R.layout.rota_list_item, parent, false);
             holder.textView1 = (TextView) convertView.findViewById(R.id.rota_list_item_textview1);
             holder.textView2 = (TextView) convertView.findViewById(R.id.rota_list_item_textview2);
+            holder.textView3 = (TextView) convertView.findViewById(R.id.rota_list_item_textview3);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -57,6 +59,12 @@ public class RotaAdapter extends BaseAdapter {
 
         holder.textView1.setText(objects.get(position).getRname());
         holder.textView2.setText(objects.get(position).getRnextperson());
+        //if (objects.get(position).getRnextdate().equals("")) {
+            holder.textView3.setText(objects.get(position).getRnextdate());
+        //}
+        //else {
+        //    holder.textView3.setText("");
+        //}
         return convertView;
     }
 
