@@ -56,8 +56,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.salilgokhale.sharespace3.Login.DispatchActivity;
 
 /**
  * Shows the user profile. This simple activity can only function when there is a valid

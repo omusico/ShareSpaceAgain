@@ -1,8 +1,6 @@
 package com.salilgokhale.sharespace3;
 
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,14 +17,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import com.salilgokhale.sharespace3.TradeTabFragments.TasksFragment;
-import com.salilgokhale.sharespace3.TradeTabFragments.TradeTaskFragments.DataHolderClass;
-import com.salilgokhale.sharespace3.TradeTabFragments.TradeTaskFragments.MyTasksFragment;
+import com.salilgokhale.sharespace3.Expenses.AddNewExpenseActivity;
+import com.salilgokhale.sharespace3.Expenses.ExpensesFragment;
+import com.salilgokhale.sharespace3.Home.AddNewTaskActivity;
+import com.salilgokhale.sharespace3.Home.HomeFragment;
+import com.salilgokhale.sharespace3.Rotas.AddNewRotaActivity;
+import com.salilgokhale.sharespace3.Rotas.RotaFragment;
+import com.salilgokhale.sharespace3.Rules.RulesFragment;
+import com.salilgokhale.sharespace3.Trade.TradeFragment;
 import com.salilgokhale.sharespace3.adapter.NavDrawerListAdapter;
 import com.salilgokhale.sharespace3.model.NavDrawerItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CoreActivity extends ActionBarActivity{

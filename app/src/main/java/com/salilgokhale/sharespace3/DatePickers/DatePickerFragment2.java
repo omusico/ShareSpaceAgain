@@ -1,0 +1,40 @@
+package com.salilgokhale.sharespace3.DatePickers;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.widget.Button;
+import android.widget.DatePicker;
+
+import com.salilgokhale.sharespace3.R;
+
+import java.util.Calendar;
+
+/**
+ * Created by salilgokhale on 19/03/15.
+ */
+public class DatePickerFragment2 extends DialogFragment
+        implements DatePickerDialog.OnDateSetListener {
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        // Use the current date as the default date in the picker
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        // Create a new instance of DatePickerDialog and return it
+        return new DatePickerDialog(getActivity(), this, year, month, day);
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+
+        String b = "/";
+        String userinput = String.valueOf(day) + b + String.valueOf(month+1) + b + String.valueOf(year);
+        Button DateButton2 = (Button) getActivity().findViewById(R.id.date_button_expense);
+        DateButton2.setText(userinput);
+
+    }
+}
