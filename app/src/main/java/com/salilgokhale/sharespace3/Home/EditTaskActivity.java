@@ -26,6 +26,7 @@ import com.salilgokhale.sharespace3.SpinnerListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 // TODO
@@ -104,6 +105,8 @@ public class EditTaskActivity extends ActionBarActivity {
 
         final EditText et = (EditText) findViewById(R.id.task_name_edit_text2);
         final Button DateButton = (Button) findViewById(R.id.date_button_edit_task);
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        final String userinput = DateButton.getText().toString();
 
         Intent intent = this.getIntent();
         //if(null != intent && intent.hasExtra(Intent.EXTRA_TEXT)){
@@ -126,11 +129,17 @@ public class EditTaskActivity extends ActionBarActivity {
                     Log.d("Task", "object found");
 
                     //Button DateButton = (Button) findViewById(R.id.date_button_edit_task);
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
-                    final String userinput = DateButton.getText().toString();
+
+
                     try {
-                        final Date date = formatter.parse(userinput);
+                        Date date = formatter.parse(userinput);
+                        Calendar calendar = Calendar.getInstance();
+
+                        calendar.setTime(date);
+                        calendar.set(Calendar.HOUR_OF_DAY, 1);
+                        date = calendar.getTime();
+                        final Date date1 = date;
 
                         ParseQuery<ParseUser> query3 = ParseUser.getQuery();
                         query3.whereEqualTo("Home", userHouse);
@@ -140,7 +149,7 @@ public class EditTaskActivity extends ActionBarActivity {
                                 if (userList != null) {
 
                                     object.put("Name", et.getText().toString());
-                                    object.put("dateDue", date);
+                                    object.put("dateDue", date1);
                                     object.put("Owner", userList.get(0));
                                     object.saveInBackground();
 
@@ -170,7 +179,7 @@ public class EditTaskActivity extends ActionBarActivity {
 
     }
 
-    public void showDatePickerDialog(View v) {
+    public void showDatePickerDialog3(View v) {
         DialogFragment newFragment = new DatePickerFragment4();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }

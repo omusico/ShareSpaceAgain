@@ -100,6 +100,12 @@ public class AddNewTaskActivity extends ActionBarActivity {
 
                         Date date = formatter.parse(userinput);
 
+                        Calendar calendar = Calendar.getInstance();
+
+                        calendar.setTime(date);
+                        calendar.set(Calendar.HOUR_OF_DAY, 1);
+                        date = calendar.getTime();
+
                         ParseObject newTask = new ParseObject("Tasks");
                         newTask.put("Name", et.getText().toString());
                         newTask.put("dateDue", date);
