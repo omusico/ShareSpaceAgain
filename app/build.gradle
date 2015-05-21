@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
 
     compile project(':ParseLoginUI')
+    compile project(":extendedCalendarView")
 
 // Uncomment if using Facebook Login
 // compile 'com.facebook.android:facebook-android-sdk:3.21.1'

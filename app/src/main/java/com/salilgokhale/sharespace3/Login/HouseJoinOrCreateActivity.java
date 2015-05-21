@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -47,6 +48,10 @@ public class HouseJoinOrCreateActivity extends Activity {
         user.put("Home", newHouse);
         user.put("Has_House", "true");
         user.saveInBackground();
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("User",ParseUser.getCurrentUser());
+        installation.saveInBackground();
 
         GoToCore();
 
@@ -119,6 +124,9 @@ public class HouseJoinOrCreateActivity extends Activity {
                             }
                     }
 
+                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                    installation.put("User",ParseUser.getCurrentUser());
+                    installation.saveInBackground();
 
                     GoToCore();
 

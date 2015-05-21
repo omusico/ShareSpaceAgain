@@ -13,7 +13,9 @@ import android.widget.ListView;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -184,6 +186,24 @@ public class ViewRotaActivity extends ActionBarActivity {
                         newTask.put("Completed", false);
                         newTask.put("parentRota", object);
                         newTask.saveInBackground();
+
+                        Log.d("Next Person Object ID", object.getParseObject("nextPerson").getObjectId());
+
+                        // TODO Implement cloud function call here to send a push
+
+                        /*// Find users near a given location
+                        ParseQuery userQuery = ParseUser.getQuery();
+                        userQuery.whereEqualTo("objectID", object.getParseObject("nextPerson").getObjectId());
+
+                        // Find devices associated with these users
+                        ParseQuery pushQuery = ParseInstallation.getQuery();
+                        pushQuery.whereMatchesQuery("User", userQuery);
+
+                        // Send push notification to query
+                        ParsePush push = new ParsePush();
+                        push.setQuery(pushQuery); // Set our Installation query
+                        push.setMessage(Rota_Name);
+                        push.sendInBackground(); */
 
                         object.put("Due", true);
                         object.saveInBackground();

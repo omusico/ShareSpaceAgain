@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.Expenses.AddNewExpenseActivity;
 import com.salilgokhale.sharespace3.Expenses.ExpensesFragment;
 import com.salilgokhale.sharespace3.Home.AddNewTaskActivity;
@@ -69,6 +71,11 @@ public class CoreActivity extends ActionBarActivity{
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_core);
+
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("User", ParseUser.getCurrentUser());
+            installation.saveInBackground();
+
 
             //mTitle = mDrawerTitle = getTitle();
               mTitle = mDrawerTitle = "ShareSpace";
