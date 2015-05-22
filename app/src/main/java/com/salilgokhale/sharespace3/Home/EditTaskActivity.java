@@ -19,8 +19,10 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragment;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragment4;
+import com.salilgokhale.sharespace3.MainActivity;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
 
@@ -91,14 +93,15 @@ public class EditTaskActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void editTask(View view){
@@ -151,7 +154,16 @@ public class EditTaskActivity extends ActionBarActivity {
                                     object.put("Name", et.getText().toString());
                                     object.put("dateDue", date1);
                                     object.put("Owner", userList.get(0));
-                                    object.saveInBackground();
+                                    object.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(com.parse.ParseException e) {
+                                            if (e == null) {
+                                                CloseActivity();
+                                            } else {
+                                                Log.d("Save: ", "Failed");
+                                            }
+                                        }
+                                    });
 
                                     Log.d("Date:", userinput);
 
@@ -170,10 +182,6 @@ public class EditTaskActivity extends ActionBarActivity {
                         }
                     }
         });
-
-
-
-    this.finish();
 
 
 
@@ -218,6 +226,10 @@ public class EditTaskActivity extends ActionBarActivity {
                 }
             }});
 
+    }
+
+    public void CloseActivity(){
+        this.finish();
     }
 
 }

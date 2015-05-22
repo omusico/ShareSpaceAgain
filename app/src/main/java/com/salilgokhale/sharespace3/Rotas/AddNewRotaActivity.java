@@ -23,6 +23,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
 
@@ -77,14 +78,15 @@ public class AddNewRotaActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -130,7 +132,16 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             }
                         }
                         newRota.put("Due", false);
-                        newRota.saveInBackground();
+                        newRota.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(com.parse.ParseException e) {
+                                if (e == null) {
+                                    CloseActivity();
+                                } else {
+                                    Log.d("Save: ", "Failed");
+                                }
+                            }
+                        });
                     }
 
                     else {
@@ -162,7 +173,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             e2.printStackTrace();
                         }
 
-                        newRota.saveInBackground();
+                        //newRota.saveInBackground();
                         int number = rotaparticipants.size();
                         int i = 0;
                         boolean firstTime = true;
@@ -183,7 +194,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     if(firstTime){
                                         newRota.put("nextPerson", rotaparticipants.get(i%number));
                                         newRota.put("nextDate", date);
-                                        newRota.saveInBackground();
+                                        //newRota.saveInBackground();
                                         firstTime = false;
                                     }
                                     c1.add(Calendar.DATE, 7);
@@ -204,7 +215,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     if(firstTime){
                                         newRota.put("nextPerson", rotaparticipants.get(i%number));
                                         newRota.put("nextDate", c1.getTime());
-                                        newRota.saveInBackground();
+                                        //newRota.saveInBackground();
                                         firstTime = false;
                                     }
                                     c1.add(Calendar.DATE, 14);
@@ -224,7 +235,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     if(firstTime){
                                         newRota.put("nextPerson", rotaparticipants.get(i%number));
                                         newRota.put("nextDate", c1.getTime());
-                                        newRota.saveInBackground();
+                                        //newRota.saveInBackground();
                                         firstTime = false;
                                     }
                                     c1.add(Calendar.DATE, 21);
@@ -244,7 +255,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     if(firstTime){
                                         newRota.put("nextPerson", rotaparticipants.get(i%number));
                                         newRota.put("nextDate", c1.getTime());
-                                        newRota.saveInBackground();
+                                        //newRota.saveInBackground();
                                         firstTime = false;
                                     }
                                     c1.add(Calendar.DATE, 28);
@@ -264,7 +275,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                     if(firstTime){
                                         newRota.put("nextPerson", rotaparticipants.get(i%number));
                                         newRota.put("nextDate", c1.getTime());
-                                        newRota.saveInBackground();
+                                        //newRota.saveInBackground();
                                         firstTime = false;
                                     }
                                     c1.add(Calendar.MONTH, 1);
@@ -274,14 +285,21 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             default:
                                 break;
                         }
+                        newRota.saveInBackground(new SaveCallback() {
+                                                     @Override
+                                                     public void done(com.parse.ParseException e) {
+                                                         if (e == null){
+                                                             CloseActivity();
+                                                         }
+                                                     }
+                                                 });
+
 
                     }
 
 
 
                 }}});
-
-        this.finish();
     }
 
     public void addCheckBoxItems() {
@@ -432,5 +450,8 @@ public class AddNewRotaActivity extends ActionBarActivity {
         }
     };
 
+    public void CloseActivity(){
+        this.finish();
+    }
 
 }

@@ -277,7 +277,7 @@ public class CoreActivity extends ActionBarActivity{
 
     public void addNewRota(View view){
 
-        getSupportFragmentManager().beginTransaction().addToBackStack("My_Fragment").commit();
+        //getSupportFragmentManager().beginTransaction().addToBackStack("My_Fragment").commit();
 
         Intent intent = new Intent(this, AddNewRotaActivity.class);
         startActivity(intent);

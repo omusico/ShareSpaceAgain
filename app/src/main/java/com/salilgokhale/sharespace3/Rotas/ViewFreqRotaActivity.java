@@ -16,6 +16,7 @@ import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -171,14 +172,21 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                                     for (int i = 0; i < list.size(); i++) {
                                         list.get(i).deleteInBackground();
                                     }
-                                    object.deleteInBackground();
+                                    object.deleteInBackground(new DeleteCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null){
+                                                CloseActivity();
+                                            }
+                                        }
+                                    });
 
                                 }
                             });
                         }
                     }
                 });
-                this.finish();
+
                 return true;
 
             case R.id.action_logout:
@@ -188,10 +196,17 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                 return true;
             case R.id.action_settings:
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    public void CloseActivity(){
+        this.finish();
     }
 }
 

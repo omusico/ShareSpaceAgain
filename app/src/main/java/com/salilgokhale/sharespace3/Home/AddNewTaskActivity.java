@@ -1,6 +1,7 @@
 package com.salilgokhale.sharespace3.Home;
 
 
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragment;
+import com.salilgokhale.sharespace3.MainActivity;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
 
@@ -68,14 +70,15 @@ public class AddNewTaskActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void createNewTask(View view) {

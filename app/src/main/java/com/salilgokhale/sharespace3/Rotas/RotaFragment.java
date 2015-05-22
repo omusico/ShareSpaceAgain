@@ -41,7 +41,7 @@ public class RotaFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_rota, container, false);
 
         // Retrieve rotas that User belongs to
-
+/*
 
 
         final ParseUser user = ParseUser.getCurrentUser();
@@ -83,7 +83,7 @@ public class RotaFragment extends Fragment {
                        }
                         objects.add(temp);
                     }
-
+*/
 
                     /*
                     for (int i = 0; i < number; i++) {
@@ -91,7 +91,7 @@ public class RotaFragment extends Fragment {
                         objects.add(temp);
                     }
                     */
-
+/*
                     ListView listView = (ListView) rootView.findViewById(R.id.myrotas);
 
                     final RotaAdapter rotaAdapter = new RotaAdapter(getActivity(), objects);
@@ -121,7 +121,7 @@ public class RotaFragment extends Fragment {
              //   }
            // }
         //});
-
+*/
         return rootView;
     }
 
