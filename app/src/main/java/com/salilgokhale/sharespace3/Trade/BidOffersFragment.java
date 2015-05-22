@@ -16,6 +16,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.Trade.TradeTaskFragments.ConfirmBidActivity;
+import com.salilgokhale.sharespace3.Trade.TradeTaskFragments.ViewSubmittedBidActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class BidOffersFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long duration) {
 
                         String id = bidAdapter.getItem(position).getBObjectID();
-                        Intent intent = new Intent(getActivity(), ConfirmBidActivity.class);
+                        Intent intent = new Intent(getActivity(), ViewSubmittedBidActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT, id);
                         startActivity(intent);
                     }

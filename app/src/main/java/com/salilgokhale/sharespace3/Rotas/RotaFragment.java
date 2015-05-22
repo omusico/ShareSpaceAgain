@@ -157,16 +157,17 @@ public class RotaFragment extends Fragment {
                         //rotaArray[i] = temp_rota.getString("Name");
                         String tempName = temp_rota.getString("Name");
                         String personNext = temp_rota.getParseObject("nextPerson").getString("name");
+                        String tempID = temp_rota.getObjectId();
 
                         if (!temp_rota.getString("Frequency").equals("When Needed")) {
                             Date date = (Date) temp_rota.get("nextDate");
                             SimpleDateFormat formatter = new SimpleDateFormat("d/M");
                             String nextDate = formatter.format(date);
-                            temp = new RotaObject(tempName, personNext, nextDate);
+                            temp = new RotaObject(tempName, personNext, nextDate, tempID);
 
 
                         } else {
-                            temp = new RotaObject(tempName, personNext, "");
+                            temp = new RotaObject(tempName, personNext, "", tempID);
 
                         }
                         objects.add(temp);
@@ -188,14 +189,14 @@ public class RotaFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            String rota_name = rotaAdapter.getItem(position).getRname();
+                            String rota_id = rotaAdapter.getItem(position).getRid();
                             if (rotaList.get(position).getString("Frequency").equals("When Needed")) {
                                 Intent intent = new Intent(getActivity(), ViewRotaActivity.class);
-                                intent.putExtra(Intent.EXTRA_TEXT, rota_name);
+                                intent.putExtra(Intent.EXTRA_TEXT, rota_id);
                                 startActivity(intent);
                             } else {
                                 Intent intent = new Intent(getActivity(), ViewFreqRotaActivity.class);
-                                intent.putExtra(Intent.EXTRA_TEXT, rota_name);
+                                intent.putExtra(Intent.EXTRA_TEXT, rota_id);
                                 startActivity(intent);
                             }
                         }

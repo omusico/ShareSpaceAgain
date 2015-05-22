@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseObject;
@@ -24,6 +25,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.salilgokhale.sharespace3.DatePickers.DatePickerFragmentRotaE;
+import com.salilgokhale.sharespace3.DatePickers.DatePickerFragmentRotaS;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
 
@@ -43,16 +46,10 @@ public class AddNewRotaActivity extends ActionBarActivity {
     private Spinner spinner;
     private Button StartDateButton;
     private Button EndDateButton;
-    static final int START_DATE_DIALOG_ID = 1;
-    static final int END_DATE_DIALOG_ID2 = 2;
-    int cur = 0;
 
     private int year;
     private int month;
     private int day;
-    private int year2;
-    private int month2;
-    private int day2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
         addCheckBoxItems();
         addSpinnerItems();
         setDateItems();
-        addListenerOnDateItems();
+
     }
 
 
@@ -150,15 +147,17 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             if (feature.isChecked()) {
                                 rotaparticipants.add(userList.get(i));
                                 relation.add(userList.get(i));
-                                }
                             }
+                        }
 
                         final String start_date = StartDateButton.getText().toString();
                         final String end_date = EndDateButton.getText().toString();
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Calendar c0 = Calendar.getInstance();
                         Calendar c1 = Calendar.getInstance();
                         Calendar c2 = Calendar.getInstance();
                         try {
+                            c0.add(Calendar.DATE, -1);
                             c1.setTime(sdf.parse(start_date));
                             c1.add(Calendar.HOUR, 1);
                             c2.setTime(sdf.parse(end_date));
@@ -173,130 +172,142 @@ public class AddNewRotaActivity extends ActionBarActivity {
                             e2.printStackTrace();
                         }
 
-                        //newRota.saveInBackground();
-                        int number = rotaparticipants.size();
-                        int i = 0;
-                        boolean firstTime = true;
-                        switch (Frequency){
-                            case "Every 1 Week":
+                        if (c1.before(c2) && c0.before(c1)) {
 
-                                while (c1.before(c2) || c1.equals(c2)){
+                            //newRota.saveInBackground();
+                            int number = rotaparticipants.size();
+                            int i = 0;
+                            boolean firstTime = true;
+                            switch (Frequency) {
+                                case "Every 1 Week":
 
-                                    Log.d("Iteration", "of calendar");
-                                    Date date = c1.getTime();
-                                    ParseObject temp = new ParseObject("Tasks");
-                                    temp.put("Name", rota_name);
-                                    temp.put("Owner", rotaparticipants.get(i%number));
-                                    temp.put("dateDue", date);
-                                    temp.put("parentRota", newRota);
-                                    temp.put("Completed", false);
-                                    temp.saveInBackground();
-                                    if(firstTime){
-                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
-                                        newRota.put("nextDate", date);
-                                        //newRota.saveInBackground();
-                                        firstTime = false;
-                                    }
-                                    c1.add(Calendar.DATE, 7);
-                                    i++;
-                                }
+                                    while (c1.before(c2) || c1.equals(c2)) {
 
-                                break;
-                            case "Every 2 Weeks":
-                                while (c1.before(c2) || c1.equals(c2)){
-                                    Log.d("Iteration", "of calendar");
-                                    ParseObject temp = new ParseObject("Tasks");
-                                    temp.put("Name", rota_name);
-                                    temp.put("Owner", rotaparticipants.get(i%number));
-                                    temp.put("dateDue", c1.getTime());
-                                    temp.put("parentRota", newRota);
-                                    temp.put("Completed", false);
-                                    temp.saveInBackground();
-                                    if(firstTime){
-                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
-                                        newRota.put("nextDate", c1.getTime());
-                                        //newRota.saveInBackground();
-                                        firstTime = false;
+                                        Log.d("Iteration", "of calendar");
+                                        Date date = c1.getTime();
+                                        ParseObject temp = new ParseObject("Tasks");
+                                        temp.put("Name", rota_name);
+                                        temp.put("Owner", rotaparticipants.get(i % number));
+                                        temp.put("dateDue", date);
+                                        temp.put("parentRota", newRota);
+                                        temp.put("Completed", false);
+                                        temp.saveInBackground();
+                                        if (firstTime) {
+                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                            newRota.put("nextDate", date);
+                                            //newRota.saveInBackground();
+                                            firstTime = false;
+                                        }
+                                        c1.add(Calendar.DATE, 7);
+                                        i++;
                                     }
-                                    c1.add(Calendar.DATE, 14);
-                                    i++;
-                                }
-                                break;
-                            case "Every 3 Weeks":
-                                while (c1.before(c2) || c1.equals(c2)){
-                                    Log.d("Iteration", "of calendar");
-                                    ParseObject temp = new ParseObject("Tasks");
-                                    temp.put("Name", rota_name);
-                                    temp.put("Owner", rotaparticipants.get(i%number));
-                                    temp.put("dateDue", c1.getTime());
-                                    temp.put("parentRota", newRota);
-                                    temp.put("Completed", false);
-                                    temp.saveInBackground();
-                                    if(firstTime){
-                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
-                                        newRota.put("nextDate", c1.getTime());
-                                        //newRota.saveInBackground();
-                                        firstTime = false;
+
+                                    break;
+                                case "Every 2 Weeks":
+                                    while (c1.before(c2) || c1.equals(c2)) {
+                                        Log.d("Iteration", "of calendar");
+                                        ParseObject temp = new ParseObject("Tasks");
+                                        temp.put("Name", rota_name);
+                                        temp.put("Owner", rotaparticipants.get(i % number));
+                                        temp.put("dateDue", c1.getTime());
+                                        temp.put("parentRota", newRota);
+                                        temp.put("Completed", false);
+                                        temp.saveInBackground();
+                                        if (firstTime) {
+                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                            newRota.put("nextDate", c1.getTime());
+                                            //newRota.saveInBackground();
+                                            firstTime = false;
+                                        }
+                                        c1.add(Calendar.DATE, 14);
+                                        i++;
                                     }
-                                    c1.add(Calendar.DATE, 21);
-                                    i++;
-                                }
-                                break;
-                            case "Every 4 Weeks":
-                                while (c1.before(c2) || c1.equals(c2)){
-                                    Log.d("Iteration", "of calendar");
-                                    ParseObject temp = new ParseObject("Tasks");
-                                    temp.put("Name", rota_name);
-                                    temp.put("Owner", rotaparticipants.get(i%number));
-                                    temp.put("dateDue", c1.getTime());
-                                    temp.put("parentRota", newRota);
-                                    temp.put("Completed", false);
-                                    temp.saveInBackground();
-                                    if(firstTime){
-                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
-                                        newRota.put("nextDate", c1.getTime());
-                                        //newRota.saveInBackground();
-                                        firstTime = false;
+                                    break;
+                                case "Every 3 Weeks":
+                                    while (c1.before(c2) || c1.equals(c2)) {
+                                        Log.d("Iteration", "of calendar");
+                                        ParseObject temp = new ParseObject("Tasks");
+                                        temp.put("Name", rota_name);
+                                        temp.put("Owner", rotaparticipants.get(i % number));
+                                        temp.put("dateDue", c1.getTime());
+                                        temp.put("parentRota", newRota);
+                                        temp.put("Completed", false);
+                                        temp.saveInBackground();
+                                        if (firstTime) {
+                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                            newRota.put("nextDate", c1.getTime());
+                                            //newRota.saveInBackground();
+                                            firstTime = false;
+                                        }
+                                        c1.add(Calendar.DATE, 21);
+                                        i++;
                                     }
-                                    c1.add(Calendar.DATE, 28);
-                                    i++;
-                                }
-                                break;
-                            case "Monthly":
-                                while (c1.before(c2) || c1.equals(c2)){
-                                    Log.d("Iteration", "of calendar");
-                                    ParseObject temp = new ParseObject("Tasks");
-                                    temp.put("Name", rota_name);
-                                    temp.put("Owner", rotaparticipants.get(i%number));
-                                    temp.put("dateDue", c1.getTime());
-                                    temp.put("parentRota", newRota);
-                                    temp.put("Completed", false);
-                                    temp.saveInBackground();
-                                    if(firstTime){
-                                        newRota.put("nextPerson", rotaparticipants.get(i%number));
-                                        newRota.put("nextDate", c1.getTime());
-                                        //newRota.saveInBackground();
-                                        firstTime = false;
+                                    break;
+                                case "Every 4 Weeks":
+                                    while (c1.before(c2) || c1.equals(c2)) {
+                                        Log.d("Iteration", "of calendar");
+                                        ParseObject temp = new ParseObject("Tasks");
+                                        temp.put("Name", rota_name);
+                                        temp.put("Owner", rotaparticipants.get(i % number));
+                                        temp.put("dateDue", c1.getTime());
+                                        temp.put("parentRota", newRota);
+                                        temp.put("Completed", false);
+                                        temp.saveInBackground();
+                                        if (firstTime) {
+                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                            newRota.put("nextDate", c1.getTime());
+                                            //newRota.saveInBackground();
+                                            firstTime = false;
+                                        }
+                                        c1.add(Calendar.DATE, 28);
+                                        i++;
                                     }
-                                    c1.add(Calendar.MONTH, 1);
-                                    i++;
+                                    break;
+                                case "Monthly":
+                                    while (c1.before(c2) || c1.equals(c2)) {
+                                        Log.d("Iteration", "of calendar");
+                                        ParseObject temp = new ParseObject("Tasks");
+                                        temp.put("Name", rota_name);
+                                        temp.put("Owner", rotaparticipants.get(i % number));
+                                        temp.put("dateDue", c1.getTime());
+                                        temp.put("parentRota", newRota);
+                                        temp.put("Completed", false);
+                                        temp.saveInBackground();
+                                        if (firstTime) {
+                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                            newRota.put("nextDate", c1.getTime());
+                                            //newRota.saveInBackground();
+                                            firstTime = false;
+                                        }
+                                        c1.add(Calendar.MONTH, 1);
+                                        i++;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            newRota.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    if (e == null) {
+                                        CloseActivity();
+                                    }
                                 }
-                                break;
-                            default:
-                                break;
+                            });
+
+
                         }
-                        newRota.saveInBackground(new SaveCallback() {
-                                                     @Override
-                                                     public void done(com.parse.ParseException e) {
-                                                         if (e == null){
-                                                             CloseActivity();
-                                                         }
-                                                     }
-                                                 });
-
-
+                        else {
+                            if (!c1.before(c2)){
+                                Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be after End Date", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                            else if(!c0.before(c1)) {
+                                Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be in past", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                        }
                     }
-
 
 
                 }}});
@@ -356,12 +367,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
         final Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
-        year2 = c.get(Calendar.YEAR);
+        //year2 = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
-        month2 = c.get(Calendar.MONTH);
+        //month2 = c.get(Calendar.MONTH);
         int temp_month = month + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
-        day2 = c.get(Calendar.DAY_OF_MONTH);
+        //day2 = c.get(Calendar.DAY_OF_MONTH);
         //month++;                // Added because month is zero based
         String b = "/";
         String currentDate = String.valueOf(day) + b + String.valueOf(temp_month) + b + String.valueOf(year);
@@ -371,84 +382,15 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
     }
 
-    public void addListenerOnDateItems() {
-        StartDateButton = (Button) findViewById(R.id.start_date_button_rota);
-        EndDateButton = (Button) findViewById(R.id.end_date_button_rota);
-
-        StartDateButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showDialog(START_DATE_DIALOG_ID);
-            }
-
-        });
-        EndDateButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showDialog(END_DATE_DIALOG_ID2);
-            }
-        });
+    public void showRotaStartDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragmentRotaS();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-
-            case START_DATE_DIALOG_ID:
-                System.out.println("onCreateDialog  : " + id);
-                cur = START_DATE_DIALOG_ID;
-                // set date picker as current date
-                return new DatePickerDialog(this, datePickerListener, year, month,
-                        day);
-            case END_DATE_DIALOG_ID2:
-                cur = END_DATE_DIALOG_ID2;
-                System.out.println("onCreateDialog2  : " + id);
-                // set date picker as current date
-                return new DatePickerDialog(this, datePickerListener, year2, month2,
-                        day2);
-
-        }
-        return null;
+    public void showRotaEndDatePickerDialog(View v1) {
+        DialogFragment newFragment2 = new DatePickerFragmentRotaE();
+        newFragment2.show(getSupportFragmentManager(), "datePicker");
     }
-
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-
-        // when dialog box is closed, below method will be called.
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-
-            StartDateButton = (Button) findViewById(R.id.start_date_button_rota);
-            EndDateButton = (Button) findViewById(R.id.end_date_button_rota);
-
-
-            if(cur == START_DATE_DIALOG_ID){
-                // set selected date into textview
-                year = selectedYear;
-                month = selectedMonth;
-                int temp_month2 = month + 1;
-                day = selectedDay;
-                Log.d("onDateSet:", "start date");
-                String b = "/";
-                String Date = String.valueOf(day) + b + String.valueOf(temp_month2) + b + String.valueOf(year);
-
-                StartDateButton.setText(Date);
-
-            }
-            else{
-                year2 = selectedYear;
-                month2 = selectedMonth;
-                int temp_month2 = month2 + 1;
-                day2 = selectedDay;
-                Log.d("onDateSet:", "end date");
-                String b = "/";
-                String Date = String.valueOf(day2) + b + String.valueOf(temp_month2) + b + String.valueOf(year2);
-                EndDateButton.setText(Date);
-            }
-
-        }
-    };
 
     public void CloseActivity(){
         this.finish();

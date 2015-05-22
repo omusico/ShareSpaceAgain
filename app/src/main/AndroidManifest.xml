@@ -17,21 +17,21 @@
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
-    <permission android:protectionLevel="signature"
-        android:name="com.salilgokhale.sharespace3.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.salilgokhale.sharespace3.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.salilgokhale.sharespace3.permission.C2D_MESSAGE" />
 
-
     <!-- ************ -->
-
     <application
         xmlns:tools="http://schemas.android.com/tools"
         android:name=".GlobalApplication"
         android:allowBackup="true"
-        tools:replace="android:icon,android:theme"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme" >
         <activity
             android:name=".Login.DispatchActivity"
             android:label="@string/app_name"
@@ -167,29 +167,30 @@
         <!-- Push Notification declarations -->
 
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.salilgokhale.sharespace3.Receiver"
-            android:exported="false">
+        <receiver
+            android:name=".Receiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <!--
-                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
-                -->
+<!--                   IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.salilgokhale.sharespace3" />
             </intent-filter>
         </receiver>
@@ -197,6 +198,15 @@
         <provider
             android:name="com.tyczj.extendedcalendarview.CalendarProvider"
             android:authorities="com.tyczj.extendedcalendarview.calendarprovider" />
+
+        <activity
+            android:name=".Trade.TradeTaskFragments.ViewSubmittedBidActivity"
+            android:label="@string/title_activity_view_submitted_bid"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -74,6 +74,7 @@
     <string name="title_activity_settle">SettleActivity</string>
     <string name="title_activity_confirm_bid">ConfirmBidActivity</string>
     <string name="title_activity_view_bid_offer">ViewBidOfferActivity</string>
+    <string name="title_activity_view_submitted_bid">ViewSubmittedBidActivity</string>
 
 
 

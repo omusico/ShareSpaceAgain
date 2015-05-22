@@ -44,9 +44,9 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = this.getIntent();
-        final String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
-        String Title = Rota_Name + " Rota";
-        getSupportActionBar().setTitle(Title);
+        final String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
+        //String Title = Rota_Name + " Rota";
+        //getSupportActionBar().setTitle(Title);
 
         final ParseUser user = ParseUser.getCurrentUser();
         ParseObject userhouse = user.getParseObject("Home");
@@ -58,7 +58,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
             public void done(final List<ParseUser> parseUsers, ParseException e) {
 
                 ParseQuery<ParseObject> innerquery = ParseQuery.getQuery("Rota");
-                innerquery.whereEqualTo("Name", Rota_Name);
+                innerquery.whereEqualTo("objectId", Rota_ID);
                 innerquery.whereEqualTo("peopleInvolved", user);
                 ParseQuery<ParseObject> outerquery = ParseQuery.getQuery("Tasks");
                 outerquery.whereMatchesQuery("parentRota", innerquery);
@@ -153,11 +153,11 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_delete_freq_rota:
                 Intent intent = this.getIntent();
-                String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
+                String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
                 ParseUser user = ParseUser.getCurrentUser();
 
                 ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Rota");
-                query4.whereEqualTo("Name", Rota_Name);
+                query4.whereEqualTo("objectId", Rota_ID);
                 query4.whereEqualTo("peopleInvolved", user);
                 query4.getFirstInBackground(new GetCallback<ParseObject>() {
                     public void done(final ParseObject object, ParseException e) {

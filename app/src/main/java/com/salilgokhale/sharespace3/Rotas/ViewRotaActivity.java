@@ -24,6 +24,7 @@ import com.salilgokhale.sharespace3.MainActivity;
 import com.salilgokhale.sharespace3.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,14 +37,14 @@ public class ViewRotaActivity extends ActionBarActivity {
         setContentView(R.layout.activity_view_rota);
 
         Intent intent = this.getIntent();
-        String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
-        String Title = Rota_Name + " Rota";
-        getSupportActionBar().setTitle(Title);
+        String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
+        //String Title = Rota_Name + " Rota";
+        //getSupportActionBar().setTitle(Title);
 
         ParseUser user = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
-        query.whereEqualTo("Name", Rota_Name);
+        query.whereEqualTo("objectId", Rota_ID);
         query.whereEqualTo("peopleInvolved", user);
         query.include("nextPerson");
         query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -113,11 +114,11 @@ public class ViewRotaActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_delete_rota:
                 Intent intent = this.getIntent();
-                String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
+                String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
                 ParseUser user = ParseUser.getCurrentUser();
 
                 ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Rota");
-                query4.whereEqualTo("Name", Rota_Name);
+                query4.whereEqualTo("objectId", Rota_ID);
                 query4.whereEqualTo("peopleInvolved", user);
                 query4.getFirstInBackground(new GetCallback<ParseObject>() {
                     public void done(final ParseObject object, ParseException e) {
@@ -166,10 +167,10 @@ public class ViewRotaActivity extends ActionBarActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
         Intent intent = this.getIntent();
-        final String Rota_Name = intent.getStringExtra(Intent.EXTRA_TEXT);
+        final String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
-        query.whereEqualTo("Name", Rota_Name);
+        query.whereEqualTo("objectId", Rota_ID);
         query.whereEqualTo("peopleInvolved", user);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
@@ -185,11 +186,16 @@ public class ViewRotaActivity extends ActionBarActivity {
                     }
                     else{
                         DueButton.setBackgroundColor(0xffff0000);
-                        Date date = new Date();
+
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.MINUTE, 0);
+                        calendar.set(Calendar.HOUR_OF_DAY, 1);
+                        Date date = calendar.getTime();
 
                         ParseObject newTask = new ParseObject("Tasks");
 
-                        newTask.put("Name", Rota_Name);
+                        newTask.put("Name", object.getString("Name"));
                         newTask.put("dateDue", date);
 
 
