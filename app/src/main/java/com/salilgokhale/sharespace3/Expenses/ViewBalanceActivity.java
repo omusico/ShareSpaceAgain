@@ -12,7 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,6 +24,7 @@ import com.salilgokhale.sharespace3.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -54,11 +57,16 @@ public class ViewBalanceActivity extends ActionBarActivity {
                     String title;
                     String debt;
                     Number tempamount = object.getNumber("Amount");
-                    Float amount = tempamount.floatValue();
+                    final Float amount = tempamount.floatValue();
                     final Direction direction;
+                    final boolean path;
+                    final String secondname;
 
                     if(object.getString("Name1").equals(user.getString("name"))){
                         title = "Account with " + object.getString("Name2");
+                        path = false;
+                        secondname = object.getString("Name2");
+
                         if (amount > 0){
                             debt = "£" + String.format("%.2f", amount) + " to be paid";
                             direction = Direction.USEROWED;
@@ -78,6 +86,8 @@ public class ViewBalanceActivity extends ActionBarActivity {
                     }
                     else{
                         title = "Account with " + object.getString("Name1");
+                        path = true;
+                        secondname = object.getString("Name1");
 
                         if (amount < 0){
                             debt = "£" + String.format("%.2f", Math.abs(amount)) + " to be paid";
@@ -207,6 +217,34 @@ public class ViewBalanceActivity extends ActionBarActivity {
                                                 extras.putString("OweExpenseID", oweexpenseid);
                                                 intent.putExtras(extras);
                                                 startActivity(intent);
+                                            }
+                                        }
+                                    });
+
+                                    final Button button1 = (Button) findViewById(R.id.remind_button);
+                                    button1.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            if ((path && (amount < 0)) || (!path && (amount > 0)) ) {
+
+                                                HashMap<String, Object> params = new HashMap<String, Object>();
+                                                params.put("owed", user.getString("name"));
+                                                params.put("ower", user.getString("name"));
+                                                params.put("amount", String.format("%.2f", Math.abs(amount)));
+
+                                                ParseCloud.callFunctionInBackground("OweReminder", params, new FunctionCallback<String>() {
+                                                    public void done(String result, ParseException e) {
+                                                        if (e == null) {
+                                                            // result is "Hello world!"
+                                                            Log.d("Result is: ", result);
+                                                        }
+                                                    }
+                                                });
+
+                                            }
+                                            else {
+                                                Log.d("No Amount", " Owed.");
                                             }
                                         }
                                     });
