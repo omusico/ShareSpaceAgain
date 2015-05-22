@@ -191,7 +191,7 @@ public class CoreActivity extends ActionBarActivity{
         if (fragment != null) {
             getSupportFragmentManager()
                 .beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+                    .replace(R.id.frame_container, fragment, "My_Fragment").commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -270,11 +270,15 @@ public class CoreActivity extends ActionBarActivity{
     /* Add new task button function to take to new activity */
 
     public void addNewTask(View view){
+
         Intent intent = new Intent(this, AddNewTaskActivity.class);
         startActivity(intent);
     }
 
     public void addNewRota(View view){
+
+        getSupportFragmentManager().beginTransaction().addToBackStack("My_Fragment").commit();
+
         Intent intent = new Intent(this, AddNewRotaActivity.class);
         startActivity(intent);
     }

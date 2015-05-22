@@ -17,6 +17,7 @@ import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragment;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
@@ -114,7 +115,16 @@ public class AddNewTaskActivity extends ActionBarActivity {
                         newTask.put("Owner", userList.get(0));
                         newTask.put("Completed", false);
 
-                        newTask.saveInBackground();
+                        newTask.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(com.parse.ParseException e) {
+                                if (e == null) {
+                                    CloseActivity();
+                                } else {
+                                    Log.d("Save: ", "Failed");
+                                }
+                            }
+                        });
 
 
 
@@ -129,7 +139,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
             }
         });
 
-        this.finish();
+        //this.finish();
     }
 
     public void showDatePickerDialog(View v) {
@@ -173,4 +183,9 @@ public class AddNewTaskActivity extends ActionBarActivity {
 
         }
 
+    public void CloseActivity(){
+        this.finish();
     }
+
+    }
+
