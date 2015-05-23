@@ -11,7 +11,8 @@
         android:minHeight="48dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:textSize="18sp">
+        android:textColor="@color/black"
+        style="@style/ListItemTextStyle">
 
     </TextView>
 
@@ -22,7 +23,7 @@
         android:minHeight="48dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:textSize="18sp"
+        style="@style/ListItemTextStyle"
         android:gravity="center">
 
     </TextView>

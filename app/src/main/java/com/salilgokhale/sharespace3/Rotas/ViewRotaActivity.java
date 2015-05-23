@@ -12,7 +12,9 @@ import android.widget.ListView;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -26,6 +28,7 @@ import com.salilgokhale.sharespace3.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -204,23 +207,20 @@ public class ViewRotaActivity extends ActionBarActivity {
                         newTask.put("parentRota", object);
                         newTask.saveInBackground();
 
+                        HashMap<String, Object> params = new HashMap<String, Object>();
+                        params.put("owner", object.getParseObject("nextPerson").getObjectId());
+                        params.put("taskname", object.getString("Name"));
+
+                        ParseCloud.callFunctionInBackground("TaskReminder", params, new FunctionCallback<String>() {
+                            public void done(String result, ParseException e) {
+                                if (e == null) {
+                                    // result is "Hello world!"
+                                    Log.d("Result is: ", result);
+                                }
+                            }
+                        });
+
                         Log.d("Next Person Object ID", object.getParseObject("nextPerson").getObjectId());
-
-                        // TODO Implement cloud function call here to send a push
-
-                        /*// Find users near a given location
-                        ParseQuery userQuery = ParseUser.getQuery();
-                        userQuery.whereEqualTo("objectID", object.getParseObject("nextPerson").getObjectId());
-
-                        // Find devices associated with these users
-                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                        pushQuery.whereMatchesQuery("User", userQuery);
-
-                        // Send push notification to query
-                        ParsePush push = new ParsePush();
-                        push.setQuery(pushQuery); // Set our Installation query
-                        push.setMessage(Rota_Name);
-                        push.sendInBackground(); */
 
                         object.put("Due", true);
                         object.saveInBackground();

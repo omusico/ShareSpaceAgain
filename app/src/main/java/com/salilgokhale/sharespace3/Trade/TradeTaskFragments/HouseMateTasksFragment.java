@@ -110,20 +110,27 @@ public class HouseMateTasksFragment extends Fragment {
 
                                 }
 
+                                if(theirtaskids.size() != 0) {
 
 
-                                ArrayList<String> mytaskids = new ArrayList<String>();
-                                mytaskids.addAll(DataHolderClass.getInstance().getDataList());
+                                    ArrayList<String> mytaskids = new ArrayList<String>();
+                                    mytaskids.addAll(DataHolderClass.getInstance().getDataList());
 
-                                Intent intent = new Intent(getActivity(), ConfirmBidActivity.class);
-                                intent.putStringArrayListExtra("MyTaskIDs", mytaskids);
-                                intent.putStringArrayListExtra("TheirTaskIDs", theirtaskids);
-                                intent.putExtra("TraderID", data);
+                                    Intent intent = new Intent(getActivity(), ConfirmBidActivity.class);
+                                    intent.putStringArrayListExtra("MyTaskIDs", mytaskids);
+                                    intent.putStringArrayListExtra("TheirTaskIDs", theirtaskids);
+                                    intent.putExtra("TraderID", data);
 
-                                startActivity(intent);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast toast = Toast.makeText(getActivity(), "Please Select A Mate's Task To Trade With", Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+
                             }
                             else{
-                                Toast toast = Toast.makeText(getActivity(), "No my tasks selected", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(getActivity(), "Please Select At Least One Of Your Tasks", Toast.LENGTH_LONG);
                                 toast.show();
                             }
 

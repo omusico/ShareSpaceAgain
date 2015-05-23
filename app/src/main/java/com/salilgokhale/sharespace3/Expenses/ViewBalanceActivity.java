@@ -230,7 +230,8 @@ public class ViewBalanceActivity extends ActionBarActivity {
 
                                                 HashMap<String, Object> params = new HashMap<String, Object>();
                                                 params.put("owed", user.getString("name"));
-                                                params.put("ower", user.getString("name"));
+                                                //params.put("ower", user.getObjectId());
+                                                params.put("ower", OtherUser.getObjectId());
                                                 params.put("amount", String.format("%.2f", Math.abs(amount)));
 
                                                 ParseCloud.callFunctionInBackground("OweReminder", params, new FunctionCallback<String>() {

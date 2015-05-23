@@ -39,6 +39,7 @@ public class ExpenseLogFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ExpenseLog");
         query.whereEqualTo("House", userHouse);
+        query.orderByDescending("Date");
         query.include("Payer");
         query.include("SettlementPayee");
         query.findInBackground(new FindCallback<ParseObject>() {

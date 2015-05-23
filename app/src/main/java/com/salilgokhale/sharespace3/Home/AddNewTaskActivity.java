@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseObject;
@@ -91,58 +92,76 @@ public class AddNewTaskActivity extends ActionBarActivity {
 
         String Owner = String.valueOf(spinner.getSelectedItem());
 
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject userHouse = user.getParseObject("Home");
-
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("Home", userHouse);
-        query.whereEqualTo("name", Owner);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> userList, com.parse.ParseException e) {
-                if (userList != null) {
-                    try {
-
-                        Date date = formatter.parse(userinput);
-
-                        Calendar calendar = Calendar.getInstance();
-
-                        calendar.setTime(date);
-                        calendar.set(Calendar.HOUR_OF_DAY, 1);
-                        date = calendar.getTime();
-
-                        ParseObject newTask = new ParseObject("Tasks");
-                        newTask.put("Name", et.getText().toString());
-                        newTask.put("dateDue", date);
+        try {
 
 
-                        newTask.put("Owner", userList.get(0));
-                        newTask.put("Completed", false);
+            Date date1 = formatter.parse(userinput);
 
-                        newTask.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(com.parse.ParseException e) {
-                                if (e == null) {
-                                    CloseActivity();
-                                } else {
-                                    Log.d("Save: ", "Failed");
+            Calendar calendar = Calendar.getInstance();
+            Calendar c0 = Calendar.getInstance();
+            c0.add(Calendar.DATE, -1);
+            calendar.setTime(date1);
+            calendar.set(Calendar.HOUR_OF_DAY, 1);
+            final Date date = calendar.getTime();
+
+            if (c0.before(calendar) && !et.getText().toString().equals("")) {
+
+
+                ParseUser user = ParseUser.getCurrentUser();
+                ParseObject userHouse = user.getParseObject("Home");
+
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("Home", userHouse);
+                query.whereEqualTo("name", Owner);
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                        if (userList != null) {
+
+
+                            ParseObject newTask = new ParseObject("Tasks");
+                            newTask.put("Name", et.getText().toString());
+                            newTask.put("dateDue", date);
+
+
+                            newTask.put("Owner", userList.get(0));
+                            newTask.put("Completed", false);
+
+                            newTask.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    if (e == null) {
+                                        CloseActivity();
+                                    } else {
+                                        Log.d("Save: ", "Failed");
+                                    }
                                 }
-                            }
-                        });
+                            });
 
 
+                            Log.d("Date:", userinput);
 
-                        Log.d("Date:", userinput);
 
-                    } catch (ParseException e2) {
-                        e2.printStackTrace();
-                        Log.d("Date:", "Error");
+                        }
                     }
+                });
 
+            }
+            else
+            {
+                if (!c0.before(calendar)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Date can't be in past", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Task must have name", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
-        });
+        }   catch (ParseException e2) {
+            e2.printStackTrace();
+            Log.d("Date:", "Error");
+        }
 
-        //this.finish();
     }
 
     public void showDatePickerDialog(View v) {

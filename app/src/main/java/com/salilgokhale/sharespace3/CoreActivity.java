@@ -9,6 +9,8 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,7 +77,7 @@ public class CoreActivity extends ActionBarActivity{
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             installation.put("User", ParseUser.getCurrentUser());
             installation.saveInBackground();
-
+            getSupportActionBar().setElevation(0);
 
             //mTitle = mDrawerTitle = getTitle();
               mTitle = mDrawerTitle = "ShareSpace";
@@ -124,13 +126,15 @@ public class CoreActivity extends ActionBarActivity{
                     R.string.app_name // nav drawer close - description for accessibility
             ){
                 public void onDrawerClosed(View view) {
-                    getSupportActionBar().setTitle(mTitle);
+                    //getSupportActionBar().setTitle(mTitle);
+                    setTitle(mTitle);
                     // calling onPrepareOptionsMenu() to show action bar icons
                     invalidateOptionsMenu();
                 }
 
                 public void onDrawerOpened(View drawerView) {
-                    getSupportActionBar().setTitle(mDrawerTitle);
+                    setTitle(mDrawerTitle);
+                    //getSupportActionBar().setTitle(mDrawerTitle);
                     // calling onPrepareOptionsMenu() to hide action bar icons
                     invalidateOptionsMenu();
                 }
@@ -244,6 +248,15 @@ public class CoreActivity extends ActionBarActivity{
 
         @Override
         public void setTitle(CharSequence title) {
+
+            //SpannableString s = new SpannableString(title);
+            //s.setSpan(new TypefaceSpan(this, "MyriadPro-Light.otf"), 0, s.length(),
+              //      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            // Update the action bar title with the TypefaceSpan instance
+            //ActionBar actionBar = getActionBar();
+            //actionBar.setTitle(s);
+
             mTitle = title;
             getSupportActionBar().setTitle(mTitle);
         }

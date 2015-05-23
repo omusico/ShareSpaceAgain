@@ -38,11 +38,11 @@ public final class R {
     }
     public static final class id {
         public static int imageView1=0x7f080003;
-        public static int imageView2=0x7f080005;
-        public static int imageView3=0x7f080006;
+        public static int imageView2=0x7f080007;
+        public static int imageView3=0x7f080008;
         public static int imageView4=0x7f080004;
-        public static int imageView5=0x7f080007;
-        public static int imageView6=0x7f080008;
+        public static int imageView5=0x7f080005;
+        public static int imageView6=0x7f080006;
         public static int rl=0x7f080001;
         public static int textView1=0x7f080000;
         public static int today_frame=0x7f080002;

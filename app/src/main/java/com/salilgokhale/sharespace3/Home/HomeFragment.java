@@ -353,10 +353,10 @@ public class HomeFragment extends Fragment {
                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long duration) {
-                            String task_name = (String) adapter.getItemString(position);
-                            Toast.makeText(getActivity(), task_name, Toast.LENGTH_SHORT).show();
+                            String task_id = (String) adapter.getItemsID(position);
+                            Toast.makeText(getActivity(), task_id, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), EditTaskActivity.class);
-                            intent.putExtra(Intent.EXTRA_TEXT, task_name);
+                            intent.putExtra(Intent.EXTRA_TEXT, task_id);
                             startActivity(intent);
                         }
                     });

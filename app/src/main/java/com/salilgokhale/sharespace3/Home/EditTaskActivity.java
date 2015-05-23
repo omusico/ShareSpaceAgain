@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -44,18 +45,18 @@ public class EditTaskActivity extends ActionBarActivity {
         setContentView(R.layout.activity_edit_task);
         getSupportActionBar().setTitle("Edit Task");
 
-        EditText et = (EditText) findViewById(R.id.task_name_edit_text2);
+        final EditText et = (EditText) findViewById(R.id.task_name_edit_text2);
         final Button DateButton = (Button) findViewById(R.id.date_button_edit_task);
 
         ParseUser user = ParseUser.getCurrentUser();
 
         Intent intent = this.getIntent();
-        String tasknamestr = intent.getStringExtra(Intent.EXTRA_TEXT);
-        et.setText(tasknamestr);
+        String taskid = intent.getStringExtra(Intent.EXTRA_TEXT);
+        //et.setText(tasknamestr);
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Tasks");
-        query1.whereEqualTo("Name", tasknamestr);
-        query1.whereEqualTo("Owner", user);
+        query1.whereEqualTo("objectId", taskid);
+        //query1.whereEqualTo("Owner", user);
         query1.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (object == null) {
@@ -67,6 +68,7 @@ public class EditTaskActivity extends ActionBarActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String taskdate = formatter.format(date);
 
+                    et.setText(object.getString("Name"));
 
                     DateButton.setText(taskdate);
 
@@ -113,7 +115,7 @@ public class EditTaskActivity extends ActionBarActivity {
 
         Intent intent = this.getIntent();
         //if(null != intent && intent.hasExtra(Intent.EXTRA_TEXT)){
-        String previoustaskname = intent.getStringExtra(Intent.EXTRA_TEXT);
+        String taskid = intent.getStringExtra(Intent.EXTRA_TEXT);
         //}
 
         final String Owner = String.valueOf(spinner.getSelectedItem());
@@ -121,67 +123,80 @@ public class EditTaskActivity extends ActionBarActivity {
         ParseUser user = ParseUser.getCurrentUser();
         final ParseObject userHouse = user.getParseObject("Home");
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
-        query.whereEqualTo("Name", previoustaskname);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(final ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("Task", "No object found");
+        try {
+            Date date = formatter.parse(userinput);
+            Calendar calendar = Calendar.getInstance();
+            Calendar c0 = Calendar.getInstance();
+            c0.add(Calendar.DATE, -1);
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 1);
+            date = calendar.getTime();
+            final Date date1 = date;
 
-                } else {
-                    Log.d("Task", "object found");
-
-                    //Button DateButton = (Button) findViewById(R.id.date_button_edit_task);
+            if(c0.before(calendar) && !et.getText().toString().equals("")) {
 
 
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
+                query.whereEqualTo("objectId", taskid);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(final ParseObject object, ParseException e) {
+                        if (object == null) {
+                            Log.d("Task", "No object found");
 
-                    try {
-                        Date date = formatter.parse(userinput);
-                        Calendar calendar = Calendar.getInstance();
+                        } else {
+                            Log.d("Task", "object found");
 
-                        calendar.setTime(date);
-                        calendar.set(Calendar.HOUR_OF_DAY, 1);
-                        date = calendar.getTime();
-                        final Date date1 = date;
+                            //Button DateButton = (Button) findViewById(R.id.date_button_edit_task);
 
-                        ParseQuery<ParseUser> query3 = ParseUser.getQuery();
-                        query3.whereEqualTo("Home", userHouse);
-                        query3.whereEqualTo("name", Owner);
-                        query3.findInBackground(new FindCallback<ParseUser>() {
-                            public void done(List<ParseUser> userList, com.parse.ParseException e) {
-                                if (userList != null) {
 
-                                    object.put("Name", et.getText().toString());
-                                    object.put("dateDue", date1);
-                                    object.put("Owner", userList.get(0));
-                                    object.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(com.parse.ParseException e) {
-                                            if (e == null) {
-                                                CloseActivity();
-                                            } else {
-                                                Log.d("Save: ", "Failed");
+                            ParseQuery<ParseUser> query3 = ParseUser.getQuery();
+                            query3.whereEqualTo("Home", userHouse);
+                            query3.whereEqualTo("name", Owner);
+                            query3.findInBackground(new FindCallback<ParseUser>() {
+                                public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                                    if (userList != null) {
+
+                                        object.put("Name", et.getText().toString());
+                                        object.put("dateDue", date1);
+                                        object.put("Owner", userList.get(0));
+                                        object.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(com.parse.ParseException e) {
+                                                if (e == null) {
+                                                    CloseActivity();
+                                                } else {
+                                                    Log.d("Save: ", "Failed");
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
 
-                                    Log.d("Date:", userinput);
+                                        Log.d("Date:", userinput);
 
-                                }}});
+                                    }
+                                }
+                            });
 
-                            }
 
-                            catch(
-                            java.text.ParseException e1
-                            )
-
-                            {
-                                e.printStackTrace();
-                                Log.d("Date:", "Error");
-                            }
                         }
                     }
-        });
+                });
+            }
+            else {
+                if (!c0.before(calendar)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Date can't be in past", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Task must have name", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        }
+
+        catch(java.text.ParseException e1){
+            e1.printStackTrace();
+            Log.d("Date:", "Error");
+        }
 
 
 

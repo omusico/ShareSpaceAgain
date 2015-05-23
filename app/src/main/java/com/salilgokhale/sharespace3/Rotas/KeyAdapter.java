@@ -62,22 +62,22 @@ public class KeyAdapter extends BaseAdapter {
         holder.textView.setText(Names.get(position));
         switch (Colours.get(position)){
             case 5:
-                holder.imageView.setImageResource(R.drawable.green);
+                holder.imageView.setImageResource(R.drawable.green_app);
                 break;
             case 4:
-                holder.imageView.setImageResource(R.drawable.purple);
+                holder.imageView.setImageResource(R.drawable.purple_app);
                 break;
             case 3:
-                holder.imageView.setImageResource(R.drawable.orange);
+                holder.imageView.setImageResource(R.drawable.orange_app);
                 break;
             case 2:
-                holder.imageView.setImageResource(R.drawable.blue);
+                holder.imageView.setImageResource(R.drawable.blue_app);
                 break;
             case 1:
-                holder.imageView.setImageResource(R.drawable.red);
+                holder.imageView.setImageResource(R.drawable.red_app);
                 break;
             default:
-                holder.imageView.setImageResource(R.drawable.green);
+                holder.imageView.setImageResource(R.drawable.green_app);
         }
 
         return convertView;
