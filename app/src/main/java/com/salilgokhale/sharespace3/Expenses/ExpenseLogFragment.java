@@ -54,7 +54,7 @@ public class ExpenseLogFragment extends Fragment {
 
                         titles.add(ExpenseLogList.get(i).getString("Title"));
 
-                        values.add(String.valueOf(ExpenseLogList.get(i).getNumber("Amount")));
+                        values.add("£" + String.valueOf(ExpenseLogList.get(i).getNumber("Amount")));
                         //Log.d("Payer name: ", payers.get(i));
                         DateFormat df = new SimpleDateFormat("d/M/yy");
                         String date = df.format(ExpenseLogList.get(i).getDate("Date"));

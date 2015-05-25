@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,72 +12,68 @@
         android:paddingBottom="16dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create New Rota"/>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Add_Form_Style">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task Name:"/>
+                android:text="Rota Name:"
+                android:hint="E.g. Empty Bins"
+                android:textColorHint="@color/ListItemText"
+                style="@style/ListItemTextStyle"/>
             <EditText
                 android:id="@+id/rota_name_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                style="@style/Edit_Text_Style"/>
         </LinearLayout>
 
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Add_Form_Style">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Frequency:"/>
+                android:text="Frequency:"
+                style="@style/ListItemTextStyle"/>
             <Spinner
                 android:id="@+id/rota_frequency_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Add_Form_Style">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Rota Members:"/>
+                android:layout_weight="1"
+                android:text="Rota Members:"
+                style="@style/ListItemTextStyle"/>
             <LinearLayout
                 android:id="@+id/rota_members_checkboxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_alignParentRight="true">
+                >
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Add_Form_Style">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start Date:"/>
+                android:text="Start Date:"
+                style="@style/ListItemTextStyle"/>
             <Button
                 android:id="@+id/start_date_button_rota"
                 android:layout_width="wrap_content"
@@ -88,14 +85,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Add_Form_Style"
+            android:paddingTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="End Date:"/>
+                android:text="End Date:"
+                style="@style/ListItemTextStyle"/>
             <Button
                 android:id="@+id/end_date_button_rota"
                 android:layout_width="wrap_content"

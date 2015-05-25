@@ -9,9 +9,11 @@
         android:id="@+id/home_list_header_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingTop="2dip"
         android:paddingBottom="2dip"
         android:paddingLeft="5dip"
+        android:textColor="#BDBDBD"
         style="?android:attr/listSeparatorTextViewStyle" />
 <!--
 </LinearLayout> -->

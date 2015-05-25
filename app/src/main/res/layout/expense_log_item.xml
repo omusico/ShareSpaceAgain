@@ -10,7 +10,7 @@
         android:minHeight="48dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:textSize="18sp"
+        style="@style/ListItemTextStyle"
         android:layout_gravity="left">
 
     </TextView>
@@ -25,13 +25,15 @@
             android:id="@+id/log_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            style="@style/ListItemTextStyle"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:gravity="center"/>
         <TextView
             android:id="@+id/log_payer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            style="@style/ListItemTextStyle"
             android:textSize="12sp"
             android:textColor="@color/counter_text_bg"
             android:gravity="center"/>
@@ -45,7 +47,7 @@
         android:minHeight="48dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:textSize="18sp"
+        style="@style/ListItemTextStyle"
         android:layout_gravity="right"
         android:gravity="right">
 

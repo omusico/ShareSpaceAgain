@@ -41,6 +41,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_task);
+        getSupportActionBar().setTitle("Add New Task");
 
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -196,8 +197,8 @@ public class AddNewTaskActivity extends ActionBarActivity {
                     }
 
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_spinner_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            R.layout.spinner_item, list);
+                    dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
                     }

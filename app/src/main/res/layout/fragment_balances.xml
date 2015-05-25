@@ -36,13 +36,7 @@
 
     <ListView
         android:id="@+id/myoweexpenses"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@drawable/list_selector"
-        android:background="@android:color/white"/>
+        style="@style/ListView_Style"/>
 
         <ImageButton
             android:id="@+id/fab_image_button"

@@ -4,19 +4,94 @@
     android:layout_height="match_parent"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        android:background="@color/white">
+
+       <!-- <TextView
+            android:text="NAME"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_weight="1"
+            android:gravity="center"/> -->
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:text="Name"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="2dip"
+            android:paddingBottom="2dip"
+            android:paddingLeft="16dp"
+            android:textColor="#BDBDBD"
+            style="?android:attr/listSeparatorTextViewStyle" />
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:text="Next Date"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="2dip"
+            android:paddingBottom="2dip"
+            android:paddingLeft="5dip"
+            android:textColor="#BDBDBD"
+            style="?android:attr/listSeparatorTextViewStyle" />
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:text="Next Person"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="2dip"
+            android:paddingBottom="2dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="16dp"
+            android:textColor="#BDBDBD"
+            style="?android:attr/listSeparatorTextViewStyle" />
+
+        <!--<TextView
+            android:text="NEXT DATE"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:text="NEXT PERSON"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_weight="1"
+            android:gravity="center"/>-->
+
+
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/myrotas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@drawable/list_selector"
-        android:background="@android:color/white"/>
+        style="@style/ListView_Style"/>
 
         <ImageButton
             android:id="@+id/fab_image_button"

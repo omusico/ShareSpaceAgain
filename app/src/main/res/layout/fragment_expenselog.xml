@@ -3,14 +3,58 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        android:background="@color/white">
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Date"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:paddingLeft="5dip"
+        android:textColor="#BDBDBD"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Log"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:paddingLeft="5dip"
+        android:textColor="#BDBDBD"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Amount"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:paddingLeft="5dip"
+        android:textColor="#BDBDBD"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
+        </LinearLayout>
+
     <ListView
         android:id="@+id/expense_logs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@drawable/list_selector"
-        android:background="@android:color/white"/>
+        style="@style/ListView_Style"
+        android:listSelector="@null"/>
 
 
 

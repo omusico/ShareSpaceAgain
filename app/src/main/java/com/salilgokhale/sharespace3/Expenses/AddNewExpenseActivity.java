@@ -45,6 +45,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_expense);
+        getSupportActionBar().setTitle("Add New Expense");
 
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -114,8 +115,8 @@ public class AddNewExpenseActivity extends ActionBarActivity {
                     }
 
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_spinner_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            R.layout.spinner_item, list);
+                    dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
                 }
@@ -297,149 +298,147 @@ public void createNewExpense(View view){
     final ListView listView = (ListView) findViewById(R.id.checkboxes);
     final String userinput = DateButton.getText().toString();
 
-
-    ParseUser user = ParseUser.getCurrentUser();
-    final ParseObject userHouse = user.getParseObject("Home");
-
-    ParseQuery<ParseUser> query = ParseUser.getQuery();
-    query.whereEqualTo("Home", userHouse);
-    query.findInBackground(new FindCallback<ParseUser>() {
-        public void done(List<ParseUser> userList, com.parse.ParseException e) {
-            if (userList != null) {
-                try {
-                    Log.d("No. of Users: ", String.valueOf(userList.size()));
-
-                    final Date date = formatter.parse(userinput);
-                    final List<ParseUser> peopleSplit = new ArrayList<>();
-                    final List<Float> amountSplit = new ArrayList<>();
-
-                    final ParseObject newExpense = new ParseObject("ExpenseLog");
-                    newExpense.put("Title", title_et.getText().toString());
-                    newExpense.put("Amount", Float.valueOf(amount_et.getText().toString()));
-                    newExpense.put("Date", date);
-                    newExpense.put("House", userHouse);
-
-
-                    float total = Float.valueOf(amount_et.getText().toString());
-                    float runningtotal2 = 0.0f;
-                    int payer_id = 0;
-
-                    for (int i = 0; i <userList.size(); i++){
-
-                        CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.expense_checkbox);
-                        EditText et = (EditText) listView.getChildAt(i).findViewById(R.id.checkbox_amount);
-                        if (cBox1.isChecked() && (!et.getText().toString().equals(""))){
-                            float number = Float.valueOf(et.getText().toString());
-                            runningtotal2 += number;
-                            peopleSplit.add(userList.get(i));
-                            amountSplit.add(number);
-                        }
-
-
-                        if(userList.get(i).getString("name").equals(Payer) && cBox1.isChecked()){
-                            newExpense.put("Payer", userList.get(i));
-                            payer_id = i;
-                        }
-
-                    }
-
-                    if (runningtotal2 > total){
-                        Toast toast = Toast.makeText(getApplicationContext(), "Sum > Total", Toast.LENGTH_LONG);
-                        toast.show();
-
-                    }
-                    else {
-                        newExpense.put("peopleSplit", peopleSplit);
-                        newExpense.put("amountSplit", amountSplit);
-
-
-                        final ParseUser temp_payer = userList.get(payer_id);
-
-                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("OweExpense");
-                        query2.whereEqualTo("OwnerArray", temp_payer);
-                        query2.findInBackground(new FindCallback<ParseObject>() {
-                                public void done(final List<ParseObject> OweExpenseList, com.parse.ParseException e3) {
-                                    Log.d("Entered Query for ", "Owe Expenses");
-                                    if (OweExpenseList != null) {
-                                        Log.d("peopleSplit size: ", String.valueOf(peopleSplit.size()));
-                                        Log.d("No. OweExpenses:", String.valueOf(OweExpenseList.size()));
-
-                                        for (int i = 0; i < peopleSplit.size(); i++){
-                                            Log.d("Iteration of people: ", String.valueOf(i));
-                                            if (!peopleSplit.get(i).getObjectId().equals(temp_payer.getObjectId())){
-                                                Log.d("Iteration inside: ", String.valueOf(i));
-                                                for(int j = 0; j < OweExpenseList.size(); j++){
-                                                    Log.d("Iteration OweExpense", String.valueOf(j));
-
-                                                    if (peopleSplit.get(i).getString("name").equals(OweExpenseList.get(j).getString("Name1"))){
-                                                        Log.d("Hit number: ", String.valueOf(i));
-                                                        Number tempValue = OweExpenseList.get(j).getNumber("Amount");
-                                                        Float Value = tempValue.floatValue();
-                                                        Value += -amountSplit.get(i);
-                                                        Log.d("Value", String.valueOf(Value));
-                                                        OweExpenseList.get(j).put("Amount", Value);
-                                                        OweExpenseList.get(j).saveInBackground();
-                                                    }
-                                                    else if(peopleSplit.get(i).getString("name").equals(OweExpenseList.get(j).getString("Name2"))){
-                                                        Log.d("Hit number: ", String.valueOf(i));
-                                                        Number tempValue = OweExpenseList.get(j).getNumber("Amount");
-                                                        Float Value = tempValue.floatValue();
-                                                        Value += amountSplit.get(i);
-                                                        Log.d("Value", String.valueOf(Value));
-                                                        OweExpenseList.get(j).put("Amount", Value);
-                                                        OweExpenseList.get(j).saveInBackground();
-                                                    }
-
-
-                                                }
-
-
-
-
-
-                                            }
-                                        }
-                                        newExpense.saveInBackground(new SaveCallback() {
-                                                                        @Override
-                                                                        public void done(com.parse.ParseException e) {
-                                                                            if (e == null){
-                                                                                closeactivity();
-                                                                            }
-                                                                        }
-                                                                    });
-
-                                    }
-
-                                }
-                            }
-                        );
-
-
-
-
-
-
-                    }
-
-
-
-
-
-                }
-                catch (ParseException e2) {
-                    e2.printStackTrace();
-                    Log.d("Date:", "Error");
-                }
-
-
-
-
-
-            }
-        }
+    if(title_et.getText().toString().equals("")){
+        Toast toast = Toast.makeText(getApplicationContext(), "Expense must have name", Toast.LENGTH_LONG);
+        toast.show();
     }
-    );
+    else if(Float.valueOf(amount_et.getText().toString()) == 0 || Float.valueOf(amount_et.getText().toString()).equals("")){
+        Toast toast = Toast.makeText(getApplicationContext(), "Expense must have amount", Toast.LENGTH_LONG);
+        toast.show();
+    }
+    else {
 
+        ParseUser user = ParseUser.getCurrentUser();
+        final ParseObject userHouse = user.getParseObject("Home");
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Home", userHouse);
+        query.findInBackground(new FindCallback<ParseUser>() {
+                                   public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                                       if (userList != null) {
+                                           try {
+                                               Log.d("No. of Users: ", String.valueOf(userList.size()));
+
+                                               final Date date = formatter.parse(userinput);
+                                               final List<ParseUser> peopleSplit = new ArrayList<>();
+                                               final List<Float> amountSplit = new ArrayList<>();
+
+                                               final ParseObject newExpense = new ParseObject("ExpenseLog");
+                                               newExpense.put("Title", title_et.getText().toString());
+                                               newExpense.put("Amount", Float.valueOf(amount_et.getText().toString()));
+                                               newExpense.put("Date", date);
+                                               newExpense.put("House", userHouse);
+                                               newExpense.put("Settlement", false);
+
+                                               float total = Float.valueOf(amount_et.getText().toString());
+                                               float runningtotal2 = 0.0f;
+                                               int payer_id = 0;
+
+                                               for (int i = 0; i < userList.size(); i++) {
+
+                                                   CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.expense_checkbox);
+                                                   EditText et = (EditText) listView.getChildAt(i).findViewById(R.id.checkbox_amount);
+                                                   if (cBox1.isChecked() && (!et.getText().toString().equals(""))) {
+                                                       float number = Float.valueOf(et.getText().toString());
+                                                       runningtotal2 += number;
+                                                       peopleSplit.add(userList.get(i));
+                                                       amountSplit.add(number);
+                                                   }
+
+
+                                                   if (userList.get(i).getString("name").equals(Payer) && cBox1.isChecked()) {
+                                                       newExpense.put("Payer", userList.get(i));
+                                                       payer_id = i;
+                                                   }
+
+                                               }
+
+                                               if (runningtotal2 > total) {
+                                                   Toast toast = Toast.makeText(getApplicationContext(), "Sum > Total", Toast.LENGTH_LONG);
+                                                   toast.show();
+
+                                               }
+                                               else if (runningtotal2 < total){
+                                                   Toast toast = Toast.makeText(getApplicationContext(), "Sum < Total", Toast.LENGTH_LONG);
+                                                   toast.show();
+
+                                               } else {
+                                                   newExpense.put("peopleSplit", peopleSplit);
+                                                   newExpense.put("amountSplit", amountSplit);
+
+
+                                                   final ParseUser temp_payer = userList.get(payer_id);
+
+                                                   ParseQuery<ParseObject> query2 = ParseQuery.getQuery("OweExpense");
+                                                   query2.whereEqualTo("OwnerArray", temp_payer);
+                                                   query2.findInBackground(new FindCallback<ParseObject>() {
+                                                                               public void done(final List<ParseObject> OweExpenseList, com.parse.ParseException e3) {
+                                                                                   Log.d("Entered Query for ", "Owe Expenses");
+                                                                                   if (OweExpenseList != null) {
+                                                                                       Log.d("peopleSplit size: ", String.valueOf(peopleSplit.size()));
+                                                                                       Log.d("No. OweExpenses:", String.valueOf(OweExpenseList.size()));
+
+                                                                                       for (int i = 0; i < peopleSplit.size(); i++) {
+                                                                                           Log.d("Iteration of people: ", String.valueOf(i));
+                                                                                           if (!peopleSplit.get(i).getObjectId().equals(temp_payer.getObjectId())) {
+                                                                                               Log.d("Iteration inside: ", String.valueOf(i));
+                                                                                               for (int j = 0; j < OweExpenseList.size(); j++) {
+                                                                                                   Log.d("Iteration OweExpense", String.valueOf(j));
+
+                                                                                                   if (peopleSplit.get(i).getString("name").equals(OweExpenseList.get(j).getString("Name1"))) {
+                                                                                                       Log.d("Hit number: ", String.valueOf(i));
+                                                                                                       Number tempValue = OweExpenseList.get(j).getNumber("Amount");
+                                                                                                       Float Value = tempValue.floatValue();
+                                                                                                       Value += -amountSplit.get(i);
+                                                                                                       Log.d("Value", String.valueOf(Value));
+                                                                                                       OweExpenseList.get(j).put("Amount", Value);
+                                                                                                       OweExpenseList.get(j).saveInBackground();
+                                                                                                   } else if (peopleSplit.get(i).getString("name").equals(OweExpenseList.get(j).getString("Name2"))) {
+                                                                                                       Log.d("Hit number: ", String.valueOf(i));
+                                                                                                       Number tempValue = OweExpenseList.get(j).getNumber("Amount");
+                                                                                                       Float Value = tempValue.floatValue();
+                                                                                                       Value += amountSplit.get(i);
+                                                                                                       Log.d("Value", String.valueOf(Value));
+                                                                                                       OweExpenseList.get(j).put("Amount", Value);
+                                                                                                       OweExpenseList.get(j).saveInBackground();
+                                                                                                   }
+
+
+                                                                                               }
+
+
+                                                                                           }
+                                                                                       }
+                                                                                       newExpense.saveInBackground(new SaveCallback() {
+                                                                                           @Override
+                                                                                           public void done(com.parse.ParseException e) {
+                                                                                               if (e == null) {
+                                                                                                   closeactivity();
+                                                                                               }
+                                                                                           }
+                                                                                       });
+
+                                                                                   }
+
+                                                                               }
+                                                                           }
+                                                   );
+
+
+                                               }
+
+
+                                           } catch (ParseException e2) {
+                                               e2.printStackTrace();
+                                               Log.d("Date:", "Error");
+                                           }
+
+
+                                       }
+                                   }
+                               }
+        );
+    }
 
 }
     public void closeactivity(){

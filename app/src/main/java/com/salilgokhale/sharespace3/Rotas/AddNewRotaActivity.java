@@ -55,6 +55,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_rota);
+        getSupportActionBar().setTitle("Add New Rota");
 
         addCheckBoxItems();
         addSpinnerItems();
@@ -336,6 +337,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                         Log.d("User Name:", userList.get(i).getString("name"));
 
                         CheckBox feature = new CheckBox(getApplicationContext());
+                        feature.setTextColor(getApplication().getResources().getColor(R.color.black));
                         feature.setText(userList.get(i).getString("name"));
                         feature.setId(i);
                         featuresTable.addView(feature);
@@ -353,8 +355,8 @@ public class AddNewRotaActivity extends ActionBarActivity {
         final List<String> frequencyList = new ArrayList<>(Arrays.asList(frequency_items));
 
         ArrayAdapter<String> freqAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, frequencyList);
-        freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item, frequencyList);
+        freqAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(freqAdapter);
         spinner.setOnItemSelectedListener(new SpinnerListener());
 

@@ -301,4 +301,10 @@ public class CoreActivity extends ActionBarActivity{
         startActivity(intent);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        getSupportActionBar().setTitle("ShareSpace");
+    }
+
 }

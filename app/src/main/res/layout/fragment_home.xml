@@ -9,12 +9,7 @@
 
     <ListView
         android:id="@+id/mytasks"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="0.75dp"
-        android:divider="@color/light_grey"
-        android:listSelector="@drawable/list_selector"
-        android:background="@android:color/white"/>
+        style="@style/ListView_Style"/>
 
         <ImageButton
             android:id="@+id/fab_image_button"

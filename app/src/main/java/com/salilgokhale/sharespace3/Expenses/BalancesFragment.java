@@ -177,6 +177,7 @@ public class BalancesFragment extends Fragment {
 
                         List<String> Debtors = new ArrayList<>();
                         List<String> Debts = new ArrayList<>();
+                        List<BalancesObject.ColourStatus> Colours = new ArrayList<>();
                         Float ToPay = 0.0f;
                         Float ToBePaid = 0.0f;
 
@@ -195,11 +196,14 @@ public class BalancesFragment extends Fragment {
                                 if (amount > 0) {
                                     debt = "£" + String.format("%.2f", amount) + " to be paid";
                                     ToBePaid += amount;
+                                    Colours.add(BalancesObject.ColourStatus.GREEN);
                                 } else if (amount < 0) {
                                     debt = "£" + String.format("%.2f", Math.abs(amount)) + " to pay";
                                     ToPay += amount;
+                                    Colours.add(BalancesObject.ColourStatus.RED);
                                 } else {
                                     debt = "Even";
+                                    Colours.add(BalancesObject.ColourStatus.NEUTRAL);
                                 }
 
                             } else {
@@ -209,11 +213,14 @@ public class BalancesFragment extends Fragment {
                                 if (amount < 0) {
                                     debt = "£" + String.format("%.2f", Math.abs(amount)) + " to be paid";
                                     ToBePaid += amount;
+                                    Colours.add(BalancesObject.ColourStatus.GREEN);
                                 } else if (amount > 0) {
                                     debt = "£" + String.format("%.2f", amount) + " to pay";
                                     ToPay += amount;
+                                    Colours.add(BalancesObject.ColourStatus.RED);
                                 } else {
                                     debt = "Even";
+                                    Colours.add(BalancesObject.ColourStatus.NEUTRAL);
                                 }
 
 
@@ -230,7 +237,7 @@ public class BalancesFragment extends Fragment {
                         ArrayList<BalancesObject> objects = new ArrayList<>();
 
                         for (int i = 0; i < OweExpenseList.size(); i++) {
-                            BalancesObject temp = new BalancesObject(Debtors.get(i), Debts.get(i));
+                            BalancesObject temp = new BalancesObject(Debtors.get(i), Debts.get(i), Colours.get(i));
                             objects.add(temp);
                             Log.d("Object Name: ", objects.get(i).getBname());
                             Log.d("Object Debt: ", objects.get(i).getBdebt());
