@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -27,7 +28,7 @@ public class ViewBidOfferActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_bid_offer);
-        getSupportActionBar().setTitle("Review Trade");
+        getSupportActionBar().setTitle("Review Trade Offer");
 
         Intent intent = this.getIntent();
         String tradeid = intent.getStringExtra(Intent.EXTRA_TEXT);
@@ -41,6 +42,9 @@ public class ViewBidOfferActivity extends ActionBarActivity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(final ParseObject object, ParseException e) {
                 if (object != null) {
+
+                    TextView textView = (TextView) findViewById(R.id.their_tasks_to_offer);
+                    textView.setText(object.getParseObject("SubmitTrader").getString("name") + "'s Tasks");
 
                     final ArrayList <ParseObject> ReceiverTasks = (ArrayList) object.get("ReceiverTasks");
                     final ArrayList <ParseObject> SubmitterTasks = (ArrayList) object.get("SubmitterTasks");

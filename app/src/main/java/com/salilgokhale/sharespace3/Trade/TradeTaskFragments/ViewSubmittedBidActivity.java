@@ -26,7 +26,7 @@ public class ViewSubmittedBidActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_submitted_bid);
-        getSupportActionBar().setTitle("Review Trade");
+        getSupportActionBar().setTitle("Review Trade Bid");
         final TextView textView = (TextView) findViewById(R.id.their_tasks);
 
 

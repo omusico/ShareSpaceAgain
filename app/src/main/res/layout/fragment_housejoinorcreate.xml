@@ -1,27 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/ActionBarBackground">
+
+    <TextView
+        android:paddingTop="100dp"
+        android:text="Welcome to ShareSpace"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
     <EditText
         android:id="@+id/house_name"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="House Name"
-        android:layout_gravity="center_horizontal" />
+        android:hint="House Name"
+        android:textColorHint="@color/grey"
+        android:gravity="left"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/passkey"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="PassKey"
-        android:layout_gravity="center_horizontal" />
+        android:hint="PassKey"
+        android:textColorHint="@color/grey"
+        android:layout_gravity="center"
+        android:gravity="left"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <Button
         android:id="@+id/create_house_button"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="Create"
+        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:onClick="createHouse"/>
 
@@ -29,21 +58,27 @@
         android:id="@+id/join_house_button"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_weight="1"
         android:text="Join"
         android:layout_gravity="center_horizontal"
         android:onClick="joinHouse"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="a Space"
+        style="@style/ListItemTextStyle"
         android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="If you are creating a new house set up the name and passkey. If you are joining an existing house enter the name and passkey to join."
+        android:text="Create a new house by setting up the name and passkey. Join an existing house by entering the name and passkey."
         android:textAlignment="center"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +14,15 @@
             android:id="@+id/bid_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
+            style="@style/ListItemTextStyle"
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/bid_tasks1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
             android:textSize="12sp"
             android:textColor="@color/material_blue_grey_800"/>
 
@@ -27,6 +30,7 @@
             android:id="@+id/bid_tasks2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
             android:textSize="12sp"
             android:textColor="@color/material_blue_grey_800"/>
 
@@ -36,7 +40,9 @@
         android:id="@+id/bid_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="5"/>
+        android:fontFamily="sans-serif"
+        android:layout_weight="4"
+        android:gravity="right"/>
 
 
 </LinearLayout>

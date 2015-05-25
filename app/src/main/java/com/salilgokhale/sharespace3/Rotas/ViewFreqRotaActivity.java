@@ -46,7 +46,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
         Intent intent = this.getIntent();
         final String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
         //String Title = Rota_Name + " Rota";
-        //getSupportActionBar().setTitle(Title);
+        getSupportActionBar().setTitle("");
 
         final ParseUser user = ParseUser.getCurrentUser();
         ParseObject userhouse = user.getParseObject("Home");
@@ -63,6 +63,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                 ParseQuery<ParseObject> outerquery = ParseQuery.getQuery("Tasks");
                 outerquery.whereMatchesQuery("parentRota", innerquery);
                 outerquery.whereEqualTo("Completed", false);
+                outerquery.include("parentRota");
                 outerquery.include("Owner");
                 outerquery.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> rota_tasks, ParseException e) {
@@ -82,6 +83,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                                 Colours.add(ColourArray[h]);
                             }
 
+                            getSupportActionBar().setTitle(rota_tasks.get(0).getParseObject("parentRota").getString("Name") + " Rota");
                             setContentView(R.layout.activity_view_freq_rota);
 
                             ExtendedCalendarView calendar = (ExtendedCalendarView) findViewById(R.id.calendar);

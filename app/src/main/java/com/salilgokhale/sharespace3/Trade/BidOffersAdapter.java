@@ -1,6 +1,7 @@
 package com.salilgokhale.sharespace3.Trade;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +66,16 @@ public class BidOffersAdapter extends BaseAdapter {
 
         if(objects.get(position).getStatus().equals("Accepted")) {
             holder.textView4.setText("Accepted");
+            holder.textView4.setTextColor(Color.parseColor("#4CAF50"));
         }
         else if (objects.get(position).getStatus().equals("Pending")) {
             holder.textView4.setText("Pending");
+            holder.textView4.setTextColor(Color.parseColor("#607D8B"));
 
         }
         else if (objects.get(position).getStatus().equals("Rejected")){
             holder.textView4.setText("Rejected");
+            holder.textView4.setTextColor(Color.parseColor("#F44336"));
         }
 
         return convertView;

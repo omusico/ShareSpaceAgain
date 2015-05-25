@@ -1,6 +1,8 @@
 package com.salilgokhale.sharespace3.Expenses;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,20 @@ public class BalancesAdapter extends BaseAdapter {
 
         holder.textView3.setText(objects.get(position).getBname());
         holder.textView4.setText(objects.get(position).getBdebt());
+
+        if (objects.get(position).getBcolourStatus().equals(BalancesObject.ColourStatus.GREEN)){
+            holder.textView4.setTextColor(Color.parseColor("#4CAF50"));
+            //Log.e("Colour Function: ", "Set Green");
+        }
+        else if (objects.get(position).getBcolourStatus().equals(BalancesObject.ColourStatus.RED)){
+            holder.textView4.setTextColor(Color.parseColor("#F44336"));
+            //Log.e("Colour Function: ", "Set Red");
+        }
+        else {
+            holder.textView4.setTextColor(Color.parseColor("#607D8B"));
+            //Log.e("Colour Function: ", "Set Grey");
+        }
+
         return convertView;
     }
 }

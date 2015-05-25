@@ -42,7 +42,7 @@ public class ViewRotaActivity extends ActionBarActivity {
         Intent intent = this.getIntent();
         String Rota_ID = intent.getStringExtra(Intent.EXTRA_TEXT);
         //String Title = Rota_Name + " Rota";
-        //getSupportActionBar().setTitle(Title);
+        getSupportActionBar().setTitle("");
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -56,6 +56,8 @@ public class ViewRotaActivity extends ActionBarActivity {
                     Log.d("Rota:", "Not Found");
                 }
                 else {
+                    getSupportActionBar().setTitle(object.getString("Name") + " Rota");
+
                     Button DueButton = (Button) findViewById(R.id.rota_status_button);
                     if (object.getBoolean("Due")){
                         DueButton.setBackgroundColor(0xffff0000);

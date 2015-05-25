@@ -7,7 +7,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/rota_participant_image"/>
+        android:id="@+id/rota_participant_image"
+        android:src="@drawable/ic_action_next_item"/>
     <TextView
         android:id="@+id/rota_participant_name"
         android:layout_width="wrap_content"
@@ -15,6 +16,6 @@
         android:minHeight="48dp"
         android:layout_gravity="center"
         android:padding="16dp"
-        android:textSize="18sp"/>
+        style="@style/ListItemTextStyle"/>
 
 </LinearLayout>

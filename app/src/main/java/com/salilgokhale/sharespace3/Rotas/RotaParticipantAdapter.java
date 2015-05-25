@@ -63,8 +63,12 @@ public class RotaParticipantAdapter extends BaseAdapter {
 
             holder.textView1.setText(names.get(position));
         if(turns[position]){
-            holder.imageView1.setImageResource(R.drawable.ic_action_next_item);
+            holder.imageView1.setVisibility(View.VISIBLE);
+            holder.imageView1.setBackgroundColor(0xB2DFDB);
 
+        }
+        else {
+            holder.imageView1.setVisibility(View.INVISIBLE);
         }
 
         return convertView;

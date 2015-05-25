@@ -34,6 +34,18 @@ public class BidOffersFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_bid_offers, container, false);
 
+
+
+        return rootView;
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final View rootView = getView();
+
         final ParseUser user = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("TradeOffer");
@@ -175,9 +187,6 @@ public class BidOffersFragment extends Fragment {
 
             }
         });
-
-
-        return rootView;
 
     }
 }
