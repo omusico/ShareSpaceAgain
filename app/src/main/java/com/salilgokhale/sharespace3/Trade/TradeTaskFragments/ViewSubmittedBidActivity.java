@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -82,6 +83,8 @@ public class ViewSubmittedBidActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_view_submitted_bid, menu);
         return true;
+
+
     }
 
     @Override
@@ -90,6 +93,29 @@ public class ViewSubmittedBidActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_delete_bid:
+                Intent intent = this.getIntent();
+                String tradeid = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("TradeOffer");
+                query.whereEqualTo("objectId", tradeid);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(final ParseObject object, ParseException e) {
+                        if (object != null) {
+                            object.deleteInBackground(new DeleteCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null){
+                                        CloseActivity();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                return true;
+
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -98,5 +124,9 @@ public class ViewSubmittedBidActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void CloseActivity(){
+        this.finish();
     }
 }

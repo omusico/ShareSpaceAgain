@@ -15,4 +15,6 @@
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
 
+    <color name="ActionBarBackground">#00BCD4</color>
+
 </resources>

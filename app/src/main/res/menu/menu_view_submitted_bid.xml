@@ -4,4 +4,8 @@
     tools:context="com.salilgokhale.sharespace3.Trade.TradeTaskFragments.ViewSubmittedBidActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_delete_bid" android:title="Delete"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_logout" android:title="Log Out"
+        app:showAsAction="never" />
 </menu>

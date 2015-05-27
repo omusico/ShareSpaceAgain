@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.CoreActivity;
 import com.salilgokhale.sharespace3.R;
 
@@ -40,101 +41,120 @@ public class HouseJoinOrCreateActivity extends Activity {
         EditText HouseName = (EditText) findViewById(R.id.house_name);
         EditText PassKey = (EditText) findViewById(R.id.passkey);
 
-        ParseObject newHouse = new ParseObject("House");
-        newHouse.put("Name", HouseName.getText().toString());
-        newHouse.put("Passkey", PassKey.getText().toString());
+        String HomeName = HouseName.getText().toString();
+        String passKey = PassKey.getText().toString();
 
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("Home", newHouse);
-        user.put("Has_House", "true");
-        user.saveInBackground();
+        if(!HomeName.equals("") && !passKey.equals("")) {
 
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("User",ParseUser.getCurrentUser());
-        installation.saveInBackground();
+            HomeName = HomeName.trim();
+            passKey = passKey.trim();
 
-        GoToCore();
+            final ParseObject newHouse = new ParseObject("House");
+            newHouse.put("Name", HomeName);
+            newHouse.put("Passkey", passKey);
+            newHouse.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null){
+                        ParseUser user = ParseUser.getCurrentUser();
+                        Log.d("UserName: ", user.getString("name"));
+                        user.put("Home", newHouse);
+                        user.put("Has_House", "true");
+                        user.saveInBackground();
 
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        installation.put("User", ParseUser.getCurrentUser());
+                        installation.saveInBackground();
 
-        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
-        query.whereEqualTo("Name", HouseName.getText().toString());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("Home","No object found");
-                } else {
-                    Log.d("Home", "object found");
-                    ParseUser user = ParseUser.getCurrentUser();
-                    user.put("House", object);
-                    user.saveInBackground();
+                        GoToCore();
+                    }
                 }
-            }
-        }); */
+            });
+
+
+
+        }
+        else if (HomeName.equals("")){
+            Toast toast = Toast.makeText(getApplicationContext(), "Home needs a name", Toast.LENGTH_LONG);
+            toast.show();
+
+        }
+        else if (passKey.equals("")){
+            Toast toast = Toast.makeText(getApplicationContext(), "Home needs a key", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
       public void joinHouse (View view) {
         EditText HouseName = (EditText) findViewById(R.id.house_name);
         EditText PassKey = (EditText) findViewById(R.id.passkey);
 
-        String housenamestr = HouseName.getText().toString();
-        String passkeystr = PassKey.getText().toString();
-        Log.d("House Name", housenamestr);
-        Log.d("Pass Key", passkeystr);
+        String HomeName = HouseName.getText().toString();
+        String passKey = PassKey.getText().toString();
 
+        if(!HomeName.equals("") && !passKey.equals("")) {
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
-        query.whereEqualTo("Name", housenamestr);
-        //query.setLimit(1);
-        ParseQuery<ParseUser> query2 = ParseUser.getQuery();
-        query2.whereMatchesQuery("Home", query);
-        query2.include("Home");
-        //query.whereEqualTo("PassKey", passkeystr);
-        query2.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List <ParseUser> userList, ParseException e) {
-                if (userList == null) {
-                    Log.d("Home", "No object found");
-                    /* Toast */
-                    Context context = getApplicationContext();
-                    CharSequence text = "House Name and/or Pass Key not found";
-                    int duration = Toast.LENGTH_SHORT;
+            HomeName = HomeName.trim();
+            passKey = passKey.trim();
 
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
+            query.whereEqualTo("Name", HomeName);
+            query.whereEqualTo("PassKey", passKey);
+            ParseQuery<ParseUser> query2 = ParseUser.getQuery();
+            query2.whereMatchesQuery("Home", query);
+            query2.include("Home");
 
-                } else {
-                    Log.d("Home", "object found");
+            query2.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> userList, ParseException e) {
+                    if (userList == null) {
+                        Log.d("Home", "No object found");
 
-                    ParseObject newHome = userList.get(0).getParseObject("Home");
-                    ParseUser user = ParseUser.getCurrentUser();
-                    user.put("Home", newHome);
-                    user.put("Has_House", true);
-                    user.saveInBackground();
+                        Toast toast = Toast.makeText(getApplicationContext(), "House Name and/or Pass Key not found" , Toast.LENGTH_LONG);
+                        toast.show();
 
-                    for (int i = 0; i < userList.size(); i++){
+                    } else {
+                        Log.d("Home", "object found");
+
+                        ParseObject newHome = userList.get(0).getParseObject("Home");
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("Home", newHome);
+                        user.put("Has_House", true);
+                        user.saveInBackground();
+
+                        for (int i = 0; i < userList.size(); i++) {
                             if (!userList.get(i).equals(user)) {
                                 ParseObject oweExpense = new ParseObject("OweExpense");
                                 oweExpense.put("Amount", 0);
                                 oweExpense.put("Name1", user.getString("name"));
                                 oweExpense.put("Name2", userList.get(i).getString("name"));
-                                List <ParseUser> templist = new ArrayList<ParseUser>();
+                                List<ParseUser> templist = new ArrayList<ParseUser>();
                                 templist.add(user);
                                 templist.add(userList.get(i));
                                 oweExpense.put("OwnerArray", templist);
                                 oweExpense.saveInBackground();
                             }
+                        }
+
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        installation.put("User", ParseUser.getCurrentUser());
+                        installation.saveInBackground();
+
+                        GoToCore();
+
+
                     }
-
-                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                    installation.put("User",ParseUser.getCurrentUser());
-                    installation.saveInBackground();
-
-                    GoToCore();
-
-
                 }
-            }
-        });
+            });
+        }
+        else if (HomeName.equals("")){
+            Toast toast = Toast.makeText(getApplicationContext(), "Home needs a name", Toast.LENGTH_LONG);
+            toast.show();
 
+        }
+        else if (passKey.equals("")){
+            Toast toast = Toast.makeText(getApplicationContext(), "Home needs a key", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public void GoToCore(){

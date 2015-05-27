@@ -172,7 +172,8 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                                 @Override
                                 public void done(List<ParseObject> list, ParseException e) {
                                     for (int i = 0; i < list.size(); i++) {
-                                        list.get(i).deleteInBackground();
+                                        //list.get(i).deleteInBackground();
+                                        list.get(i).put("Completed", true);
                                     }
                                     object.deleteInBackground(new DeleteCallback() {
                                         @Override

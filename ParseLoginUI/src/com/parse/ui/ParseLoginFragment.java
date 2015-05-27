@@ -174,6 +174,10 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         } else if (password.length() == 0) {
           showToast(R.string.com_parse_ui_no_password_toast);
         } else {
+
+            username = username.trim();
+            password = password.trim();
+
           loadingStart(true);
           ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override

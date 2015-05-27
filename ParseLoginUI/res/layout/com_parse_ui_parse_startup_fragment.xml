@@ -22,8 +22,19 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <include layout="@layout/com_parse_ui_parse_login_form" />
+        <Button
+            android:id="@+id/parse_start_login_button"
+            style="@style/ParseLoginUI.Button"
+            android:layout_weight="0.5"
+            android:text="@string/com_parse_ui_parse_login_button_label"
+            android:background="#00BCD4"/>
 
-        <include layout="@layout/com_parse_ui_parse_login_third_party_section" />
+        <Button
+            android:id="@+id/parse_signup_button"
+            style="@style/ParseLoginUI.Button"
+            android:layout_marginLeft="@dimen/com_parse_ui_small_horizontal_spacing"
+            android:layout_weight="0.5"
+            android:text="@string/com_parse_ui_parse_signup_button_label"
+            android:background="#00BCD4"/>
     </LinearLayout>
 </LinearLayout>

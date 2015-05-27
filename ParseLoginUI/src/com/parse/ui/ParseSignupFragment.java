@@ -175,6 +175,10 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     } else if (name != null && name.length() == 0) {
       showToast(R.string.com_parse_ui_no_name_toast);
     } else {
+
+        username = username.trim();
+        password = password.trim();
+
       ParseUser user = new ParseUser();
 
       // Set standard fields
