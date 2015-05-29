@@ -102,12 +102,12 @@ public class RulesFragment extends Fragment {
                                 new_rule.put("ruleTitle", Input);
                                 new_rule.put("House", userHouse);
                                 new_rule.saveInBackground();
-
+                                et.setText("");
 
 
                             }
                             else{
-                                Toast toast = Toast.makeText(getActivity(), "Task must have name", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(getActivity(), "Rule must have name", Toast.LENGTH_LONG);
                                 toast.show();
                             }
                         }

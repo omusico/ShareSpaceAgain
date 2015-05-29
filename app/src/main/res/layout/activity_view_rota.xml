@@ -12,7 +12,20 @@
     android:background="@color/white"
     tools:context="com.salilgokhale.sharespace3.Rotas.ViewRotaActivity">
 
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Rota Members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:textColor="#BDBDBD"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
     <ListView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:id="@+id/rota_participants"
         android:layout_gravity="top"
         android:layout_weight="1"
@@ -23,23 +36,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
                 android:layout_weight="1"
                 android:text="Status:"
                 android:padding="16dp"
                 style="@style/ListItemTextStyle"/>
             <Button
                 android:id="@+id/rota_status_button"
-                android:layout_width="wrap_content"
+                android:gravity="top"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="16dp"
                 android:layout_weight="1"
-
                 android:onClick="changeRotaStatus" />
+
+            </LinearLayout>
         </LinearLayout>
 
 

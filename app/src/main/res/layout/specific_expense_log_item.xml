@@ -5,18 +5,18 @@
     android:tag="SPECIFICEXPENSEITEM">
 
     <TextView
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
         android:id="@+id/specific_expense_log_date"
         android:minHeight="48dp"
         android:padding="16dp"
-        android:textSize="18sp"
         android:layout_weight="1"
-        android:layout_gravity="left">
+        android:layout_gravity="left"
+        style="@style/ListItemTextStyle">
 
     </TextView>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -26,13 +26,15 @@
             android:id="@+id/specific_log_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            style="@style/ListItemTextStyle"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:gravity="center"/>
         <TextView
             android:id="@+id/specific_log_payer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            style="@style/ListItemTextStyle"
             android:textSize="12sp"
             android:textColor="@color/counter_text_bg"
             android:gravity="center"/>
@@ -41,23 +43,33 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="right"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/specific_amount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            style="@style/ListItemTextStyle"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:gravity="center"/>
+    <!--    <TextView
+            android:id="@+id/specific_owe_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/ListItemTextStyle"
+            android:textSize="12sp"
+            android:textColor="@color/counter_text_bg"
+            android:gravity="center"/> -->
         <TextView
             android:id="@+id/specific_owe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            style="@style/ListItemTextStyle"
             android:textSize="12sp"
             android:textColor="@color/counter_text_bg"
             android:gravity="center"/>

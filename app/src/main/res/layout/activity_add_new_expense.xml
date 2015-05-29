@@ -47,7 +47,7 @@
                     android:textSize="16sp"
                     android:inputType="numberDecimal"
                     android:hint="0.00"
-                    android:textColorHint="@color/light_grey"/>
+                    android:textColorHint="@color/grey"/>
 
             </LinearLayout>
 
@@ -91,15 +91,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Split:"
+                    android:text="Split"
                     style="@style/ListItemTextStyle"/>
-                <TextView
+                <!--<TextView
                     android:id="@+id/amount_total"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Total: "
-                    style="@style/ListItemTextStyle"/>
+                    style="@style/ListItemTextStyle"/> -->
                 <Button
                     android:id="@+id/auto_button"
                     android:layout_width="0dp"

@@ -22,6 +22,7 @@ public class SpecificExpenseLogAdapter extends BaseAdapter {
     private List<String> values;
     private List<String> dates;
     private List<String> owes;
+    //private List<String> owe_names;
 
     private LayoutInflater inflater;
 
@@ -32,6 +33,7 @@ public class SpecificExpenseLogAdapter extends BaseAdapter {
         this.values = values;
         this.dates = dates;
         this.owes = owes;
+        //this.owe_names = owe_names;
     }
 
     private class ViewHolder {
@@ -40,6 +42,7 @@ public class SpecificExpenseLogAdapter extends BaseAdapter {
         TextView textView3;
         TextView textView4;
         TextView textView5;
+        //TextView textView6;
     }
 
     @Override
@@ -67,6 +70,7 @@ public class SpecificExpenseLogAdapter extends BaseAdapter {
             holder.textView3 = (TextView) convertView.findViewById(R.id.specific_log_payer);
             holder.textView4 = (TextView) convertView.findViewById(R.id.specific_amount);
             holder.textView5 = (TextView) convertView.findViewById(R.id.specific_owe);
+            //holder.textView6 = (TextView) convertView.findViewById(R.id.specific_owe_name);
 
             convertView.setTag(holder);
         }
@@ -79,6 +83,7 @@ public class SpecificExpenseLogAdapter extends BaseAdapter {
         holder.textView3.setText(payers.get(position));
         holder.textView4.setText(values.get(position));
         holder.textView5.setText(owes.get(position));
+        //holder.textView6.setText(owe_names.get(position));
 
         return convertView;
     }

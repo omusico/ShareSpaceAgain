@@ -95,11 +95,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
         ParseUser user = ParseUser.getCurrentUser();
 
         ParseObject userHouse = user.getParseObject("Home");
-        if (userHouse != null) {
-            Log.d("Home Object Name:", userHouse.getObjectId());
-        } else {
-            Log.d("Error", "Error");
-        }
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Home", userHouse);
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -116,197 +112,217 @@ public class AddNewRotaActivity extends ActionBarActivity {
                     String Frequency = String.valueOf(spinner.getSelectedItem());
                     newRota.put("Frequency", Frequency);
 
-                    if (Frequency.equals("When Needed")) {
+                    boolean empty = true;
 
-                        boolean firstTime = true;
-                        for (int i = 0; i < userList.size(); i++) {
-                            CheckBox feature = (CheckBox) findViewById(i);
-                            if (feature.isChecked()) {
-                                relation.add(userList.get(i));
-                                if (firstTime) {
-                                    newRota.put("nextPerson", userList.get(i));
-                                    firstTime = false;
-                                }
-                            }
+                    for (int i = 0; i < userList.size(); i++) {
+                        CheckBox feature = (CheckBox) findViewById(i);
+                        if (feature.isChecked()) {
+                            empty = false;
+                            break;
                         }
-                        newRota.put("Due", false);
-                        newRota.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(com.parse.ParseException e) {
-                                if (e == null) {
-                                    CloseActivity();
-                                } else {
-                                    Log.d("Save: ", "Failed");
-                                }
-                            }
-                        });
                     }
 
-                    else {
-                        for (int i = 0; i < userList.size(); i++) {
-                            CheckBox feature = (CheckBox) findViewById(i);
-                            if (feature.isChecked()) {
-                                rotaparticipants.add(userList.get(i));
-                                relation.add(userList.get(i));
-                            }
-                        }
 
-                        final String start_date = StartDateButton.getText().toString();
-                        final String end_date = EndDateButton.getText().toString();
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        Calendar c0 = Calendar.getInstance();
-                        Calendar c1 = Calendar.getInstance();
-                        Calendar c2 = Calendar.getInstance();
-                        try {
-                            c0.add(Calendar.DATE, -1);
-                            c1.setTime(sdf.parse(start_date));
-                            c1.add(Calendar.HOUR, 1);
-                            c2.setTime(sdf.parse(end_date));
-                            c2.add(Calendar.HOUR, 1);
-                            Date startdate = c1.getTime();
-                            Log.d("Start Date", startdate.toString());
-                            Date enddate = c2.getTime();
-                            Log.d("End Date", enddate.toString());
-                            newRota.put("startDate", startdate);
-                            newRota.put("endDate", enddate);
-                        } catch (ParseException e2) {
-                            e2.printStackTrace();
-                        }
+                    if (!rota_name.equals("") && !empty) {
 
-                        if (c1.before(c2) && c0.before(c1)) {
+                        if (Frequency.equals("When Needed")) {
 
-                            //newRota.saveInBackground();
-                            int number = rotaparticipants.size();
-                            int i = 0;
                             boolean firstTime = true;
-                            switch (Frequency) {
-                                case "Every 1 Week":
-
-                                    while (c1.before(c2) || c1.equals(c2)) {
-
-                                        Log.d("Iteration", "of calendar");
-                                        Date date = c1.getTime();
-                                        ParseObject temp = new ParseObject("Tasks");
-                                        temp.put("Name", rota_name);
-                                        temp.put("Owner", rotaparticipants.get(i % number));
-                                        temp.put("dateDue", date);
-                                        temp.put("parentRota", newRota);
-                                        temp.put("Completed", false);
-                                        temp.saveInBackground();
-                                        if (firstTime) {
-                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
-                                            newRota.put("nextDate", date);
-                                            //newRota.saveInBackground();
-                                            firstTime = false;
-                                        }
-                                        c1.add(Calendar.DATE, 7);
-                                        i++;
+                            for (int i = 0; i < userList.size(); i++) {
+                                CheckBox feature = (CheckBox) findViewById(i);
+                                if (feature.isChecked()) {
+                                    relation.add(userList.get(i));
+                                    if (firstTime) {
+                                        newRota.put("nextPerson", userList.get(i));
+                                        firstTime = false;
                                     }
-
-                                    break;
-                                case "Every 2 Weeks":
-                                    while (c1.before(c2) || c1.equals(c2)) {
-                                        Log.d("Iteration", "of calendar");
-                                        ParseObject temp = new ParseObject("Tasks");
-                                        temp.put("Name", rota_name);
-                                        temp.put("Owner", rotaparticipants.get(i % number));
-                                        temp.put("dateDue", c1.getTime());
-                                        temp.put("parentRota", newRota);
-                                        temp.put("Completed", false);
-                                        temp.saveInBackground();
-                                        if (firstTime) {
-                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
-                                            newRota.put("nextDate", c1.getTime());
-                                            //newRota.saveInBackground();
-                                            firstTime = false;
-                                        }
-                                        c1.add(Calendar.DATE, 14);
-                                        i++;
-                                    }
-                                    break;
-                                case "Every 3 Weeks":
-                                    while (c1.before(c2) || c1.equals(c2)) {
-                                        Log.d("Iteration", "of calendar");
-                                        ParseObject temp = new ParseObject("Tasks");
-                                        temp.put("Name", rota_name);
-                                        temp.put("Owner", rotaparticipants.get(i % number));
-                                        temp.put("dateDue", c1.getTime());
-                                        temp.put("parentRota", newRota);
-                                        temp.put("Completed", false);
-                                        temp.saveInBackground();
-                                        if (firstTime) {
-                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
-                                            newRota.put("nextDate", c1.getTime());
-                                            //newRota.saveInBackground();
-                                            firstTime = false;
-                                        }
-                                        c1.add(Calendar.DATE, 21);
-                                        i++;
-                                    }
-                                    break;
-                                case "Every 4 Weeks":
-                                    while (c1.before(c2) || c1.equals(c2)) {
-                                        Log.d("Iteration", "of calendar");
-                                        ParseObject temp = new ParseObject("Tasks");
-                                        temp.put("Name", rota_name);
-                                        temp.put("Owner", rotaparticipants.get(i % number));
-                                        temp.put("dateDue", c1.getTime());
-                                        temp.put("parentRota", newRota);
-                                        temp.put("Completed", false);
-                                        temp.saveInBackground();
-                                        if (firstTime) {
-                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
-                                            newRota.put("nextDate", c1.getTime());
-                                            //newRota.saveInBackground();
-                                            firstTime = false;
-                                        }
-                                        c1.add(Calendar.DATE, 28);
-                                        i++;
-                                    }
-                                    break;
-                                case "Monthly":
-                                    while (c1.before(c2) || c1.equals(c2)) {
-                                        Log.d("Iteration", "of calendar");
-                                        ParseObject temp = new ParseObject("Tasks");
-                                        temp.put("Name", rota_name);
-                                        temp.put("Owner", rotaparticipants.get(i % number));
-                                        temp.put("dateDue", c1.getTime());
-                                        temp.put("parentRota", newRota);
-                                        temp.put("Completed", false);
-                                        temp.saveInBackground();
-                                        if (firstTime) {
-                                            newRota.put("nextPerson", rotaparticipants.get(i % number));
-                                            newRota.put("nextDate", c1.getTime());
-                                            //newRota.saveInBackground();
-                                            firstTime = false;
-                                        }
-                                        c1.add(Calendar.MONTH, 1);
-                                        i++;
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                }
                             }
+                            newRota.put("Due", false);
                             newRota.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(com.parse.ParseException e) {
                                     if (e == null) {
                                         CloseActivity();
+                                    } else {
+                                        Log.d("Save: ", "Failed");
                                     }
                                 }
                             });
+                        } else {
+                            for (int i = 0; i < userList.size(); i++) {
+                                CheckBox feature = (CheckBox) findViewById(i);
+                                if (feature.isChecked()) {
+                                    rotaparticipants.add(userList.get(i));
+                                    relation.add(userList.get(i));
+                                }
+                            }
+
+                            final String start_date = StartDateButton.getText().toString();
+                            final String end_date = EndDateButton.getText().toString();
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                            Calendar c0 = Calendar.getInstance();
+                            Calendar c1 = Calendar.getInstance();
+                            Calendar c2 = Calendar.getInstance();
+                            try {
+                                c0.add(Calendar.DATE, -1);
+                                c1.setTime(sdf.parse(start_date));
+                                c1.add(Calendar.HOUR, 1);
+                                c2.setTime(sdf.parse(end_date));
+                                c2.add(Calendar.HOUR, 1);
+                                Date startdate = c1.getTime();
+                                Log.d("Start Date", startdate.toString());
+                                Date enddate = c2.getTime();
+                                Log.d("End Date", enddate.toString());
+                                newRota.put("startDate", startdate);
+                                newRota.put("endDate", enddate);
+                            } catch (ParseException e2) {
+                                e2.printStackTrace();
+                            }
+
+                            if (c1.before(c2) && c0.before(c1)) {
+
+                                //newRota.saveInBackground();
+                                int number = rotaparticipants.size();
+                                int i = 0;
+                                boolean firstTime = true;
+                                switch (Frequency) {
+                                    case "Every 1 Week":
+
+                                        while (c1.before(c2) || c1.equals(c2)) {
+
+                                            Log.d("Iteration", "of calendar");
+                                            Date date = c1.getTime();
+                                            ParseObject temp = new ParseObject("Tasks");
+                                            temp.put("Name", rota_name);
+                                            temp.put("Owner", rotaparticipants.get(i % number));
+                                            temp.put("dateDue", date);
+                                            temp.put("parentRota", newRota);
+                                            temp.put("Completed", false);
+                                            temp.saveInBackground();
+                                            if (firstTime) {
+                                                newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                                newRota.put("nextDate", date);
+                                                //newRota.saveInBackground();
+                                                firstTime = false;
+                                            }
+                                            c1.add(Calendar.DATE, 7);
+                                            i++;
+                                        }
+
+                                        break;
+                                    case "Every 2 Weeks":
+                                        while (c1.before(c2) || c1.equals(c2)) {
+                                            Log.d("Iteration", "of calendar");
+                                            ParseObject temp = new ParseObject("Tasks");
+                                            temp.put("Name", rota_name);
+                                            temp.put("Owner", rotaparticipants.get(i % number));
+                                            temp.put("dateDue", c1.getTime());
+                                            temp.put("parentRota", newRota);
+                                            temp.put("Completed", false);
+                                            temp.saveInBackground();
+                                            if (firstTime) {
+                                                newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                                newRota.put("nextDate", c1.getTime());
+                                                //newRota.saveInBackground();
+                                                firstTime = false;
+                                            }
+                                            c1.add(Calendar.DATE, 14);
+                                            i++;
+                                        }
+                                        break;
+                                    case "Every 3 Weeks":
+                                        while (c1.before(c2) || c1.equals(c2)) {
+                                            Log.d("Iteration", "of calendar");
+                                            ParseObject temp = new ParseObject("Tasks");
+                                            temp.put("Name", rota_name);
+                                            temp.put("Owner", rotaparticipants.get(i % number));
+                                            temp.put("dateDue", c1.getTime());
+                                            temp.put("parentRota", newRota);
+                                            temp.put("Completed", false);
+                                            temp.saveInBackground();
+                                            if (firstTime) {
+                                                newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                                newRota.put("nextDate", c1.getTime());
+                                                //newRota.saveInBackground();
+                                                firstTime = false;
+                                            }
+                                            c1.add(Calendar.DATE, 21);
+                                            i++;
+                                        }
+                                        break;
+                                    case "Every 4 Weeks":
+                                        while (c1.before(c2) || c1.equals(c2)) {
+                                            Log.d("Iteration", "of calendar");
+                                            ParseObject temp = new ParseObject("Tasks");
+                                            temp.put("Name", rota_name);
+                                            temp.put("Owner", rotaparticipants.get(i % number));
+                                            temp.put("dateDue", c1.getTime());
+                                            temp.put("parentRota", newRota);
+                                            temp.put("Completed", false);
+                                            temp.saveInBackground();
+                                            if (firstTime) {
+                                                newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                                newRota.put("nextDate", c1.getTime());
+                                                //newRota.saveInBackground();
+                                                firstTime = false;
+                                            }
+                                            c1.add(Calendar.DATE, 28);
+                                            i++;
+                                        }
+                                        break;
+                                    case "Monthly":
+                                        while (c1.before(c2) || c1.equals(c2)) {
+                                            Log.d("Iteration", "of calendar");
+                                            ParseObject temp = new ParseObject("Tasks");
+                                            temp.put("Name", rota_name);
+                                            temp.put("Owner", rotaparticipants.get(i % number));
+                                            temp.put("dateDue", c1.getTime());
+                                            temp.put("parentRota", newRota);
+                                            temp.put("Completed", false);
+                                            temp.saveInBackground();
+                                            if (firstTime) {
+                                                newRota.put("nextPerson", rotaparticipants.get(i % number));
+                                                newRota.put("nextDate", c1.getTime());
+                                                //newRota.saveInBackground();
+                                                firstTime = false;
+                                            }
+                                            c1.add(Calendar.MONTH, 1);
+                                            i++;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                newRota.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(com.parse.ParseException e) {
+                                        if (e == null) {
+                                            CloseActivity();
+                                        }
+                                    }
+                                });
 
 
+                            } else {
+                                if (!c1.before(c2)) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be after End Date", Toast.LENGTH_LONG);
+                                    toast.show();
+                                } else if (!c0.before(c1)) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be in past", Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+                            }
                         }
-                        else {
-                            if (!c1.before(c2)){
-                                Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be after End Date", Toast.LENGTH_LONG);
-                                toast.show();
-                            }
-                            else if(!c0.before(c1)) {
-                                Toast toast = Toast.makeText(getApplicationContext(), "Start Date can't be in past", Toast.LENGTH_LONG);
-                                toast.show();
-                            }
+                    }
+                    else{
+                        if(rota_name.equals("")) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Rota must have name", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        if(empty){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Rota must have members", Toast.LENGTH_LONG);
+                            toast.show();
                         }
                     }
 

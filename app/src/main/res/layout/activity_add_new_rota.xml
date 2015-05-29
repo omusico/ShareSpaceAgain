@@ -15,18 +15,18 @@
         <LinearLayout
             style="@style/Add_Form_Style">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Rota Name:"
-                android:hint="E.g. Empty Bins"
-                android:textColorHint="@color/ListItemText"
                 style="@style/ListItemTextStyle"/>
             <EditText
                 android:id="@+id/rota_name_edit_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
+                android:hint="E.g. Empty Bins"
+                android:textColorHint="@color/ListItemText"
                 style="@style/Edit_Text_Style"/>
         </LinearLayout>
 

@@ -62,6 +62,8 @@ public class RulesAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.textView9.setText(ruleTitles.get(position));
+
         return convertView;
     }
 }

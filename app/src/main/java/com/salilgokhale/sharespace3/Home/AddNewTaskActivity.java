@@ -174,15 +174,10 @@ public class AddNewTaskActivity extends ActionBarActivity {
         Log.d("Function:", "Entered addItemsonSpinner");
         spinner = (Spinner) findViewById(R.id.owner_spinner);
 
-        ParseUser user = ParseUser.getCurrentUser();
+        final ParseUser user = ParseUser.getCurrentUser();
         Log.d("Current User", user.getString("username"));
         ParseObject userHouse = user.getParseObject("Home");
-            if (userHouse != null) {
-                Log.d("Home Object Name:", userHouse.getObjectId());
-            }
-            else{
-                Log.d("Error", "Error");
-            }
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Home", userHouse);
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -190,10 +185,13 @@ public class AddNewTaskActivity extends ActionBarActivity {
                 if (userList != null) {
                     List<String> list = new ArrayList<>();
 
+                    list.add(user.getString("name"));
 
                     for (int i = 0; i< userList.size(); i++){
-                        list.add(userList.get(i).getString("name"));
-                        Log.d("User Name:", userList.get(i).getString("name"));
+                        if (!userList.get(i).getObjectId().equals(user.getObjectId())) {
+                            list.add(userList.get(i).getString("name"));
+                            Log.d("User Name:", userList.get(i).getString("name"));
+                        }
                     }
 
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(),

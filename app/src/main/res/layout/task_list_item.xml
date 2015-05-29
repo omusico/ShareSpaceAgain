@@ -5,6 +5,8 @@
     android:minHeight="48dp"
     android:gravity="center_vertical"
     android:padding="16dp"
-    android:textSize="18sp">
+    android:textSize="18sp"
+    style="@style/ListItemTextStyle"
+    android:textStyle="italic">
 
 </TextView>

@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragment3;
 import com.salilgokhale.sharespace3.R;
 
@@ -46,14 +48,17 @@ public class SettleActivity extends ActionBarActivity {
         final Button DateButton = (Button) findViewById(R.id.date_button_payment);
         DateButton.setText(currentDate);
 
-        TextView firstname = (TextView) findViewById(R.id.payment_payer);
-        TextView secondname = (TextView) findViewById(R.id.payment_payee);
+        TextView settlement_title = (TextView) findViewById(R.id.settlement_title);
+        TextView debt_title = (TextView) findViewById(R.id.debt_title);
         final EditText et = (EditText) findViewById(R.id.payment_edit_text);
 
         final Bundle extras = getIntent().getExtras();
         final String payer = extras.getString("1st Name");
         final String payee = extras.getString("2nd Name");
         final String oweexpenseid = extras.getString("OweExpenseID");
+
+        debt_title.setText(extras.getString("Debt"));
+
         final String otherID;
         if (payer.equals(user.getString("name"))){
             otherID = extras.getString("2nd Name Object ID");
@@ -61,8 +66,8 @@ public class SettleActivity extends ActionBarActivity {
         else{
             otherID = extras.getString("1st Name Object ID");
         }
-        firstname.setText(payer);
-        secondname.setText(payee);
+        settlement_title.setText(payer + " to " + payee);
+
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.getInBackground(otherID, new GetCallback<ParseUser>() {
@@ -97,13 +102,17 @@ public class SettleActivity extends ActionBarActivity {
 
                                 settlelog.saveInBackground();
 
-                                updateOweExpense(oweexpenseid, number);
+                                updateOweExpense(oweexpenseid, number, payer);
 
                             }
                             catch (java.text.ParseException e2) {
                                 e2.printStackTrace();
                                 Log.d("Date:", "Error");
                             }
+                        }
+                        else{
+                            Toast toast = Toast.makeText(getApplicationContext(), "No Amount", Toast.LENGTH_LONG);
+                            toast.show();
                         }
                     }
                 });
@@ -149,22 +158,29 @@ public class SettleActivity extends ActionBarActivity {
         this.finish();
     }
 
-    public void updateOweExpense(String oweexpenseid, final Float amount){
+    public void updateOweExpense(String oweexpenseid, final Float amount, final String payer){
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("OweExpense");
         query.getInBackground(oweexpenseid, new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     Float number = object.getNumber("Amount").floatValue();
-                    if (object.getString("Name1").equals(user.getString("name"))){
-                        number = number - amount;
+                    if (object.getString("Name1").equals(payer)){
+                        number = number + amount;
                     }
                     else
                     {
-                        number = number + amount;
+                        number = number - amount;
                     }
                     object.put("Amount", number);
-                    object.saveInBackground();
-                    closeactivity();
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null){
+                                closeactivity();
+                            }
+                        }
+                    });
+
                 }
             }
         });

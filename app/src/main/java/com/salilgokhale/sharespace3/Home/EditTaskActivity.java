@@ -65,7 +65,7 @@ public class EditTaskActivity extends ActionBarActivity {
                 } else {
                     Log.d("Task", "object found");
                     Date date = (Date) object.get("dateDue");
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
                     String taskdate = formatter.format(date);
 
                     et.setText(object.getString("Name"));
@@ -211,15 +211,10 @@ public class EditTaskActivity extends ActionBarActivity {
         Log.d("Function:", "Entered addItemsonSpinner");
         spinner = (Spinner) findViewById(R.id.owner_spinner_edit_task);
 
-        ParseUser user = ParseUser.getCurrentUser();
+        final ParseUser user = ParseUser.getCurrentUser();
         Log.d("Current User", user.getString("username"));
         ParseObject userHouse = user.getParseObject("Home");
-        if (userHouse != null) {
-            Log.d("Home Object Name:", userHouse.getObjectId());
-        }
-        else{
-            Log.d("Error", "Error");
-        }
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Home", userHouse);
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -227,15 +222,18 @@ public class EditTaskActivity extends ActionBarActivity {
                 if (userList != null) {
                     List<String> list = new ArrayList<>();
 
+                    list.add(user.getString("name"));
 
                     for (int i = 0; i< userList.size(); i++){
-                        list.add(userList.get(i).getString("name"));
-                        Log.d("User Name:", userList.get(i).getString("name"));
+                        if (!userList.get(i).getObjectId().equals(user.getObjectId())) {
+                            list.add(userList.get(i).getString("name"));
+                            Log.d("User Name:", userList.get(i).getString("name"));
+                        }
                     }
 
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_spinner_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            R.layout.spinner_item, list);
+                    dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
                 }

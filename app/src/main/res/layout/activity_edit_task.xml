@@ -11,6 +11,80 @@
         android:paddingBottom="16dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Task:"
+                style="@style/ListItemTextStyle"/>
+            <EditText
+                android:id="@+id/task_name_edit_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Edit_Text_Style"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date:"
+                style="@style/ListItemTextStyle"/>
+            <Button
+                android:id="@+id/date_button_edit_task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:onClick="showDatePickerDialog3" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Owner:"
+                style="@style/ListItemTextStyle"/>
+            <Spinner
+                android:id="@+id/owner_spinner_edit_task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/edit_task_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Done"
+        android:onClick="editTask"/>
+
+</RelativeLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,4 +154,5 @@
         android:text="Done"
         android:onClick="editTask"/>
 
-</RelativeLayout>
+</RelativeLayout> -->
+
