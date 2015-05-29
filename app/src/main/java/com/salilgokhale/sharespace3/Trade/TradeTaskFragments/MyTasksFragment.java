@@ -74,7 +74,7 @@ public class MyTasksFragment extends Fragment {
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
             query.whereEqualTo("Owner", user);
             query.whereEqualTo("Completed", false);
-            //query.setLimit(10);
+            query.setLimit(10);
             query.orderByAscending("dateDue");
             query.include("parentRota.nextPerson");
             query.findInBackground(new FindCallback<ParseObject>() {
@@ -125,8 +125,8 @@ public class MyTasksFragment extends Fragment {
 
 
     @Override
-    public void onStop(){
-        super.onStop();
+    public void onPause(){
+
         Log.d("Stop ", "Called");
         List<String> ischecked = new ArrayList<>();
 
@@ -147,5 +147,7 @@ public class MyTasksFragment extends Fragment {
         }
         DataHolderClass.getInstance().setDataList(ischecked);
         //mCallback.passToMain(ischecked);
+        super.onPause();
     }
+
 }

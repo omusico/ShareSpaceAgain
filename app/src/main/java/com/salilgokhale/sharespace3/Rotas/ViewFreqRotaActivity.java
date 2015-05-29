@@ -62,7 +62,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                 innerquery.whereEqualTo("peopleInvolved", user);
                 ParseQuery<ParseObject> outerquery = ParseQuery.getQuery("Tasks");
                 outerquery.whereMatchesQuery("parentRota", innerquery);
-                outerquery.whereEqualTo("Completed", false);
+                //outerquery.whereEqualTo("Completed", false);
                 outerquery.include("parentRota");
                 outerquery.include("Owner");
                 outerquery.findInBackground(new FindCallback<ParseObject>() {
@@ -171,23 +171,38 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
                             query3.findInBackground(new FindCallback<ParseObject>() {
                                 @Override
                                 public void done(List<ParseObject> list, ParseException e) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        //list.get(i).deleteInBackground();
-                                        list.get(i).put("Completed", true);
-                                    }
-                                    object.deleteInBackground(new DeleteCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e == null){
-                                                CloseActivity();
-                                            }
+                                    if (e == null) {
+
+                                        Log.d("Rota tasks found", "true");
+                                        Log.d("Number of rota tasks:", String.valueOf(list.size()));
+                                        for (int i = 0; i < list.size(); i++) {
+                                            //list.get(i).deleteInBackground();
+                                            Log.d("Task name:", list.get(i).getObjectId());
+                                            list.get(i).put("Completed", true);
+                                            list.get(i).saveInBackground();
                                         }
-                                    });
+                                        object.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    CloseActivity();
+                                                }
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        e.printStackTrace();
+                                    }
 
                                 }
+
                             });
                         }
                     }
+
+
+
+
                 });
 
                 return true;

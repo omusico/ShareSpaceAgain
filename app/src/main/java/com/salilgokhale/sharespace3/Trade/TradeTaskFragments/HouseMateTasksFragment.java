@@ -56,7 +56,7 @@ public class HouseMateTasksFragment extends Fragment {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Tasks");
         query.whereMatchesQuery("Owner", query1);
         query.whereEqualTo("Completed", false);
-        //query.setLimit(10);
+        query.setLimit(10);
         query.orderByAscending("dateDue");
         query.include("parentRota.nextPerson");
         query.findInBackground(new FindCallback<ParseObject>() {

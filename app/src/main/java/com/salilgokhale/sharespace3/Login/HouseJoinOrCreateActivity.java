@@ -52,24 +52,30 @@ public class HouseJoinOrCreateActivity extends Activity {
             final ParseObject newHouse = new ParseObject("House");
             newHouse.put("Name", HomeName);
             newHouse.put("Passkey", passKey);
-            newHouse.saveInBackground(new SaveCallback() {
+            ParseUser user = ParseUser.getCurrentUser();
+            Log.d("UserName: ", user.getString("name"));
+            user.put("Home", newHouse);
+            user.put("Has_House", true);
+            user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+                    Log.d("User ", "Saved");
                     if (e == null){
-                        ParseUser user = ParseUser.getCurrentUser();
-                        Log.d("UserName: ", user.getString("name"));
-                        user.put("Home", newHouse);
-                        user.put("Has_House", "true");
-                        user.saveInBackground();
-
-                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                        installation.put("User", ParseUser.getCurrentUser());
-                        installation.saveInBackground();
+                        //ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        //installation.put("User", ParseUser.getCurrentUser());
+                        //installation.saveInBackground();
 
                         GoToCore();
                     }
+                    else {
+                        e.printStackTrace();
+                    }
                 }
             });
+
+
+
+
 
 
 
