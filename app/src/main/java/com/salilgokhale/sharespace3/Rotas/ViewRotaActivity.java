@@ -48,7 +48,8 @@ public class ViewRotaActivity extends ActionBarActivity {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
         query.whereEqualTo("objectId", Rota_ID);
-        query.whereEqualTo("peopleInvolved", user);
+        //query.whereEqualTo("orderPeople", user);
+        query.include("orderPeople");
         query.include("nextPerson");
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
@@ -67,7 +68,28 @@ public class ViewRotaActivity extends ActionBarActivity {
                     }
 
                     final ParseObject nextPerson = object.getParseObject("nextPerson");
+                    ArrayList<ParseUser> list = (ArrayList<ParseUser>) object.get("orderPeople");
 
+                    List <String> peopleinvolvedarray = new ArrayList<>();
+                    boolean [] turn = new boolean[list.size()];
+
+                    for (int i = 0; i < list.size(); i++){
+
+                        Log.d("People Involved:", list.get(i).getString("name"));
+                        peopleinvolvedarray.add(list.get(i).getString("name"));
+                        if (nextPerson.getObjectId().equals(list.get(i).getObjectId())){
+                            turn[i] = true;
+                        }
+                        else{
+                            turn[i] = false;
+                        }
+                    }
+
+                    ListView listView = (ListView) findViewById(R.id.rota_participants);
+                    RotaParticipantAdapter adapter = new RotaParticipantAdapter(getApplicationContext(), turn, peopleinvolvedarray);
+                    listView.setAdapter(adapter);
+
+/*
                     ParseRelation relation = object.getRelation("peopleInvolved");
                     ParseQuery query2 = relation.getQuery();
                     query2.findInBackground(new FindCallback<ParseObject>() {
@@ -93,7 +115,7 @@ public class ViewRotaActivity extends ActionBarActivity {
                             listView.setAdapter(adapter);
 
                         }
-                    });
+                    }); */
 
                 }
 
@@ -124,7 +146,7 @@ public class ViewRotaActivity extends ActionBarActivity {
 
                 ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Rota");
                 query4.whereEqualTo("objectId", Rota_ID);
-                query4.whereEqualTo("peopleInvolved", user);
+                //query4.whereEqualTo("peopleInvolved", user);
                 query4.getFirstInBackground(new GetCallback<ParseObject>() {
                     public void done(final ParseObject object, ParseException e) {
                         if (object == null) {
@@ -177,7 +199,7 @@ public class ViewRotaActivity extends ActionBarActivity {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Rota");
         query.whereEqualTo("objectId", Rota_ID);
-        query.whereEqualTo("peopleInvolved", user);
+        //query.whereEqualTo("peopleInvolved", user);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (object == null) {

@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/expense_checkbox_item">
+    android:id="@+id/rota_checkbox_item">
 
     <CheckBox
-        android:id="@+id/expense_checkbox"
+        android:id="@+id/rota_checkbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor= "#000000"/>
 
-    <EditText
-        android:id="@+id/checkbox_amount"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/checkbox_order"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.00"
+        android:visibility="invisible"
         android:textColor="#000000"
-        android:inputType="numberDecimal"
-        android:layout_weight="1"
-        android:gravity="center"/>
+        android:gravity="end"/>
+
+
 
 
 

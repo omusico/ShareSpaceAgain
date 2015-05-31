@@ -81,6 +81,7 @@ public class HomeFragment extends Fragment {
         query.setLimit(10);
         query.orderByAscending("dateDue");
         query.include("parentRota.nextPerson");
+        query.include("parentRota.orderPeople");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> taskList, ParseException e) {
                 if (taskList != null) {
@@ -217,11 +218,7 @@ public class HomeFragment extends Fragment {
 
                                                         therota.put("Due", false);
 
-                                                        ParseRelation relation = therota.getRelation("peopleInvolved");
-                                                        ParseQuery query2 = relation.getQuery();
-                                                        query2.findInBackground(new FindCallback<ParseObject>() {
-                                                            @Override
-                                                            public void done(List<ParseObject> list, ParseException e) {
+                                                        ArrayList<ParseUser> list = (ArrayList<ParseUser>) therota.get("orderPeople");
 
                                                                 String personNextName = therota.getParseObject("nextPerson").getObjectId();
                                                                 Log.d("nextPerson's name", personNextName);
@@ -242,8 +239,7 @@ public class HomeFragment extends Fragment {
                                                                     }
                                                                 }
                                                                 therota.saveInBackground();
-                                                            }
-                                                        });
+
                                                     }
                                                 }
 

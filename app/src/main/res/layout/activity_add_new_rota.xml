@@ -55,14 +55,14 @@
                 android:layout_weight="1"
                 android:text="Rota Members:"
                 style="@style/ListItemTextStyle"/>
-            <LinearLayout
+            <ListView
                 android:id="@+id/rota_members_checkboxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                >
-            </LinearLayout>
+                android:isScrollContainer="false"
+                />
 
         </LinearLayout>
 
@@ -81,7 +81,7 @@
                 android:layout_weight="1"
                 android:onClick="showRotaStartDatePickerDialog"
 
-                 />
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +100,7 @@
                 android:layout_weight="1"
                 android:onClick="showRotaEndDatePickerDialog"
 
-                 />
+                />
         </LinearLayout>
 
 

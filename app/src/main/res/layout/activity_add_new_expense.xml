@@ -3,134 +3,133 @@
     android:layout_height="match_parent"
     tools:context="com.salilgokhale.sharespace3.Expenses.AddNewExpenseActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                style="@style/Add_Form_Style_Expenses"
-                android:paddingTop="12dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Title:"
-                    style="@style/ListItemTextStyle"/>
-                <EditText
-                    android:id="@+id/expense_name_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16sp"
-                    style="@style/Edit_Text_Style"/>
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Add_Form_Style_Expenses">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Amount:"
-                    style="@style/ListItemTextStyle"
-                    />
-                <EditText
-                    android:id="@+id/amount_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16sp"
-                    android:inputType="numberDecimal"
-                    android:hint="0.00"
-                    android:textColorHint="@color/grey"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                style="@style/Add_Form_Style_Expenses">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Payer:"
-                    style="@style/ListItemTextStyle"/>
-                <Spinner
-                    android:id="@+id/payer_spinner"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Add_Form_Style_Expenses">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Date:"
-                    style="@style/ListItemTextStyle"/>
-                <Button
-                    android:id="@+id/date_button_expense"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="showDatePickerDialog2"
-
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Add_Form_Style_Expenses">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Split"
-                    style="@style/ListItemTextStyle"/>
-                <!--<TextView
-                    android:id="@+id/amount_total"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Total: "
-                    style="@style/ListItemTextStyle"/> -->
-                <Button
-                    android:id="@+id/auto_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textSize="16sp"
-                    android:text="Auto"
-                    />
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/checkboxes"
-                android:layout_width="match_parent"
+            style="@style/Add_Form_Style_Expenses"
+            android:paddingTop="12dp">
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:isScrollContainer="false">
-            </ListView>
+                android:layout_weight="1"
+                android:text="Title:"
+                style="@style/ListItemTextStyle"/>
+            <EditText
+                android:id="@+id/expense_name_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                style="@style/Edit_Text_Style"/>
+        </LinearLayout>
 
-
-
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Amount:"
+                style="@style/ListItemTextStyle"
+                />
+            <EditText
+                android:id="@+id/amount_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:inputType="numberDecimal"
+                android:hint="0.00"
+                android:textColorHint="@color/grey"/>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/create_new_expense"
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payer:"
+                style="@style/ListItemTextStyle"/>
+            <Spinner
+                android:id="@+id/payer_spinner"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date:"
+                style="@style/ListItemTextStyle"/>
+            <Button
+                android:id="@+id/date_button_expense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="showDatePickerDialog2"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Split"
+                style="@style/ListItemTextStyle"/>
+            <!--<TextView
+                android:id="@+id/amount_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total: "
+                style="@style/ListItemTextStyle"/> -->
+            <Button
+                android:id="@+id/auto_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:text="Auto"
+                />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/checkboxes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Create"
-            android:onClick="createNewExpense"/>
+            android:orientation="vertical"
+            android:isScrollContainer="false">
+        </ListView>
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/create_new_expense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Create"
+        android:onClick="createNewExpense"/>
 
 
 

@@ -32,5 +32,11 @@ public class DataHolderClass {
     public List<String> getDataList(){ return dataList; }
 
     public void setDataList(List<String> dataList) { this.dataList = dataList; }
+
+    private int anInt;
+
+    public void setAnInt(int anInt){ this.anInt = anInt; }
+
+    public int getAnInt(){ return anInt; }
 }
 

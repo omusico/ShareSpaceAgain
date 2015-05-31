@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
@@ -300,6 +301,33 @@ public class ViewBalanceActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            /*case R.id.action_delete_owe_expense:
+                Intent intent = this.getIntent();
+                final String oweexpenseid = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+
+                ParseQuery<ParseObject> query4 = ParseQuery.getQuery("OweExpense");
+                query4.whereEqualTo("objectId", oweexpenseid);
+
+                query4.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(final ParseObject object, ParseException e) {
+                        if (object == null) {
+                            Log.d("OweExpense:", "Not Found");
+                        }
+                        else {
+                            object.deleteInBackground(new DeleteCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null){
+                                        CloseActivity();
+                                    }
+                                }
+                            });
+
+
+                        }}});
+
+                return true; */
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -558,6 +586,10 @@ public class ViewBalanceActivity extends ActionBarActivity {
 
 
 
+    }
+
+    public void CloseActivity(){
+        this.finish();
     }
 
 }

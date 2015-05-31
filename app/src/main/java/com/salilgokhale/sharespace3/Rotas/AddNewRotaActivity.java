@@ -16,7 +16,9 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -29,6 +31,7 @@ import com.salilgokhale.sharespace3.DatePickers.DatePickerFragmentRotaE;
 import com.salilgokhale.sharespace3.DatePickers.DatePickerFragmentRotaS;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
+import com.salilgokhale.sharespace3.Trade.TradeTaskFragments.DataHolderClass;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,9 +63,9 @@ public class AddNewRotaActivity extends ActionBarActivity {
         addCheckBoxItems();
         addSpinnerItems();
         setDateItems();
+        //addCheckBoxItemListener();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,8 +94,9 @@ public class AddNewRotaActivity extends ActionBarActivity {
     public void createNewRota(View view){
         final EditText et = (EditText) findViewById(R.id.rota_name_edit_text);
         final String rota_name = et.getText().toString();
+        final ListView listView = (ListView) findViewById(R.id.rota_members_checkboxes);
 
-        ParseUser user = ParseUser.getCurrentUser();
+        final ParseUser user = ParseUser.getCurrentUser();
 
         ParseObject userHouse = user.getParseObject("Home");
 
@@ -102,11 +106,12 @@ public class AddNewRotaActivity extends ActionBarActivity {
             public void done(List<ParseUser> userList, com.parse.ParseException e) {
                 if (userList != null) {
                     List<ParseObject> rotaparticipants = new ArrayList<ParseObject>();
-
+                    List<Integer> order = new ArrayList<Integer>();
+                    List<Integer> position = new ArrayList<Integer>();
 
                     ParseObject newRota = new ParseObject("Rota");
                     newRota.put("Name", rota_name);
-                    ParseRelation<ParseObject> relation = newRota.getRelation("peopleInvolved");
+                    //ParseRelation<ParseObject> relation = newRota.getRelation("peopleInvolved");
 
 
                     String Frequency = String.valueOf(spinner.getSelectedItem());
@@ -115,7 +120,8 @@ public class AddNewRotaActivity extends ActionBarActivity {
                     boolean empty = true;
 
                     for (int i = 0; i < userList.size(); i++) {
-                        CheckBox feature = (CheckBox) findViewById(i);
+                        CheckBox feature = (CheckBox) listView.getChildAt(i).findViewById(R.id.rota_checkbox);
+                        //TextView feature_t = (TextView) listView.getChildAt(i).findViewById(R.id.checkbox_order);
                         if (feature.isChecked()) {
                             empty = false;
                             break;
@@ -126,7 +132,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                     if (!rota_name.equals("") && !empty) {
 
                         if (Frequency.equals("When Needed")) {
-
+                            /*
                             boolean firstTime = true;
                             for (int i = 0; i < userList.size(); i++) {
                                 CheckBox feature = (CheckBox) findViewById(i);
@@ -137,7 +143,41 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                         firstTime = false;
                                     }
                                 }
+                            } */
+
+                            for (int i = 0; i < userList.size(); i++) {
+                                CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.rota_checkbox);
+                                TextView t = (TextView) listView.getChildAt(i).findViewById(R.id.checkbox_order);
+                                if (cBox1.isChecked()) {
+                                    order.add(Integer.parseInt(t.getText().toString())-1);
+                                    position.add(i);
+                                    Log.d("Number in textView: ", t.getText().toString());
+                                }
                             }
+
+                            int[] Array;
+                            int[] positionArray;
+
+                            Array = new int[order.size()];
+                            positionArray = new int[order.size()];
+                            Log.d("Array Values", ":");
+
+                            for (int x = 0; x < order.size(); x++) {
+                                Array[order.get(x)] = x;
+                                positionArray[order.get(x)] = position.get(x);
+                                Log.d(String.valueOf(x), String.valueOf(order.get(x)));
+
+                            }
+
+                            newRota.put("nextPerson", userList.get(positionArray[0]));
+
+                            for (int w = 0; w < order.size(); w++){
+                                //relation.add(userList.get(Array[w]));
+                                rotaparticipants.add(userList.get(positionArray[w]));
+                                Log.d("User Added: ", userList.get(positionArray[w]).getString("name"));
+                            }
+
+                            newRota.put("orderPeople", rotaparticipants);
                             newRota.put("Due", false);
                             newRota.saveInBackground(new SaveCallback() {
                                 @Override
@@ -150,13 +190,47 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                 }
                             });
                         } else {
-                            for (int i = 0; i < userList.size(); i++) {
+                            /*for (int i = 0; i < userList.size(); i++) {
                                 CheckBox feature = (CheckBox) findViewById(i);
                                 if (feature.isChecked()) {
                                     rotaparticipants.add(userList.get(i));
                                     relation.add(userList.get(i));
                                 }
+                            } */
+
+                            for (int i = 0; i < userList.size(); i++) {
+                                CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.rota_checkbox);
+                                TextView t = (TextView) listView.getChildAt(i).findViewById(R.id.checkbox_order);
+                                if (cBox1.isChecked()) {
+                                    order.add(Integer.parseInt(t.getText().toString())-1);
+                                    position.add(i);
+                                    Log.d("Number in textView: ", t.getText().toString());
+                                }
                             }
+
+                            int[] Array;
+                            int[] positionArray;
+
+                            Array = new int[order.size()];
+                            positionArray = new int[order.size()];
+                            Log.d("Array Values", ":");
+
+                            for (int x = 0; x < order.size(); x++) {
+                                Array[order.get(x)] = x;
+                                positionArray[order.get(x)] = position.get(x);
+                                Log.d(String.valueOf(x), String.valueOf(order.get(x)));
+
+                            }
+
+                            //newRota.put("nextPerson", userList.get(positionArray[0]));
+
+                            for (int w = 0; w < order.size(); w++){
+                                //relation.add(userList.get(Array[w]));
+                                rotaparticipants.add(userList.get(positionArray[w]));
+                                Log.d("User Added: ", userList.get(positionArray[w]).getString("name"));
+                            }
+
+                            newRota.put("orderPeople", rotaparticipants);
 
                             final String start_date = StartDateButton.getText().toString();
                             final String end_date = EndDateButton.getText().toString();
@@ -333,35 +407,32 @@ public class AddNewRotaActivity extends ActionBarActivity {
     public void addCheckBoxItems() {
         ParseUser user = ParseUser.getCurrentUser();
         Log.d("Current User", user.getString("username"));
-        ParseObject userHouse = user.getParseObject("Home");
-        if (userHouse != null) {
-            Log.d("Home Object Name:", userHouse.getObjectId());
-        } else {
-            Log.d("Error", "Error");
-        }
+        final ParseObject userHouse = user.getParseObject("Home");
+
+        DataHolderClass.getInstance().setAnInt(1);
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Home", userHouse);
         query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> userList, com.parse.ParseException e) {
+            public void done(final List<ParseUser> userList, com.parse.ParseException e) {
                 if (userList != null) {
-                    List<String> list = new ArrayList<>();
+                    ArrayList<String> list = new ArrayList<>();
 
-                    LinearLayout featuresTable = (LinearLayout) findViewById(R.id.rota_members_checkboxes);
+                    final ListView featuresTable = (ListView) findViewById(R.id.rota_members_checkboxes);
 
                     for (int i = 0; i < userList.size(); i++) {
                         list.add(userList.get(i).getString("name"));
                         Log.d("User Name:", userList.get(i).getString("name"));
 
-                        CheckBox feature = new CheckBox(getApplicationContext());
-                        feature.setTextColor(getApplication().getResources().getColor(R.color.black));
-                        feature.setText(userList.get(i).getString("name"));
-                        feature.setId(i);
-                        featuresTable.addView(feature);
                     }
-                }
+
+                    RotaOrderAdapter rotaOrderAdapter = new RotaOrderAdapter(getApplicationContext(), list);
+                    featuresTable.setAdapter(rotaOrderAdapter);
+
+
 
             }
-        });
+        }});
     }
 
     public void addSpinnerItems(){

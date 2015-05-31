@@ -135,7 +135,8 @@ public class RotaFragment extends Fragment {
         final ParseUser user = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Rota");
-        query2.whereEqualTo("peopleInvolved", user);
+        //query2.whereEqualTo("peopleInvolved", user);
+        query2.whereEqualTo("orderPeople", user);
         query2.include("nextPerson");
         query2.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> rotaList, ParseException e) {

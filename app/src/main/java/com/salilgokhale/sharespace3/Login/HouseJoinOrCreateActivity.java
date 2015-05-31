@@ -105,7 +105,7 @@ public class HouseJoinOrCreateActivity extends Activity {
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
             query.whereEqualTo("Name", HomeName);
-            query.whereEqualTo("PassKey", passKey);
+            //query.whereEqualTo("PassKey", passKey);
             ParseQuery<ParseUser> query2 = ParseUser.getQuery();
             query2.whereMatchesQuery("Home", query);
             query2.include("Home");

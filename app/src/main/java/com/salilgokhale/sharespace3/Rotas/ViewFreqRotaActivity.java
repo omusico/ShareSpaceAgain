@@ -59,7 +59,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
 
                 ParseQuery<ParseObject> innerquery = ParseQuery.getQuery("Rota");
                 innerquery.whereEqualTo("objectId", Rota_ID);
-                innerquery.whereEqualTo("peopleInvolved", user);
+                //innerquery.whereEqualTo("peopleInvolved", user);
                 ParseQuery<ParseObject> outerquery = ParseQuery.getQuery("Tasks");
                 outerquery.whereMatchesQuery("parentRota", innerquery);
                 //outerquery.whereEqualTo("Completed", false);
@@ -160,7 +160,7 @@ public class ViewFreqRotaActivity extends ActionBarActivity {
 
                 ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Rota");
                 query4.whereEqualTo("objectId", Rota_ID);
-                query4.whereEqualTo("peopleInvolved", user);
+                //query4.whereEqualTo("peopleInvolved", user);
                 query4.getFirstInBackground(new GetCallback<ParseObject>() {
                     public void done(final ParseObject object, ParseException e) {
                         if (object == null) {
