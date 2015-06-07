@@ -27,28 +27,6 @@ import java.util.List;
  */
 public class MyTasksFragment extends Fragment {
 
-    //OnTrialInterface mCallback;
-
-    /*public interface OnTrialInterface{
-        public void passToMain(List<String> checked);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnTrialInterface) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnTrialInterface");
-        }
-    }
-
-    */
-
     public MyTasksFragment(){}
 
     List<String> savedIDs = new ArrayList<>();

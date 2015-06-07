@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Bill Name:"
+                style="@style/ListItemTextStyle"/>
+            <EditText
+                android:id="@+id/bill_name_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="E.g. Electricity"
+                android:textColorHint="@color/ListItemText"
+                style="@style/Edit_Text_Style"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Amount:"
+                android:hint="Leave empty if not fixed"
+                style="@style/ListItemTextStyle"
+                />
+            <EditText
+                android:id="@+id/bill_amount_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:inputType="numberDecimal"
+                android:hint="0.00"
+                android:textColorHint="@color/grey"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payer:"
+                style="@style/ListItemTextStyle"/>
+            <Spinner
+                android:id="@+id/bill_payer_spinner"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Frequency:"
+                style="@style/ListItemTextStyle"/>
+            <Spinner
+                android:id="@+id/bill_frequency_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style_Expenses">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Split"
+                style="@style/ListItemTextStyle"/>
+            <!--<TextView
+                android:id="@+id/amount_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total: "
+                style="@style/ListItemTextStyle"/> -->
+            <Button
+                android:id="@+id/auto_button_bills"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:text="Auto"
+                />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/bill_checkboxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:isScrollContainer="false">
+        </ListView>
+
+        <LinearLayout
+            style="@style/Add_Form_Style">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start Date:"
+                style="@style/ListItemTextStyle"/>
+            <Button
+                android:id="@+id/start_date_button_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="showRotaStartDatePickerDialogB"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Add_Form_Style"
+            android:paddingTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End Date:"
+                style="@style/ListItemTextStyle"/>
+            <Button
+                android:id="@+id/end_date_button_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="showRotaEndDatePickerDialogB"
+
+                />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/create_new_rota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Create"
+        android:onClick="createNewBill"/>
+
+</RelativeLayout>

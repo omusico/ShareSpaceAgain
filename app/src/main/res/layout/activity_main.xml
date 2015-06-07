@@ -58,6 +58,8 @@ android:background="@color/ActionBarBackground">
     <Button
         android:id="@+id/logout_button"
         style="@style/ParseLoginUI.Button"
+        android:textColor="@color/ActionBarBackground"
+        android:background="@color/white"
         android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
         android:text="@string/profile_logout_button_label"/>
 </LinearLayout>

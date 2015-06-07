@@ -1,14 +1,12 @@
 package com.salilgokhale.sharespace3.Home;
 
-//import android.app.Fragment;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,13 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.Expenses.BalancesAdapter;
 import com.salilgokhale.sharespace3.Expenses.BalancesObject;
@@ -40,10 +36,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by salilgokhale on 04/03/15.
+ * Created by salilgokhale on 03/06/15.
  */
-public class HomeFragment extends Fragment {
-    /*
+public class CurrentTaskFragment extends Fragment {
+
     private Button bt1, bt2;
     private ListView lv;
     private ArrayList<String> strArr;
@@ -51,33 +47,19 @@ public class HomeFragment extends Fragment {
 
     // SectionHeaders
     private final static String[] headers = new String[]{"Today", "Upcoming"};
-    */
 
-    public HomeFragment(){}
+    public CurrentTaskFragment(){
 
-    private FragmentTabHost mTabHost;
+    }
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        //printKeyHash(getActivity());
-
-        mTabHost = new FragmentTabHost(getActivity());
-        mTabHost = (FragmentTabHost)rootView.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
-
-        mTabHost.addTab(mTabHost.newTabSpec("current").setIndicator("Current"),
-                CurrentTaskFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("log").setIndicator("Log"),
-                PreviousTaskFragment.class, null);
-
+        final View rootView = inflater.inflate(R.layout.fragment_current_task, container, false);
 
         return rootView;
     }
-/*
+
     @Override
     public void onResume(){
         Log.e("DEBUG", "onResume of HomeFragment");
@@ -177,8 +159,8 @@ public class HomeFragment extends Fragment {
                             startActivity(intent);
                         }
                     }); */
-/*
-                   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long duration) {
                             String task_id = (String) adapter.getItemsID(position);
@@ -233,25 +215,25 @@ public class HomeFragment extends Fragment {
 
                                                         ArrayList<ParseUser> list = (ArrayList<ParseUser>) therota.get("orderPeople");
 
-                                                                String personNextName = therota.getParseObject("nextPerson").getObjectId();
-                                                                Log.d("nextPerson's name", personNextName);
+                                                        String personNextName = therota.getParseObject("nextPerson").getObjectId();
+                                                        Log.d("nextPerson's name", personNextName);
 
 
-                                                                for (int i = 0; i < list.size(); i++) {
-                                                                    Log.d("peopleInvolved", list.get(i).getString("name"));
+                                                        for (int i = 0; i < list.size(); i++) {
+                                                            Log.d("peopleInvolved", list.get(i).getString("name"));
 
-                                                                    if (personNextName.equals(list.get(i).getObjectId())) {
-                                                                        if (i == list.size() - 1) {
-                                                                            therota.put("nextPerson", list.get(0));
-                                                                            Log.d("nextPerson position", " at end");
-                                                                        } else {
-                                                                            therota.put("nextPerson", list.get(i + 1));
-                                                                            Log.d("nextPerson position", " not at end");
-                                                                        }
-                                                                        break;
-                                                                    }
+                                                            if (personNextName.equals(list.get(i).getObjectId())) {
+                                                                if (i == list.size() - 1) {
+                                                                    therota.put("nextPerson", list.get(0));
+                                                                    Log.d("nextPerson position", " at end");
+                                                                } else {
+                                                                    therota.put("nextPerson", list.get(i + 1));
+                                                                    Log.d("nextPerson position", " not at end");
                                                                 }
-                                                                therota.saveInBackground();
+                                                                break;
+                                                            }
+                                                        }
+                                                        therota.saveInBackground();
 
                                                     }
                                                 }
@@ -312,6 +294,6 @@ public class HomeFragment extends Fragment {
 
         //return key;
     }
-*/
+
 
 }

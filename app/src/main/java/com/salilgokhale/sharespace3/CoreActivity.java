@@ -23,6 +23,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.Expenses.AddNewExpenseActivity;
 import com.salilgokhale.sharespace3.Expenses.ExpensesFragment;
+import com.salilgokhale.sharespace3.Expenses.ItemTabFragments.AddNewBillActivity;
 import com.salilgokhale.sharespace3.Home.AddNewTaskActivity;
 import com.salilgokhale.sharespace3.Home.HomeFragment;
 import com.salilgokhale.sharespace3.Rotas.AddNewRotaActivity;
@@ -121,7 +122,7 @@ public class CoreActivity extends ActionBarActivity{
             getSupportActionBar().setHomeButtonEnabled(true);
 
             mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                    R.drawable.ic_drawer, //nav menu toggle icon
+                    R.drawable.drawer_icon, //nav menu toggle icon
                     R.string.app_name, // nav drawer open - description for accessibility
                     R.string.app_name // nav drawer close - description for accessibility
             ){
@@ -300,6 +301,12 @@ public class CoreActivity extends ActionBarActivity{
         Intent intent = new Intent(this, AddNewExpenseActivity.class);
         startActivity(intent);
     }
+
+    public void addNewBill(View view){
+        Intent intent = new Intent(this, AddNewBillActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onResume(){

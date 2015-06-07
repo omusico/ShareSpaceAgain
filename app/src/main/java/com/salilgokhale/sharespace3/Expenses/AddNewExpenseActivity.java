@@ -29,6 +29,8 @@ import com.salilgokhale.sharespace3.MainActivity;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SpinnerListener;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -153,7 +155,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
 
                     //final TextView RunningTotal = (TextView) findViewById(R.id.amount_total);
                     final EditText TotalAmount = (EditText) findViewById(R.id.amount_edit_text);
-                    TotalAmount.addTextChangedListener(new TextWatcher() {
+                    /*TotalAmount.addTextChangedListener(new TextWatcher() {
                         public void afterTextChanged(Editable s) {
                             if (!s.toString().equals("")) {
                                 float f = Float.parseFloat(s.toString());
@@ -175,7 +177,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
                         }
                     });
 
-
+                    */
                     final Button button = (Button) findViewById(R.id.auto_button);
                     button.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
@@ -358,6 +360,7 @@ public void createNewExpense(View view){
                         float total = Float.valueOf(amount_et.getText().toString());
                         float runningtotal2 = 0.0f;
                         int payer_id = 0;
+                            Log.d("Actual Total: ", String.valueOf(total));
 
                         for (int i = 0; i < userList.size(); i++) {
 
@@ -365,7 +368,9 @@ public void createNewExpense(View view){
                             EditText et = (EditText) listView.getChildAt(i).findViewById(R.id.checkbox_amount);
                             if (cBox1.isChecked() && (!et.getText().toString().equals(""))) {
                                 float number = Float.valueOf(et.getText().toString());
+                                Log.d("Value: ", String.valueOf(number));
                                 runningtotal2 += number;
+                                Log.d("Running Total: ", String.valueOf(runningtotal2));
                                 peopleSplit.add(userList.get(i));
                                 amountSplit.add(number);
                             }
@@ -378,11 +383,16 @@ public void createNewExpense(View view){
 
                         }
 
-                        if (runningtotal2 > total) {
+                            NumberFormat formatter = new DecimalFormat("#0.00");
+                            Float runningtotal3 = 0.0f;
+                            runningtotal3 = Float.valueOf(formatter.format(runningtotal2));
+
+
+                        if (runningtotal3 > total) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Sum > Total", Toast.LENGTH_LONG);
                             toast.show();
 
-                        } else if (runningtotal2 < total) {
+                        } else if (runningtotal3 < total) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Sum < Total", Toast.LENGTH_LONG);
                             toast.show();
 

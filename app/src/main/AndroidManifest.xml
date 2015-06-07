@@ -190,7 +190,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-<!--                   IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.salilgokhale.sharespace3" />
             </intent-filter>
         </receiver>
@@ -202,6 +202,14 @@
         <activity
             android:name=".Trade.TradeTaskFragments.ViewSubmittedBidActivity"
             android:label="@string/title_activity_view_submitted_bid"
+            android:parentActivityName=".CoreActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.salilgokhale.sharespace3.CoreActivity" />
+        </activity>
+        <activity
+            android:name=".Expenses.ItemTabFragments.AddNewBillActivity"
+            android:label="@string/title_activity_add_new_bill"
             android:parentActivityName=".CoreActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

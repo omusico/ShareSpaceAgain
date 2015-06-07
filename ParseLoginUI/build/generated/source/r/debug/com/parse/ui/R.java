@@ -204,32 +204,33 @@ containing a value of this type.
         public static int title_text=0x7f01000d;
     }
     public static final class color {
-        public static int com_facebook_blue=0x7f040000;
-        public static int com_facebook_likeboxcountview_border_color=0x7f040001;
-        public static int com_facebook_likeboxcountview_text_color=0x7f040002;
-        public static int com_facebook_likebutton_text_color=0x7f040003;
-        public static int com_facebook_likeview_text_color=0x7f040004;
-        public static int com_facebook_loginview_text_color=0x7f040005;
-        public static int com_facebook_picker_search_bar_background=0x7f040006;
-        public static int com_facebook_picker_search_bar_text=0x7f040007;
-        public static int com_facebook_usersettingsfragment_connected_shadow_color=0x7f040008;
-        public static int com_facebook_usersettingsfragment_connected_text_color=0x7f040009;
-        public static int com_facebook_usersettingsfragment_not_connected_text_color=0x7f04000a;
-        public static int com_parse_ui_facebook_login_button=0x7f04000b;
-        public static int com_parse_ui_facebook_login_button_focus=0x7f04000c;
-        public static int com_parse_ui_facebook_login_button_push=0x7f04000d;
-        public static int com_parse_ui_parse_login_button=0x7f04000e;
-        public static int com_parse_ui_parse_login_button_focus=0x7f04000f;
-        public static int com_parse_ui_parse_login_button_push=0x7f040010;
-        public static int com_parse_ui_parse_login_display_text=0x7f040011;
-        public static int com_parse_ui_parse_login_help_button_label=0x7f040012;
-        public static int com_parse_ui_parse_login_help_button_label_focus=0x7f040013;
-        public static int com_parse_ui_parse_login_help_button_label_push=0x7f040014;
-        public static int com_parse_ui_parse_login_help_button_label_selector=0x7f040019;
-        public static int com_parse_ui_parse_login_text_hint=0x7f040015;
-        public static int com_parse_ui_twitter_login_button=0x7f040016;
-        public static int com_parse_ui_twitter_login_button_focus=0x7f040017;
-        public static int com_parse_ui_twitter_login_button_push=0x7f040018;
+        public static int ActionBarBackground=0x7f040000;
+        public static int com_facebook_blue=0x7f040001;
+        public static int com_facebook_likeboxcountview_border_color=0x7f040002;
+        public static int com_facebook_likeboxcountview_text_color=0x7f040003;
+        public static int com_facebook_likebutton_text_color=0x7f040004;
+        public static int com_facebook_likeview_text_color=0x7f040005;
+        public static int com_facebook_loginview_text_color=0x7f040006;
+        public static int com_facebook_picker_search_bar_background=0x7f040007;
+        public static int com_facebook_picker_search_bar_text=0x7f040008;
+        public static int com_facebook_usersettingsfragment_connected_shadow_color=0x7f040009;
+        public static int com_facebook_usersettingsfragment_connected_text_color=0x7f04000a;
+        public static int com_facebook_usersettingsfragment_not_connected_text_color=0x7f04000b;
+        public static int com_parse_ui_facebook_login_button=0x7f04000c;
+        public static int com_parse_ui_facebook_login_button_focus=0x7f04000d;
+        public static int com_parse_ui_facebook_login_button_push=0x7f04000e;
+        public static int com_parse_ui_parse_login_button=0x7f04000f;
+        public static int com_parse_ui_parse_login_button_focus=0x7f040010;
+        public static int com_parse_ui_parse_login_button_push=0x7f040011;
+        public static int com_parse_ui_parse_login_display_text=0x7f040012;
+        public static int com_parse_ui_parse_login_help_button_label=0x7f040013;
+        public static int com_parse_ui_parse_login_help_button_label_focus=0x7f040014;
+        public static int com_parse_ui_parse_login_help_button_label_push=0x7f040015;
+        public static int com_parse_ui_parse_login_help_button_label_selector=0x7f04001a;
+        public static int com_parse_ui_parse_login_text_hint=0x7f040016;
+        public static int com_parse_ui_twitter_login_button=0x7f040017;
+        public static int com_parse_ui_twitter_login_button_focus=0x7f040018;
+        public static int com_parse_ui_twitter_login_button_push=0x7f040019;
     }
     public static final class dimen {
         public static int com_facebook_likeboxcountview_border_radius=0x7f050000;
@@ -293,7 +294,7 @@ containing a value of this type.
         public static int com_facebook_list_section_header_background=0x7f020014;
         public static int com_facebook_loginbutton_silver=0x7f020015;
         public static int com_facebook_logo=0x7f020016;
-        public static int com_facebook_picker_default_separator_color=0x7f020038;
+        public static int com_facebook_picker_default_separator_color=0x7f02003a;
         public static int com_facebook_picker_item_background=0x7f020017;
         public static int com_facebook_picker_list_focused=0x7f020018;
         public static int com_facebook_picker_list_longpressed=0x7f020019;
@@ -324,9 +325,11 @@ containing a value of this type.
         public static int com_parse_ui_parse_login_button_background_selector=0x7f020032;
         public static int com_parse_ui_twitter_login_button_background_selector=0x7f020033;
         public static int com_parse_ui_twitter_login_logo=0x7f020034;
-        public static int living_room_image_edit=0x7f020035;
-        public static int modern_blue=0x7f020036;
-        public static int sharespacelogo=0x7f020037;
+        public static int grey_modern_living=0x7f020035;
+        public static int hoover_house_grey=0x7f020036;
+        public static int living_room_image_edit=0x7f020037;
+        public static int modern_blue=0x7f020038;
+        public static int sharespacelogo=0x7f020039;
     }
     public static final class id {
         public static int app_logo=0x7f090026;
@@ -375,6 +378,7 @@ containing a value of this type.
         public static int parse_login_button=0x7f09002b;
         public static int parse_login_help=0x7f09002d;
         public static int parse_signup_button=0x7f09002c;
+        public static int parse_start_login_button=0x7f090039;
         public static int picker_subtitle=0x7f09001b;
         public static int right=0x7f090008;
         public static int signup_confirm_password_input=0x7f090035;
@@ -411,6 +415,7 @@ containing a value of this type.
         public static int com_parse_ui_parse_login_third_party_section=0x7f030014;
         public static int com_parse_ui_parse_signup_form=0x7f030015;
         public static int com_parse_ui_parse_signup_fragment=0x7f030016;
+        public static int com_parse_ui_parse_startup_fragment=0x7f030017;
     }
     public static final class plurals {
         public static int com_parse_ui_password_too_short_toast=0x7f060000;
