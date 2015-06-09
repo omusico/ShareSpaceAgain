@@ -4,21 +4,12 @@
     android:layout_height="wrap_content"
     android:tag="EXPENSEITEM">
 
-    <TextView
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:id="@+id/expense_log_date"
-        android:minHeight="48dp"
-        android:layout_weight="1"
-        android:padding="16dp"
-        style="@style/ListItemTextStyle"
-        android:layout_gravity="left">
-
-    </TextView>
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_weight="1"
         android:layout_gravity="center">
 
         <TextView
@@ -28,7 +19,7 @@
             style="@style/ListItemTextStyle"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:gravity="center"/>
+            android:gravity="start"/>
         <TextView
             android:id="@+id/log_payer"
             android:layout_width="match_parent"
@@ -36,22 +27,39 @@
             style="@style/ListItemTextStyle"
             android:textSize="12sp"
             android:textColor="@color/counter_text_bg"
-            android:gravity="center"/>
+            android:gravity="start"/>
 
 
-        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:id="@+id/expense_log_value"
         android:minHeight="48dp"
-        android:layout_weight="1"
-        android:padding="16dp"
+        android:layout_weight="2"
         style="@style/ListItemTextStyle"
-        android:layout_gravity="right"
-        android:gravity="right">
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:gravity="center">
 
     </TextView>
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:id="@+id/expense_log_date"
+        android:minHeight="48dp"
+        android:layout_weight="2"
+        android:textSize="16sp"
+        android:gravity="center"
+        style="@style/ListItemTextStyle"
+        android:layout_gravity="center"
+        >
+
+    </TextView>
+
+
+
+
 
 
 

@@ -30,12 +30,12 @@ public class BillsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_bills, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
         return rootView;
     }
 
-
+/*
     @Override
     public void onResume() {
         super.onResume();
@@ -64,5 +64,5 @@ public class BillsFragment extends Fragment {
         }
     }
 
-
+*/
 }

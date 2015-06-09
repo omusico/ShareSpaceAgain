@@ -231,6 +231,9 @@ public class CoreActivity extends ActionBarActivity{
                     return true;
                 case R.id.action_settings:
                     return true;
+                case R.id.action_about:
+                    Intent aboutIntent = new Intent(this, AboutActivity.class);
+                    startActivity(aboutIntent);
                 default:
                     return super.onOptionsItemSelected(item);
             }

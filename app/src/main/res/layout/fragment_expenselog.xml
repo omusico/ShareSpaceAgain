@@ -12,19 +12,6 @@
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:text="Date"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="2dip"
-        android:paddingBottom="2dip"
-        android:paddingLeft="5dip"
-        android:textColor="#BDBDBD"
-        style="?android:attr/listSeparatorTextViewStyle" />
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:text="Log"
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -39,7 +26,20 @@
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:text="Amount"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:paddingLeft="5dip"
+        android:textColor="#BDBDBD"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Date"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

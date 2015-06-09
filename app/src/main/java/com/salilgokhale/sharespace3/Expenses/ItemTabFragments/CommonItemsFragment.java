@@ -33,12 +33,12 @@ public class CommonItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_common_items, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
         return rootView;
     }
 
-
+/*
     @Override
     public void onResume() {
         super.onResume();
@@ -80,7 +80,7 @@ public class CommonItemsFragment extends Fragment {
 
                                 }
                                 else {*/
-
+/*
                                     ParseObject newItem = new ParseObject("CommonItem");
                                     newItem.put("Name", Input);
                                     newItem.put("House", house);
@@ -146,5 +146,5 @@ public class CommonItemsFragment extends Fragment {
 
 
             }
-    }
+    } */
 }

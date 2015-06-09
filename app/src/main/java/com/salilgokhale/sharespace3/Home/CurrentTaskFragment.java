@@ -22,8 +22,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.salilgokhale.sharespace3.Expenses.BalancesAdapter;
-import com.salilgokhale.sharespace3.Expenses.BalancesObject;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SwipeDismissListViewTouchListener;
 
@@ -111,21 +109,21 @@ public class CurrentTaskFragment extends Fragment {
                         }
                     }
 
-                    ArrayList<BalancesObject> todayobjects = new ArrayList<>();
-                    ArrayList<BalancesObject> upcomingobjects = new ArrayList<>();
+                    ArrayList<TaskObject> todayobjects = new ArrayList<>();
+                    ArrayList<TaskObject> upcomingobjects = new ArrayList<>();
 
                     for (int i = 0; i < todaytaskArray.size(); i++) {
-                        BalancesObject temp = new BalancesObject(todaytaskArray.get(i), todaytaskDate.get(i), todaytaskID.get(i));
+                        TaskObject temp = new TaskObject(todaytaskArray.get(i), todaytaskDate.get(i), todaytaskID.get(i));
                         todayobjects.add(temp);
-                        Log.d("Object Name: ", todayobjects.get(i).getBname());
-                        Log.d("Object Debt: ", todayobjects.get(i).getBdebt());
+                        Log.d("Object Name: ", todayobjects.get(i).getTname());
+                        Log.d("Object Debt: ", todayobjects.get(i).getTdate());
                     }
 
                     for (int i = 0; i < upcomingtaskArray.size(); i++) {
-                        BalancesObject temp = new BalancesObject(upcomingtaskArray.get(i), upcomingtaskDate.get(i), upcomingtaskID.get(i));
+                        TaskObject temp = new TaskObject(upcomingtaskArray.get(i), upcomingtaskDate.get(i), upcomingtaskID.get(i));
                         upcomingobjects.add(temp);
-                        Log.d("Object Name: ", upcomingobjects.get(i).getBname());
-                        Log.d("Object Debt: ", upcomingobjects.get(i).getBdebt());
+                        Log.d("Object Name: ", upcomingobjects.get(i).getTname());
+                        Log.d("Object Debt: ", upcomingobjects.get(i).getTdate());
                     }
 
 
@@ -137,8 +135,8 @@ public class CurrentTaskFragment extends Fragment {
                     final HomeSeparatedListAdapter adapter = new HomeSeparatedListAdapter(getActivity());
                     //final ArrayAdapter<String> mtasksAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, todaytaskArray);
                     //final ArrayAdapter<String> mupcomingAdapter = new ArrayAdapter<String>(getActivity(), R.layout.task_list_item, upcomingtaskArray);
-                    final BalancesAdapter mtasksAdapter = new BalancesAdapter(getActivity(), todayobjects);
-                    final BalancesAdapter mupcomingAdapter = new BalancesAdapter(getActivity(), upcomingobjects);
+                    final TaskAdapter mtasksAdapter = new TaskAdapter(getActivity(), todayobjects);
+                    final TaskAdapter mupcomingAdapter = new TaskAdapter(getActivity(), upcomingobjects);
 
 
                     // Add Sections

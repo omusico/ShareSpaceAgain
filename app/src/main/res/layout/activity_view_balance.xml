@@ -96,6 +96,7 @@
         <ListView
             android:id="@+id/specific_expense_logs"
             style="@style/ListView_Style"
+            android:background="@color/white"
             android:listSelector="@null"/>
 
 

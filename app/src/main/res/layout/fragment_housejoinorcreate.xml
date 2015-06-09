@@ -7,9 +7,9 @@
 
     <TextView
         android:paddingTop="100dp"
-        android:text="Welcome to ShareSpace"
+        android:text="Welcome to ShareSpace!"
         android:fontFamily="sans-serif-light"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,6 +29,7 @@
         android:paddingBottom="16dp"
         android:layout_height="wrap_content"
         android:hint="House Name"
+        android:textColor="@color/white"
         android:textColorHint="@color/grey"
         android:gravity="left"
         android:layout_gravity="center"
@@ -41,9 +42,11 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:hint="PassKey"
+        android:textColor="@color/white"
         android:textColorHint="@color/grey"
         android:layout_gravity="center"
-        android:gravity="left"/>
+        android:gravity="left"
+        android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,17 +80,20 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="a Space"
+        android:text="a House"
+        android:textColor="@color/white"
         style="@style/ListItemTextStyle"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_gravity="bottom"
+        android:gravity="center"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="Create a new house by setting up the name and passkey. Join an existing house by entering the name and passkey."
         />
 

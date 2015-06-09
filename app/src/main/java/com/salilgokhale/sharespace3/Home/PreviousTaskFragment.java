@@ -13,8 +13,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.salilgokhale.sharespace3.Expenses.BalancesAdapter;
-import com.salilgokhale.sharespace3.Expenses.BalancesObject;
 import com.salilgokhale.sharespace3.R;
 import com.salilgokhale.sharespace3.SwipeDismissListViewTouchListener;
 
@@ -50,18 +48,18 @@ public class PreviousTaskFragment extends Fragment {
                 if (taskList != null) {
                     Log.d("QueryTasks:", "Task found");
 
-                    ArrayList<BalancesObject> objects = new ArrayList<>();
+                    ArrayList<TaskObject> objects = new ArrayList<>();
 
                     SimpleDateFormat fmt = new SimpleDateFormat("d/M");
 
                     for (int i = 0; i < taskList.size(); i++) {
                         ParseObject temptask = taskList.get(i);
 
-                        BalancesObject temp = new BalancesObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")), temptask.getObjectId());
+                        TaskObject temp = new TaskObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")), temptask.getObjectId());
                         objects.add(temp);
                     }
 
-                    final BalancesAdapter mtasksAdapter = new BalancesAdapter(getActivity(), objects);
+                    final TaskAdapter mtasksAdapter = new TaskAdapter(getActivity(), objects);
                     ListView listView = (ListView) rootView.findViewById(R.id.myprevioustasks);
                     listView.setAdapter(mtasksAdapter);
 
@@ -81,11 +79,12 @@ public class PreviousTaskFragment extends Fragment {
                                                 //int realPosition = position - adapter.getRealPosition(position);
                                                 //Log.d("Position: ", String.valueOf(position));
                                                 //Log.d("Real Position: ", String.valueOf(realPosition));
-                                                String taskID = (String) mtasksAdapter.getItem(position).getBObjectID();
+                                                String taskID = (String) mtasksAdapter.getItem(position).getTObjectID();
 
                                                 for (int i = 0; i < taskList.size(); i++) {
                                                     Calendar c0 = Calendar.getInstance();
                                                     c0.set(Calendar.HOUR_OF_DAY, 1);
+                                                    c0.set(Calendar.MINUTE, 0);
                                                     final Date date = c0.getTime();
                                                     if (taskList.get(i).getObjectId().equals(taskID)) {
                                                         taskList.get(i).put("Completed", false);
