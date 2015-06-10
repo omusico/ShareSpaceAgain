@@ -1,5 +1,6 @@
 package com.salilgokhale.sharespace3.Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -7,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +18,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -31,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 // TODO
 // Add owner spinner functionality
@@ -120,7 +126,7 @@ public class EditTaskActivity extends ActionBarActivity {
 
         final String Owner = String.valueOf(spinner.getSelectedItem());
         Log.d("New Owner", Owner);
-        ParseUser user = ParseUser.getCurrentUser();
+        final ParseUser user = ParseUser.getCurrentUser();
         final ParseObject userHouse = user.getParseObject("Home");
 
         try {
@@ -159,6 +165,23 @@ public class EditTaskActivity extends ActionBarActivity {
                                         object.put("Name", et.getText().toString());
                                         object.put("dateDue", date1);
                                         object.put("Owner", userList.get(0));
+
+                                        if(!userList.get(0).equals(user)){
+                                            HashMap<String, Object> params = new HashMap<String, Object>();
+                                            params.put("owner", userList.get(0).getObjectId());
+                                            params.put("sender", user.getString("name"));
+
+                                            ParseCloud.callFunctionInBackground("TaskNotify", params, new FunctionCallback<String>() {
+                                                public void done(String result, com.parse.ParseException e) {
+                                                    if (e == null) {
+                                                        // result is "Hello world!"
+                                                        Log.d("Result is: ", result);
+                                                    }
+                                                }
+                                            });
+
+                                        }
+
                                         object.saveInBackground(new SaveCallback() {
                                             @Override
                                             public void done(com.parse.ParseException e) {
@@ -224,7 +247,7 @@ public class EditTaskActivity extends ActionBarActivity {
 
                     list.add(user.getString("name"));
 
-                    for (int i = 0; i< userList.size(); i++){
+                    for (int i = 0; i < userList.size(); i++) {
                         if (!userList.get(i).getObjectId().equals(user.getObjectId())) {
                             list.add(userList.get(i).getString("name"));
                             Log.d("User Name:", userList.get(i).getString("name"));
@@ -237,12 +260,36 @@ public class EditTaskActivity extends ActionBarActivity {
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
                 }
-            }});
+            }
+        });
 
     }
 
     public void CloseActivity(){
         this.finish();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight()+","+w.getBottom()+" coords "+scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 
 }

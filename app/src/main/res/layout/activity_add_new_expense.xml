@@ -48,6 +48,7 @@
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:inputType="numberDecimal"
+                android:imeOptions="actionDone"
                 android:hint="0.00"
                 android:textColorHint="@color/grey"/>
 

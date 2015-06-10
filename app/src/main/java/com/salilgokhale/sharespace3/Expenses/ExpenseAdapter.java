@@ -57,7 +57,13 @@ public class ExpenseAdapter extends BaseAdapter {
         }
 
         holder.checkBox.setText(objects.get(position).getEname());
-        holder.editText.setText(objects.get(position).getEamount());
+        if(!objects.get(position).getEamount().equals("")) {
+            holder.editText.setText(objects.get(position).getEamount());
+        }
+        else{
+            holder.editText.setHint("0.00");
+        }
+
         //holder.editText.addTextChangedListener();
         /*if(objects.get(position).getLocked()){
             holder.editText.setEnabled(false);

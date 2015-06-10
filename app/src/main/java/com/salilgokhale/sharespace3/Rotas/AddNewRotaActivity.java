@@ -2,6 +2,7 @@ package com.salilgokhale.sharespace3.Rotas;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -9,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -149,7 +153,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                 CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.rota_checkbox);
                                 TextView t = (TextView) listView.getChildAt(i).findViewById(R.id.checkbox_order);
                                 if (cBox1.isChecked()) {
-                                    order.add(Integer.parseInt(t.getText().toString())-1);
+                                    order.add(Integer.parseInt(t.getText().toString()) - 1);
                                     position.add(i);
                                     Log.d("Number in textView: ", t.getText().toString());
                                 }
@@ -171,7 +175,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
                             newRota.put("nextPerson", userList.get(positionArray[0]));
 
-                            for (int w = 0; w < order.size(); w++){
+                            for (int w = 0; w < order.size(); w++) {
                                 //relation.add(userList.get(Array[w]));
                                 rotaparticipants.add(userList.get(positionArray[w]));
                                 Log.d("User Added: ", userList.get(positionArray[w]).getString("name"));
@@ -202,7 +206,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                 CheckBox cBox1 = (CheckBox) listView.getChildAt(i).findViewById(R.id.rota_checkbox);
                                 TextView t = (TextView) listView.getChildAt(i).findViewById(R.id.checkbox_order);
                                 if (cBox1.isChecked()) {
-                                    order.add(Integer.parseInt(t.getText().toString())-1);
+                                    order.add(Integer.parseInt(t.getText().toString()) - 1);
                                     position.add(i);
                                     Log.d("Number in textView: ", t.getText().toString());
                                 }
@@ -224,7 +228,7 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
                             //newRota.put("nextPerson", userList.get(positionArray[0]));
 
-                            for (int w = 0; w < order.size(); w++){
+                            for (int w = 0; w < order.size(); w++) {
                                 //relation.add(userList.get(Array[w]));
                                 rotaparticipants.add(userList.get(positionArray[w]));
                                 Log.d("User Added: ", userList.get(positionArray[w]).getString("name"));
@@ -388,20 +392,21 @@ public class AddNewRotaActivity extends ActionBarActivity {
                                 }
                             }
                         }
-                    }
-                    else{
-                        if(rota_name.equals("")) {
+                    } else {
+                        if (rota_name.equals("")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Rota must have name", Toast.LENGTH_LONG);
                             toast.show();
                         }
-                        if(empty){
+                        if (empty) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Rota must have members", Toast.LENGTH_LONG);
                             toast.show();
                         }
                     }
 
 
-                }}});
+                }
+            }
+        });
     }
 
     public void addCheckBoxItems() {
@@ -430,13 +435,15 @@ public class AddNewRotaActivity extends ActionBarActivity {
                     featuresTable.setAdapter(rotaOrderAdapter);
 
 
-
+                }
             }
-        }});
+        });
     }
 
     public void addSpinnerItems(){
         spinner = (Spinner) findViewById(R.id.rota_frequency_spinner);
+        StartDateButton = (Button) findViewById(R.id.start_date_button_rota);
+        EndDateButton = (Button) findViewById(R.id.end_date_button_rota);
 
         String[] frequency_items = getResources().getStringArray(R.array.frequency_options);
         final List<String> frequencyList = new ArrayList<>(Arrays.asList(frequency_items));
@@ -445,7 +452,23 @@ public class AddNewRotaActivity extends ActionBarActivity {
                 R.layout.spinner_item, frequencyList);
         freqAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(freqAdapter);
-        spinner.setOnItemSelectedListener(new SpinnerListener());
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    StartDateButton.setEnabled(false);
+                    EndDateButton.setEnabled(false);
+                } else {
+                    StartDateButton.setEnabled(true);
+                    EndDateButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -483,6 +506,29 @@ public class AddNewRotaActivity extends ActionBarActivity {
 
     public void CloseActivity(){
         this.finish();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight()+","+w.getBottom()+" coords "+scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 
 }

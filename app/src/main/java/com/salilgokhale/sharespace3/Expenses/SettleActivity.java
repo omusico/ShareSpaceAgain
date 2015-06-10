@@ -1,12 +1,15 @@
 package com.salilgokhale.sharespace3.Expenses;
 
+import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -77,37 +80,41 @@ public class SettleActivity extends ActionBarActivity {
                 final Button button = (Button) findViewById(R.id.payment_add);
                 button.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        if (!et.getText().toString().equals("") || !(Float.valueOf(et.getText().toString()) == 0)) {
-                            try {
-                                final String userinput = DateButton.getText().toString();
-                                final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-                                final Date date = formatter.parse(userinput);
-                                Float number = Float.valueOf(et.getText().toString());
+                        if (!et.getText().toString().equals("")) {
+                            if (!(Float.valueOf(et.getText().toString()) == 0)) {
+                                try {
+                                    final String userinput = DateButton.getText().toString();
+                                    final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+                                    final Date date = formatter.parse(userinput);
+                                    Float number = Float.valueOf(et.getText().toString());
 
 
-                                ParseObject settlelog = new ParseObject("ExpenseLog");
-                                settlelog.put("Amount", number);
-                                settlelog.put("House", userHouse);
-                                settlelog.put("Date", date);
-                                settlelog.put("Settlement", true);
-                                if (extras.getString("1st Name Object ID").equals(user.getObjectId())) {
-                                    settlelog.put("Payer", user);
-                                    settlelog.put("SettlementPayee", parseUser);
-                                    settlelog.put("Title", user.getString("name") + " to");
-                                } else {
-                                    settlelog.put("Payer", parseUser);
-                                    settlelog.put("SettlementPayee", user);
-                                    settlelog.put("Title", parseUser.getString("name") + " to");
+                                    ParseObject settlelog = new ParseObject("ExpenseLog");
+                                    settlelog.put("Amount", number);
+                                    settlelog.put("House", userHouse);
+                                    settlelog.put("Date", date);
+                                    settlelog.put("Settlement", true);
+                                    if (extras.getString("1st Name Object ID").equals(user.getObjectId())) {
+                                        settlelog.put("Payer", user);
+                                        settlelog.put("SettlementPayee", parseUser);
+                                        settlelog.put("Title", user.getString("name") + " to");
+                                    } else {
+                                        settlelog.put("Payer", parseUser);
+                                        settlelog.put("SettlementPayee", user);
+                                        settlelog.put("Title", parseUser.getString("name") + " to");
+                                    }
+
+                                    settlelog.saveInBackground();
+
+                                    updateOweExpense(oweexpenseid, number, payer);
+
+                                } catch (java.text.ParseException e2) {
+                                    e2.printStackTrace();
+                                    Log.d("Date:", "Error");
                                 }
-
-                                settlelog.saveInBackground();
-
-                                updateOweExpense(oweexpenseid, number, payer);
-
-                            }
-                            catch (java.text.ParseException e2) {
-                                e2.printStackTrace();
-                                Log.d("Date:", "Error");
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(), "No Amount", Toast.LENGTH_LONG);
+                                toast.show();
                             }
                         }
                         else{
@@ -164,18 +171,16 @@ public class SettleActivity extends ActionBarActivity {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     Float number = object.getNumber("Amount").floatValue();
-                    if (object.getString("Name1").equals(payer)){
+                    if (object.getString("Name1").equals(payer)) {
                         number = number + amount;
-                    }
-                    else
-                    {
+                    } else {
                         number = number - amount;
                     }
                     object.put("Amount", number);
                     object.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if (e == null){
+                            if (e == null) {
                                 closeactivity();
                             }
                         }
@@ -184,5 +189,28 @@ public class SettleActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight()+","+w.getBottom()+" coords "+scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 }

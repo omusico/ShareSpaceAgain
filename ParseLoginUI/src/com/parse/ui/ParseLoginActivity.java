@@ -23,6 +23,7 @@ package com.parse.ui;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -32,7 +33,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -228,5 +233,28 @@ public class ParseLoginActivity extends FragmentActivity implements
     }
 
     return mergedOptions;
+  }
+
+  @Override
+  public boolean dispatchTouchEvent(MotionEvent event) {
+
+    View v = getCurrentFocus();
+    boolean ret = super.dispatchTouchEvent(event);
+
+    if (v instanceof EditText) {
+      View w = getCurrentFocus();
+      int scrcoords[] = new int[2];
+      w.getLocationOnScreen(scrcoords);
+      float x = event.getRawX() + w.getLeft() - scrcoords[0];
+      float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+      Log.d("Activity", "Touch event " + event.getRawX() + "," + event.getRawY() + " " + x + "," + y + " rect " + w.getLeft() + "," + w.getTop() + "," + w.getRight() + "," + w.getBottom() + " coords " + scrcoords[0] + "," + scrcoords[1]);
+      if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+      }
+    }
+    return ret;
   }
 }

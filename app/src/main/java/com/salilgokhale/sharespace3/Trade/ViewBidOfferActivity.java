@@ -17,6 +17,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.Expenses.BalancesAdapter;
 import com.salilgokhale.sharespace3.Expenses.BalancesObject;
+import com.salilgokhale.sharespace3.Home.TaskAdapter;
+import com.salilgokhale.sharespace3.Home.TaskObject;
 import com.salilgokhale.sharespace3.R;
 
 import java.text.SimpleDateFormat;
@@ -52,26 +54,26 @@ public class ViewBidOfferActivity extends ActionBarActivity {
                     final ParseUser user = ParseUser.getCurrentUser();
 
                     final SimpleDateFormat fmt = new SimpleDateFormat("d/M");
-                    ArrayList<BalancesObject> Myobjects = new ArrayList<BalancesObject>();
-                    ArrayList<BalancesObject> Theirobjects = new ArrayList<BalancesObject>();
+                    ArrayList<TaskObject> Myobjects = new ArrayList<TaskObject>();
+                    ArrayList<TaskObject> Theirobjects = new ArrayList<TaskObject>();
 
                     for (int i = 0; i < ReceiverTasks.size(); i++){
                         ParseObject temptask = ReceiverTasks.get(i);
-                        BalancesObject balancesObject = new BalancesObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
-                        Myobjects.add(balancesObject);
+                        TaskObject taskObject = new TaskObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
+                        Myobjects.add(taskObject);
                     }
 
                     for (int i = 0; i < SubmitterTasks.size(); i++){
                         ParseObject temptask = SubmitterTasks.get(i);
-                        BalancesObject balancesObject = new BalancesObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
-                        Theirobjects.add(balancesObject);
+                        TaskObject taskObject = new TaskObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
+                        Theirobjects.add(taskObject);
                     }
 
-                    BalancesAdapter MyAdapter = new BalancesAdapter(getApplicationContext(), Myobjects);
+                    TaskAdapter MyAdapter = new TaskAdapter(getApplicationContext(), Myobjects);
                     ListView listView = (ListView) findViewById(R.id.viewmytasks);
                     listView.setAdapter(MyAdapter);
 
-                    BalancesAdapter TheirAdapter = new BalancesAdapter(getApplicationContext(), Theirobjects);
+                    TaskAdapter TheirAdapter = new TaskAdapter(getApplicationContext(), Theirobjects);
                     ListView listView2 = (ListView) findViewById(R.id.viewtheirtasks);
                     listView2.setAdapter(TheirAdapter);
 

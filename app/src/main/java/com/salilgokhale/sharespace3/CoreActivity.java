@@ -1,6 +1,8 @@
 package com.salilgokhale.sharespace3;
 
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,8 +16,11 @@ import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 
@@ -81,7 +86,7 @@ public class CoreActivity extends ActionBarActivity{
             getSupportActionBar().setElevation(0);
 
             //mTitle = mDrawerTitle = getTitle();
-              mTitle = mDrawerTitle = "ShareSpace";
+             mTitle = mDrawerTitle = "ShareSpace";
             // load slide menu items
             navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
@@ -128,13 +133,13 @@ public class CoreActivity extends ActionBarActivity{
             ){
                 public void onDrawerClosed(View view) {
                     //getSupportActionBar().setTitle(mTitle);
-                    setTitle(mTitle);
+                    //setTitle(mTitle);
                     // calling onPrepareOptionsMenu() to show action bar icons
                     invalidateOptionsMenu();
                 }
 
                 public void onDrawerOpened(View drawerView) {
-                    setTitle(mDrawerTitle);
+                    //setTitle(mDrawerTitle);
                     //getSupportActionBar().setTitle(mDrawerTitle);
                     // calling onPrepareOptionsMenu() to hide action bar icons
                     invalidateOptionsMenu();
@@ -169,24 +174,31 @@ public class CoreActivity extends ActionBarActivity{
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+        String fragment_tag = "ShareSpace";
         switch (position) {
             case 0:
                 fragment = new HomeFragment();
+                fragment_tag = "Home";
                 break;
             case 1:
                 fragment = new RotaFragment();
+                fragment_tag = "Rota";
                 break;
             case 2:
                 fragment = new ExpensesFragment();
+                fragment_tag = "Expense";
                 break;
             case 3:
                 fragment = new TradeFragment();
+                fragment_tag = "Trade";
                 break;
             case 4:
                 fragment = new MessageFragment();
+                fragment_tag = "Message";
                 break;
             case 5:
                 fragment = new RulesFragment();
+                fragment_tag = "Rule";
                 break;
 
             default:
@@ -194,9 +206,10 @@ public class CoreActivity extends ActionBarActivity{
         }
 
         if (fragment != null) {
+
             getSupportFragmentManager()
                 .beginTransaction()
-                    .replace(R.id.frame_container, fragment, "My_Fragment").commit();
+                    .replace(R.id.frame_container, fragment, fragment_tag).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -314,7 +327,78 @@ public class CoreActivity extends ActionBarActivity{
     @Override
     public void onResume(){
         super.onResume();
-        getSupportActionBar().setTitle("ShareSpace");
+        //getSupportActionBar().setTitle("ShareSpace");
+        Fragment myFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("Home");
+        if (myFragment != null && myFragment.isVisible()) {
+            // add your code here
+            setTitle("Home");
+        Log.d("New Function:", " Worked");
+
+
+        }
+        Fragment myFragment2 = (Fragment)getSupportFragmentManager().findFragmentByTag("Rota");
+        if (myFragment2 != null && myFragment2.isVisible()) {
+            // add your code here
+            setTitle("Rotas");
+
+
+
+        }
+        Fragment myFragment3 = (Fragment)getSupportFragmentManager().findFragmentByTag("Expense");
+        if (myFragment3 != null && myFragment3.isVisible()) {
+            // add your code here
+            setTitle("Expenses");
+
+
+
+        }
+        Fragment myFragment4 = (Fragment)getSupportFragmentManager().findFragmentByTag("Trade");
+        if (myFragment4 != null && myFragment4.isVisible()) {
+            // add your code here
+            setTitle("Trade");
+
+
+
+        }
+        Fragment myFragment5 = (Fragment)getSupportFragmentManager().findFragmentByTag("Message");
+        if (myFragment5 != null && myFragment5.isVisible()) {
+            // add your code here
+            setTitle("Message");
+
+
+
+        }
+        Fragment myFragment6 = (Fragment)getSupportFragmentManager().findFragmentByTag("Rule");
+        if (myFragment6 != null && myFragment6.isVisible()) {
+            // add your code here
+            setTitle("Rules");
+
+        }
+
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event " + event.getRawX() + "," + event.getRawY() + " " + x + "," + y + " rect " + w.getLeft() + "," + w.getTop() + "," + w.getRight() + "," + w.getBottom() + " coords " + scrcoords[0] + "," + scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 
 }

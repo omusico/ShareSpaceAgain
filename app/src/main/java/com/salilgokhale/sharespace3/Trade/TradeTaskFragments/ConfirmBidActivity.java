@@ -17,17 +17,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.salilgokhale.sharespace3.Expenses.BalancesAdapter;
 import com.salilgokhale.sharespace3.Expenses.BalancesObject;
+import com.salilgokhale.sharespace3.Home.TaskAdapter;
+import com.salilgokhale.sharespace3.Home.TaskObject;
 import com.salilgokhale.sharespace3.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConfirmBidActivity extends ActionBarActivity {
@@ -86,16 +91,16 @@ public class ConfirmBidActivity extends ActionBarActivity {
                         }
                     }
 
-                    ArrayList<BalancesObject> Myobjects = new ArrayList<BalancesObject>();
+                    ArrayList<TaskObject> Myobjects = new ArrayList<TaskObject>();
 
                     Log.d("MyTasksSize = ", String.valueOf(MyTasks.size()));
                     for (int i = 0; i < MyTasks.size(); i++){
                         ParseObject temptask = MyTasks.get(i);
-                        BalancesObject balancesObject = new BalancesObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
-                        Myobjects.add(balancesObject);
+                        TaskObject taskObject = new TaskObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
+                        Myobjects.add(taskObject);
                     }
 
-                    BalancesAdapter MyAdapter = new BalancesAdapter(getApplicationContext(), Myobjects);
+                    TaskAdapter MyAdapter = new TaskAdapter(getApplicationContext(), Myobjects);
                     ListView listView = (ListView) findViewById(R.id.confirmmytasks);
                     listView.setAdapter(MyAdapter);
 
@@ -120,15 +125,15 @@ public class ConfirmBidActivity extends ActionBarActivity {
                                     }
                                 }
 
-                                ArrayList<BalancesObject> Theirobjects = new ArrayList<BalancesObject>();
+                                ArrayList<TaskObject> Theirobjects = new ArrayList<TaskObject>();
 
                                 for (int i = 0; i < TheirTasks.size(); i++){
                                     ParseObject temptask = TheirTasks.get(i);
-                                    BalancesObject balancesObject = new BalancesObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
-                                    Theirobjects.add(balancesObject);
+                                    TaskObject taskObject = new TaskObject(temptask.getString("Name"), fmt.format(temptask.getDate("dateDue")));
+                                    Theirobjects.add(taskObject);
                                 }
 
-                                BalancesAdapter TheirAdapter = new BalancesAdapter(getApplicationContext(), Theirobjects);
+                                TaskAdapter TheirAdapter = new TaskAdapter(getApplicationContext(), Theirobjects);
                                 ListView listView = (ListView) findViewById(R.id.confirmtheirtasks);
                                 listView.setAdapter(TheirAdapter);
 
@@ -142,6 +147,22 @@ public class ConfirmBidActivity extends ActionBarActivity {
                                                 newTrade.put("ReceiverTasks", TheirTasks);
                                                 newTrade.put("Received", "Pending");
                                                 newTrade.saveInBackground();
+
+                                                HashMap<String, Object> params = new HashMap<String, Object>();
+                                                params.put("receiver", otheruser.getObjectId());
+                                                params.put("sender", user.getString("name"));
+
+                                                ParseCloud.callFunctionInBackground("TradeNotify", params, new FunctionCallback<String>() {
+                                                    public void done(String result, com.parse.ParseException e) {
+                                                        if (e == null) {
+                                                            // result is "Hello world!"
+                                                            Log.d("Result is: ", result);
+                                                        }
+                                                    }
+                                                });
+
+
+
                                                 closeActivity();
                                             }
                                        }

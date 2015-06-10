@@ -1,6 +1,7 @@
 package com.salilgokhale.sharespace3.Home;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -30,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -108,7 +114,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
             if (c0.before(calendar) && !et.getText().toString().equals("")) {
 
 
-                ParseUser user = ParseUser.getCurrentUser();
+                final ParseUser user = ParseUser.getCurrentUser();
                 ParseObject userHouse = user.getParseObject("Home");
 
                 ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -122,6 +128,22 @@ public class AddNewTaskActivity extends ActionBarActivity {
                             ParseObject newTask = new ParseObject("Tasks");
                             newTask.put("Name", et.getText().toString());
                             newTask.put("dateDue", date);
+
+                            if(!userList.get(0).equals(user)){
+                                HashMap<String, Object> params = new HashMap<String, Object>();
+                                params.put("owner", userList.get(0).getObjectId());
+                                params.put("sender", user.getString("name"));
+
+                                ParseCloud.callFunctionInBackground("TaskNotify", params, new FunctionCallback<String>() {
+                                    public void done(String result, com.parse.ParseException e) {
+                                        if (e == null) {
+                                            // result is "Hello world!"
+                                            Log.d("Result is: ", result);
+                                        }
+                                    }
+                                });
+
+                            }
 
 
                             newTask.put("Owner", userList.get(0));
@@ -187,7 +209,7 @@ public class AddNewTaskActivity extends ActionBarActivity {
 
                     list.add(user.getString("name"));
 
-                    for (int i = 0; i< userList.size(); i++){
+                    for (int i = 0; i < userList.size(); i++) {
                         if (!userList.get(i).getObjectId().equals(user.getObjectId())) {
                             list.add(userList.get(i).getString("name"));
                             Log.d("User Name:", userList.get(i).getString("name"));
@@ -199,13 +221,37 @@ public class AddNewTaskActivity extends ActionBarActivity {
                     dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner.setAdapter(dataAdapter);
                     spinner.setOnItemSelectedListener(new SpinnerListener());
-                    }
-                }});
+                }
+            }
+        });
 
         }
 
     public void CloseActivity(){
         this.finish();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight()+","+w.getBottom()+" coords "+scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 
     }
